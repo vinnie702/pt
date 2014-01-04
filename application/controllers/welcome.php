@@ -36,6 +36,40 @@ class Welcome extends CI_Controller
                     header("Location: /welcome/login?site-error=" . urlencode("Please enter an email address and password in order to login!"));
                     exit;
                 }
+    
+                $check = $this->functions->checkLogin($_POST['email'], $_POST['password']);
+
+                if ($check === false)
+                {
+                    // invalid login
+                    header("Location: /welcome/login?site-error=" . urlencode("Invalid username or password"));
+                    exit;
+                }
+                else
+                {
+                    // checks company
+                    $compCheck = $this->functions->checkCompany($check->id);
+
+                    if ($compCheck == false)
+                    {
+                        // they are not assigned to price tracker company
+                        header("Location: /welcome/login?site-error=" . urlencode("This user does not have access to this site."));
+                        exit;
+                    }
+
+                    // set session
+                    $this->functions->setLoginSession($check->id, $_POST['email'], true);
+
+                     // user tried accessing a page while not logged in - takes them back to that page instead of landing
+                    if (!empty($_POST['ref']))
+                    {
+                        header("Location: /" . $_POST['ref']);
+                        exit;
+                    }
+
+                    header("Location: /tracker/landing");
+                    exit;
+                }
             }
             catch (Exception $e)
             {
@@ -55,18 +89,7 @@ class Welcome extends CI_Controller
 
         try
         {
-            $check = $this->functions->checkLogin($_POST['email'], $_POST['password']);
-                
-            
-            if ($check === false)
-            {
-                // invalid login
-                header("Location: /welcome/login?site-error=" . urlencode("Invalid username or password"));
-                exit;
-            }
-            else
-            {
-            }
+
         }
         catch (Exception $e)
         {

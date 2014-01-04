@@ -1,5 +1,24 @@
 <?php
 
+date_default_timezone_set('UTC');
+
+DEFINE('DATESTAMP', date('Y-m-d G:i:s'));
+DEFINE('DS', DIRECTORY_SEPARATOR);
+
+if (substr($_SERVER['DOCUMENT_ROOT'], -1) !== DIRECTORY_SEPARATOR)
+{
+    $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
+}
+
+/*
+| error logging settings
+*/
+ini_set('log_errors', true);
+ini_set('html_errors', false);
+ini_set('error_log', $_SERVER['DOCUMENT_ROOT'] . '..' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'error_log.txt');
+
+
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
