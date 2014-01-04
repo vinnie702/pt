@@ -109,6 +109,30 @@ class Functions
         }
     }
 
+    /**
+     * Used for ajax JSON post returns
+     *
+     * @param mixed $status   
+     * @param mixed $msg      
+     *
+     * @return TODO
+     */
+    public function jsonReturn ($status, $msg, $id = 0, $html = null)
+    {
+        $return['status'] = $status;
+        $return['msg'] = $msg;
+
+        if (!empty($id)) $return['id'] = $id;
+
+        if (!empty($html)) $return['html'] = $html;
+
+        echo json_encode($return);
+
+        exit;
+    }
+
+
+
 
     /**
      * checks if the user is assigned to the company in config

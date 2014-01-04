@@ -16,6 +16,8 @@ class Tracker extends CI_Controller
 
     public function landing ()
     {
+        $header['headscript'] = $this->functions->jsScript('tracker.js');
+        $header['onload'] = "tracker.landingInit();";
         $header['singleCol'] = true;
 
         try
@@ -33,4 +35,25 @@ class Tracker extends CI_Controller
         $this->load->view('template/footer');
     }
 
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function addurl ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                $id = $this->tracker->insertTrackingItem($_POST);
+                $this->functions->jsonReturn('SUCCESS', 'Item has been added to your list of items being tracked.', $id);
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
 }

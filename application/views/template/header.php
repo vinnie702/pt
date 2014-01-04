@@ -50,7 +50,7 @@
 if ($this->session->userdata('logged_in') == true)
 {
 echo <<< EOS
-        <li><a href='#'><i class='fa fa-cog'></i> Account Settings</li>
+        <li><a href='#'><i class='fa fa-cog'></i> Account Settings</a></li>
 EOS;
 }
 ?>

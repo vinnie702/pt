@@ -41,4 +41,27 @@ class tracker_model extends CI_Model
 
         return $data;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $p 
+     *
+     * @return TODO
+     */
+    public function insertTrackingItem ($p)
+    {
+        $data = array
+            (
+                'datestamp' => DATESTAMP,
+                'userid' => $this->session->userdata('userid'),
+                'company' => $this->config->item('company'),
+                'url' => $p['url'],
+                'status' => 1
+            );
+
+        $this->db->insert('trackingItems', $data);
+
+        return $this->db->insert_id();
+    }
 }
