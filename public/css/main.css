@@ -19,3 +19,13 @@ address
 {
     margin-top:15px;
 }
+
+.btn, .form-control, .panel, .breadcrumb, .alert, .navbar, table, .cke_reset
+{
+-webkit-box-shadow: 6px 5px 8px rgba(50, 50, 50, 0.1);
+-moz-box-shadow:    6px 5px 8px rgba(50, 50, 50, 0.1);
+box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
+
+}
+
+

@@ -367,7 +367,7 @@ $config['proxy_ips'] = '';
 
 if (!isset($config['devEmail'])) $config['devEmail'] = "williamgallios@gmail.com";
 
-if (!isset($config['liveUrls'])) $config['liveUrls'] = array('pricetracker.com');
+if (!isset($config['liveUrls'])) $config['liveUrls'] = array('productpricetracker.com');
 
 // in the http_host is one of the live URL's, sets the config flag live to true;
 if (in_array(strtolower($_SERVER['HTTP_HOST']), $config['liveUrls'])) $config['live'] = true;
@@ -381,7 +381,7 @@ if (!isset($config['min_debug'])) $config['min_debug'] = null;
 if (!isset($config['cache_timeout'])) $config['cache_timeout'] = 5;
 
 // Company ID in CGI Solution BMS system
-if (!isset($config['company'])) $config['company'] = 34;
+if (!isset($config['company'])) $config['company'] = 35;
 
 if (!isset($config['CGIBMSURL'])) $config['CGIBMSURL'] = "https://bms.cgisolution.com/";
 
