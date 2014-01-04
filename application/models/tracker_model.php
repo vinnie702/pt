@@ -7,4 +7,38 @@ class tracker_model extends CI_Model
     {
         parent::__construct();
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $user Optional, defaults to 0. 
+     *
+     * @return TODO
+     */
+    public function getTrackingItems ($user = 0)
+    {
+        if (empty($user)) $user = $this->session->userdata('userid');
+
+        $user = intval($user);
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "trackingItems-{$user}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItems');
+            $this->db->where('userid', $user);
+
+            $query = $this->db->get();
+
+            $data = $query->result();
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 }

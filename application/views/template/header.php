@@ -18,7 +18,11 @@
     </div>
 
     <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
-        <a href='/welcome/login' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-in'></i> Login</a>
+        <?php if ($this->session->userdata('logged_in') == true) : ?>
+            <a href='/welcome/logout' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-out'></i> Log Out</a>
+        <?php else: ?>
+            <a href='/welcome/login' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-in'></i> Login</a>
+        <?php endif; ?>
     </div>
 
 
@@ -42,6 +46,14 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class='nav navbar-nav'>
                     <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
+<?php
+if ($this->session->userdata('logged_in') == true)
+{
+echo <<< EOS
+        <li><a href='#'><i class='fa fa-cog'></i> Account Settings</li>
+EOS;
+}
+?>
                 </ul>
 
                 <?php

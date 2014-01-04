@@ -16,3 +16,16 @@
 
     </div> <!-- col-12 -->
 </div> <!-- .row -->
+
+<hr>
+<?php
+if (empty($trackedItems))
+{
+    echo $this->alerts->info("You currently have no items being tracked.");
+}
+else
+{
+
+}
+
+?>

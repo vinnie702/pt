@@ -16,8 +16,20 @@ class Tracker extends CI_Controller
 
     public function landing ()
     {
-        $this->load->view('template/header');
-        $this->load->view('tracker/landing');
+        $header['singleCol'] = true;
+
+        try
+        {
+            $body['trackedItems'] = $this->tracker->getTrackingItems();
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+
+        $this->load->view('template/header', $header);
+        $this->load->view('tracker/landing', $body);
         $this->load->view('template/footer');
     }
 
