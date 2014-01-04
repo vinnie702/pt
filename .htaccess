@@ -1,0 +1,10 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|images|min|public|robots\.txt)
+RewriteRule ^(.*)$ /index.php/$1 [L]
+
+
+# RewriteRule \/dashboard \/intranet\/landing
+
+<ifModule mod_headers.c>
+    Header set Access-Control-Allow-Origin: *
+</ifModule>

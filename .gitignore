@@ -1,0 +1,10 @@
+
+*.orig
+
+config.local.php
+database.local.php
+database.local.php.back
+*.swp
+*~
+public/uploads/*
+logs/error_log.txt

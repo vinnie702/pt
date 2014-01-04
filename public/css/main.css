@@ -1,0 +1,21 @@
+body
+{
+    /* font-size:1.2em; */
+    font-family:'Open Sans',Arial,sans-serif;
+    background:#fff;
+
+    /* background:#808080; */
+
+    color:#777
+    /* padding-top:60px; */
+}
+
+address
+{
+    font-size:14px;
+}
+
+.mainLoginLink
+{
+    margin-top:15px;
+}
