@@ -3,10 +3,79 @@
 class Welcome extends CI_Controller
 {
 
-    public function index()
+    function Welcome ()
+    {
+        parent::__construct();
+
+        $this->load->driver('cache');
+
+        $this->load->model('welcome_model', 'welcome', true);
+    }
+
+    public function index ()
     {
         $this->load->view('template/header');
         $this->load->view('welcome/index');
+        $this->load->view('template/footer');
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function login ()
+    {
+
+        if ($_POST)
+        {
+            try
+            {
+                if (empty($_POST['email']) || empty($_POST['password']))
+                {
+                    header("Location: /welcome/login?site-error=" . urlencode("Please enter an email address and password in order to login!"));
+                    exit;
+                }
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                header("Location: /welcome/login?site-error=" . urlencode("Please enter an email address and password in order to login!"));
+                exit;
+            }
+
+        }
+
+        $header['headscript'] = $this->functions->jsScript('welcome.js');
+        $header['onload'] = "welcome.loginInit();";
+        $header['title'] = "Login";
+
+        $header['singleCol'] = true;
+        $header['bcText'] = "<i class='fa fa-sign-in'></i> Login";
+
+        try
+        {
+            $check = $this->functions->checkLogin($_POST['email'], $_POST['password']);
+                
+            
+            if ($check === false)
+            {
+                // invalid login
+                header("Location: /welcome/login?site-error=" . urlencode("Invalid username or password"));
+                exit;
+            }
+            else
+            {
+            }
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/login');
         $this->load->view('template/footer');
     }
 }

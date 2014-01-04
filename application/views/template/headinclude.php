@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
 
-    <title><?php if(!empty($title)) echo "{$title} - "; ?>High Speed Audio</title>
+    <title><?php if(!empty($title)) echo "{$title} - "; ?> Price Tracker</title>
 
 
     <meta charset="utf-8">

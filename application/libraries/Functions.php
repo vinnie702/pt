@@ -50,4 +50,23 @@ class Functions
         error_log($body);
     }
 
+    public function checkLogin ($email, $passwd)
+    {
+        $this->ci->db->select('id, status, admin');
+        $this->ci->db->from('users');
+        $this->ci->db->where('email', $email);
+        $this->ci->db->where('passwd', sha1($passwd));
+        // $this->ci->db->where_in('status', array(1,3));
+        $this->ci->db->where('status', 1); // only allows active users to login
+
+        $query = $this->ci->db->get();
+
+        $results = $query->result();
+
+        if (empty($results)) return false;
+
+    return $results[0];
+    }
+
+
 }
