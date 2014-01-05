@@ -2,6 +2,8 @@
 
 <h1><i class='fa fa-bar-chart-o'></i> Track an Item</h1>
 
+    <input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
+
 <p class='lead'>Copy and Paste the URL of the item you wish to track below.</p>
 
 <?php
@@ -31,15 +33,4 @@ echo form_open('#', $attr);
 
 </form>
 
-<hr>
-<?php
-if (empty($trackedItems))
-{
-    echo $this->alerts->info("You currently have no items being tracked.");
-}
-else
-{
-
-}
-
-?>
+<div id='trackingItemDisplay'></div>

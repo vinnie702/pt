@@ -173,4 +173,33 @@ class Functions
 
         return false;
     }
+
+    /**
+     * creates directory if does not exist
+     *
+     * @param String $path - path to directory to create: Example $path = "public" . PATH_SEPARATOR . "uploads" . PATH_SEPARATOR . "folderName"
+     *
+     * @return boolean
+     */
+    public function createDir($path)
+    {
+
+        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . $path))
+        {
+            $create = mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
+
+            if ($create === false) throw new exception("Unable to create directory:" . $_SERVER['DOCUMENT_ROOT'] . $path);
+            // attempts to set permissions for folder to allow copy
+            @chmod($_SERVER['DOCUMENT_ROOT'] . $path, 0777);
+        }
+        else
+        {
+            // already a directory
+            return true;
+        }
+
+    return true;
+    }
+
+
 }

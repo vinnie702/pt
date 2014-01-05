@@ -56,4 +56,23 @@ class Tracker extends CI_Controller
             }
         }
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function gettrackeditems ()
+    {
+        try
+        {
+            $body['trackedItems'] = $this->tracker->getTrackingItems();
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+    
+        $this->load->view('tracker/gettrackingitems', $body);
+    }
 }

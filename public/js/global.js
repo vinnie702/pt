@@ -92,3 +92,15 @@ return true;
 }
 
 
+global.ajaxLoader = function(divId)
+{
+    var html = "<div class='row' style=\"margin:50px 0;\">" +
+        "<div class='well col-lg-2 col-lg-offset-4 col-m-2 col-m-offset-4 col-s-2 col-s-offset-4 col-xs-2 col-xs-offset-4' align='center' style=\"min-width:150px;\">" +
+        "<img src='/public/images/loader.gif'> Loading..." +
+        "</div>" +
+        "</div>";
+
+    $(divId).html(html);
+}
+
+
