@@ -55,7 +55,9 @@ class Grabber extends CI_Controller
 
                 }
 
-                $this->grabber->updateProductData($_POST['id']);
+                $this->scraper->scrapeLatestData($_POST['id']);
+
+                // $this->grabber->updateProductData($_POST['id']);
 
                 $this->functions->jsonReturn('SUCCESS', 'Product information has been updated!');
             }

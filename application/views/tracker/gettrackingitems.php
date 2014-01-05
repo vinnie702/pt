@@ -36,16 +36,35 @@ else
         if ($rcnt == 1) echo PHP_EOL . "<div class='row homepageItemRow'>" . PHP_EOL;
 
 echo <<< EOS
-    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 homepageItem'>
 
+    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 trackingItem'>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <a href='/tracker/details/{$r->id}'>{$r->itemName}</a>
+            </div>
+
+            <div class='panel-body' onclick="tracker.viewDetails({$r->id});">
+                <img class='img-responsive' src='{$r->imgUrl}'>
+            </div>
+
+            <div class='panel-footer'>
+                <button type='button' class='btn btn-warning btn-xs' onclick="tracker.grabInfo(this, {$r->id});"><i class='fa fa-refresh'></i></button>
+            </div>
+        </div> <!-- .panel -->
+
+    </div> <!-- col-3 -->
+EOS;
+
+/*
+echo <<< EOS
+    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 homepageItem'>
         <div class='wrapper'>
             <div onclick="store.viewItemDetails({$item}, 0)">
                 <div id='trackItemAlert_{$r->id}'></div>
                 {$imgDisplay}
-                <label>{$info->name}</label>
+                <label>{$r->itemName}</label>
 
-                <p>{$shortDesc}</p>
-
+                <img class='img-responsive' src='{$r->imgUrl}'>
             </div> <!-- onclick div container -->
 
         <div class='itemPriceContainer'>
@@ -56,7 +75,7 @@ echo <<< EOS
         </div> <!-- .wrapper -->
     </div> <!-- col-3 -->
 EOS;
-
+ */
     echo PHP_EOL;
 
 

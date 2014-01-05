@@ -74,8 +74,8 @@ class grabber_model extends CI_Model
      */
     public function updateProductData ($id)
     {
-
-
+        // gets latest HTML
+        $file = $this->scraper->getLatestHtml($id);
 
     }
 }

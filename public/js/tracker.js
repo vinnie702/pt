@@ -10,6 +10,11 @@ tracker.landingInit = function ()
 
 }
 
+tracker.detailsInit = function ()
+{
+
+}
+
 tracker.getTrackedItems = function ()
 {
     global.ajaxLoader('#trackingItemDisplay');
@@ -80,4 +85,9 @@ tracker.grabInfo = function (b, id)
             return false;
         }
     }, 'json');
+}
+
+tracker.viewDetails = function (id)
+{
+    window.location = '/tracker/details/' + id;
 }

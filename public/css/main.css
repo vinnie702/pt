@@ -62,8 +62,8 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
 
 .homepageItem label
 {
-    font-size:1.4em;
-    font-weight:bolder;
+    font-size:1.1em;
+    font-weight:bold;
 }
 
 .homepageItem .itemPriceContainer
@@ -79,3 +79,9 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
     font-weight:bold;
 }
 
+
+.trackingItem .panel .panel-body
+{
+    min-height:320px;
+    max-height:320px;
+}

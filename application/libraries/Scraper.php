@@ -219,7 +219,7 @@ class Scraper
      *
      * @return TODO
      */
-    private function _getLatestHtml ($trackingItemID)
+    public function _getLatestHtml ($trackingItemID)
     {
         $trackingItemID = intval($trackingItemID);
 
@@ -259,51 +259,31 @@ class Scraper
     {
         $fileName = $this->_getLatestHtml($trackingItemID);
 
-        echo 'FileName: ' . $fileName;
+        // echo 'FileName: ' . $fileName;
 
         $contents = file_get_contents('public/uploads/html/' . $trackingItemID . '/'  . $fileName);
 
-        /*
-        $startTag = '<span id="btAsinTitle" >';
-
-        // first gets title
-        $titleStart = stripos($contents, $startTag);
-
-        $titleEnd = stripos($contents, "</span>", $titleStart + 1);
-
-        $diff = $titleEnd - $titleStart;
-
-        // echo "\nTitle Start: {$titleStart}\n";
-        // echo "Title End: {$titleEnd}\n";
-        // echo "DIFF: " . ($titleEnd - $titleStart) . PHP_EOL;
-
-        // $title = substr($contents, ($titleStart + strlen($startTag)), $diff);
-        $title = substr($contents, ($titleStart), $diff);
-
-        $title = str_replace($startTag, '', $title);
-        */
-        // gets product title
-        // $title = $this->_getTagVal($contents, '<span id="btAsinTitle" >', '</span>');
-
         $title = $this->_getTitle($contents);
-        echo "Title: {$title}\n";
+        // echo "Title: {$title}\n";
+
+        $this->updateTrackItemTitle($trackingItemID, $title);
 
         $img =  $this->_getImage($contents);
-        echo "src: {$img}<br><img src='{$img}'>";
+        // echo "src: {$img}<br><img src='{$img}'>";
+        
+        $this->updateImgUrl($trackingItemID, $img);
 
-        // gets product details
-        // $details = $this->_getTagVal($contents, '<h2>Product Details</h2>', '</div>');
-    
-        // $details = str_replace('<div class="content">', '', $details);
-
-echo "<hr>" . PHP_EOL;
+// echo "<hr>" . PHP_EOL;
         $details =  $this->_getDetails($contents);
+        // echo $details;
+        $this->updateTrackItemDesc($trackingItemID, $details);
 
-        echo $details;
         
         $price = $this->_getPrice($contents);
 
-        echo 'Price: ' . $price . PHP_EOL;
+        $this->savePrice($trackingItemID, $price);
+
+        // echo 'Price: ' . $price . PHP_EOL;
     }
 
     /**
@@ -327,7 +307,7 @@ echo "<hr>" . PHP_EOL;
         $diff = $end - $start;
 
         // echo "Start <xmp>{$startTag}</xmp>: $start\n";
-        echo "End: $end\n";
+        // echo "End: $end\n";
 
         $content = substr($html, $start, $diff);
 
@@ -348,7 +328,7 @@ echo "<hr>" . PHP_EOL;
      */
     private function _getPrice ($html)
     {
-        echo "<hr>";
+        // echo "<hr>";
 
         $price = stripos($html, '<span class="price">');
         $priceLarge = stripos($html, '<b class="priceLarge">');
@@ -357,11 +337,15 @@ echo "<hr>" . PHP_EOL;
         {
             $price = $this->_getTagVal($html, '<span class="price">', '</span>');
 
+            $price = str_replace('<span class="price">', '', $price);
+
             // echo 'found price';
         }
         elseif (!empty($priceLarge))
         {
             $price = $this->_getTagVal($html, '<b class="priceLarge">', '</b>');
+            
+            $price = str_replace('<b class="priceLarge">', '', $price);
             // echo 'price Large found';
         }
         else
@@ -383,7 +367,7 @@ echo "<hr>" . PHP_EOL;
      */
     private function _getTitle ($html)
     {
-        echo "<br>";
+        // echo "<br>";
 
         (string) $titlePos = stripos($html, 'span id="btAsinTitle"');
 
@@ -427,13 +411,104 @@ echo "<hr>" . PHP_EOL;
     private function _getImage ($html)
     {
         $imgPos = stripos($html, '<img id="main-image-nonjs" src="');
-        echo "ImgPOS: {$imgPos}\n";
+        // echo "ImgPOS: {$imgPos}\n";
 
         // $start = stripos($html, ''
-        
+
         $img = $this->_getTagVal($html, $imgPos, '" alt="" >');
 
         $img = str_replace('<img id="main-image-nonjs" src="', null, $img);
+
         return $img;
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     * @param mixed $title          
+     *
+     * @return TODO
+     */
+    public function updateTrackItemTitle ($trackingItemID, $title)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $data = array
+            (
+                'itemName' => $title,
+                'lastUpdated' => DATESTAMP
+            );
+
+        $this->ci->db->where('id', $trackingItemID);
+        $this->ci->db->update('trackingItems', $data);
+
+        return true;
+    }
+
+    public function updateTrackItemDesc ($trackingItemID, $desc)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $data = array
+            (
+                'description' => $desc,
+                'lastUpdated' => DATESTAMP
+            );
+
+        $this->ci->db->where('id', $trackingItemID);
+        $this->ci->db->update('trackingItems', $data);
+
+        return true;
+    }
+
+    public function updateImgUrl ($trackingItemID, $imgUrl)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $data = array
+            (
+                'imgUrl' => $imgUrl,
+                'lastUpdated' => DATESTAMP
+            );
+
+        $this->ci->db->where('id', $trackingItemID);
+        $this->ci->db->update('trackingItems', $data);
+
+        return true;
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     * @param mixed $price          
+     *
+     * @return TODO
+     */
+    public function savePrice ($trackingItemID, $price)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        if (empty($price)) throw new Exception("Price is empty. Pretty sure they are not giving it away");
+
+        $data = array
+            (
+                'trackingItemID' => $trackingItemID,
+                'datestamp'=> DATESTAMP,
+                'price' => $price
+            );
+
+        $this->ci->db->insert('trackingItemPrices', $data);
+
+        return $this->ci->db->insert_id();
     }
 }

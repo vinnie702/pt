@@ -66,6 +66,8 @@ class Tracker extends CI_Controller
                 // downloads a copy the HTML
                 $this->scraper->downloadHTML($id);
 
+                $this->scraper->scrapeLatestData($id);
+
                 $this->functions->jsonReturn('SUCCESS', 'Item has been added to your list of items being tracked.', $id);
             }
             catch (Exception $e)
@@ -93,5 +95,38 @@ class Tracker extends CI_Controller
         }
     
         $this->load->view('tracker/gettrackingitems', $body);
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function details ($id)
+    {
+        if (empty($id))
+        {
+            header("Location: /tracker/landing?site-alert=" . urlencode("Tracking Item ID was not specified!"));
+            exit;
+        }
+
+        $header['headscript'] = $this->functions->jsScript('tracker.js');
+        $header['onload'] = "tracker.detailsInit();";
+        $header['singleCol'] = true;
+
+        try
+        {
+            $this->load->model('grabber_model', 'grabber', true);
+
+            $body['info'] = $info = $this->grabber->getTrackingItemInfo($id);
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+        $this->load->view('template/header', $header);
+        $this->load->view('tracker/details', $body);
+        $this->load->view('template/footer');
     }
 }

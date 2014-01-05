@@ -387,5 +387,8 @@ if (!isset($config['CGIBMSURL'])) $config['CGIBMSURL'] = "https://bms.cgisolutio
 
 $config['uploads'] = $_SERVER['DOCUMENT_ROOT'] . 'public' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 
+if (!isset($config['amazonAssID'])) $config['amazonAssID'] = "cgisolution-20";
+
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */
