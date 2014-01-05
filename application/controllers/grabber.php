@@ -46,6 +46,15 @@ class Grabber extends CI_Controller
                     $info->itemID = $itemID;
                 }
 
+                $reqDL  = $this->scraper->checkRequireDownload($_POST['id']);
+
+                if ($reqDL == true)
+                {
+                    $this->scraper->downloadHTML($_POST['id']);
+                }
+
+
+
                 $this->functions->jsonReturn('SUCCESS', 'Production information has been updated!');
             }
             catch (Exception $e)
@@ -61,7 +70,8 @@ class Grabber extends CI_Controller
     public function test ($id)
     {
         echo '<pre>';
-
+echo $_SERVER['DOCUMENT_ROOT'];
+        /*
         echo 'ID: ' . $id . PHP_EOL;
         try
         {
@@ -79,5 +89,6 @@ class Grabber extends CI_Controller
         {
             $this->functions->sendStackTrace($e);
         }
+         */
     }
 }

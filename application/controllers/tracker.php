@@ -46,7 +46,26 @@ class Tracker extends CI_Controller
         {
             try
             {
-                $id = $this->tracker->insertTrackingItem($_POST);
+                $this->load->library('scraper');
+
+                // first get the items Item ID
+                $_POST['itemID'] = $this->scraper->getIDFromURL($_POST['url']);
+
+
+                // checks if an item exists with that item ID
+                $id = $this->tracker->itemExists($_POST['itemID']);
+
+                if ($id === false)
+                {
+                    $id = $this->tracker->insertTrackingItem($_POST);
+                }
+
+                // assigns item to user
+                $this->tracker->insertTrackItemUserAssign($id, $this->session->userdata('userid'));
+
+                // downloads a copy the HTML
+                $this->scraper->downloadHTML($id);
+
                 $this->functions->jsonReturn('SUCCESS', 'Item has been added to your list of items being tracked.', $id);
             }
             catch (Exception $e)
