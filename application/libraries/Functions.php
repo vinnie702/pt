@@ -109,6 +109,30 @@ class Functions
         }
     }
 
+    /**
+     * Used for ajax JSON post returns
+     *
+     * @param mixed $status   
+     * @param mixed $msg      
+     *
+     * @return TODO
+     */
+    public function jsonReturn ($status, $msg, $id = 0, $html = null)
+    {
+        $return['status'] = $status;
+        $return['msg'] = $msg;
+
+        if (!empty($id)) $return['id'] = $id;
+
+        if (!empty($html)) $return['html'] = $html;
+
+        echo json_encode($return);
+
+        exit;
+    }
+
+
+
 
     /**
      * checks if the user is assigned to the company in config
@@ -149,4 +173,39 @@ class Functions
 
         return false;
     }
+
+    /**
+     * creates directory if does not exist
+     *
+     * @param String $path - path to directory to create: Example $path = "public" . PATH_SEPARATOR . "uploads" . PATH_SEPARATOR . "folderName"
+     *
+     * @return boolean
+     */
+    public function createDir($path)
+    {
+
+        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . $path))
+        {
+            $create = mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
+
+            if ($create === false) throw new exception("Unable to create directory:" . $_SERVER['DOCUMENT_ROOT'] . $path);
+            // attempts to set permissions for folder to allow copy
+            @chmod($_SERVER['DOCUMENT_ROOT'] . $path, 0777);
+        }
+        else
+        {
+            // already a directory
+            return true;
+        }
+
+    return true;
+    }
+
+    public function stripTags ($s)
+    {
+        $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><div><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td>');
+
+        return $s;
+    }
+
 }

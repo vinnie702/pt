@@ -29,3 +29,64 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
 }
 
 
+.homepageItemRow
+{
+    margin-bottom:20px;
+}
+
+.homepageItem
+{
+    font-size:1.1em;
+    border:1px solid #eee;
+
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+
+    min-height:390px;
+    max-height:390px;
+    overflow:hidden;
+}
+
+.homepageItem:hover
+{
+    background:#fffdc8;
+    cursor:pointer;
+}
+
+
+.homepageItem .wrapper
+{
+    margin:10px 5px 10px 5px;
+}
+
+.homepageItem label
+{
+    font-size:1.1em;
+    font-weight:bold;
+}
+
+.homepageItem .itemPriceContainer
+{
+    position:absolute;
+    bottom:15px;
+}
+
+.homepageItem .price
+{
+    display:block;
+    font-size:1.2em;
+    font-weight:bold;
+}
+
+
+.trackingItem .panel .panel-body
+{
+    min-height:320px;
+    max-height:320px;
+}
+
+#priceChartContainer
+{
+    margin-top:20px;
+}

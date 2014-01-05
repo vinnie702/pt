@@ -48,5 +48,9 @@ ga('send', 'pageview');
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 <?php endif; ?>
 
+<?php if ($charts == true) : ?>
+    <script type='text/javascript' src='/public/FusionCharts/FusionCharts.js'></script>
+<?php endif; ?>
+
 
     <?=$this->functions->jsScript('global.js')?>

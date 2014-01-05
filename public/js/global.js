@@ -55,7 +55,7 @@ $(function(){
 
 global.renderAlert = function(msg, type, id)
 {
-    var header = "Alert!";
+    var header = "<i class='fa fa-exclamation-triangle'></i> Alert";
 
     if (id == undefined)
     {
@@ -82,13 +82,25 @@ global.renderAlert = function(msg, type, id)
     //$("#" + id).html("<div class='ui-widget'><div class='ui-state-error ui-corner-all' style=\"padding: 0 .7em;\"><p><span class='ui-icon ui-icon-alert' style=\"float: left; margin-right: .3em;\"></span><strong>Alert:</strong> "+msg+"</p></div></div>");
 
 
-    if (type == 'alert-danger') header = "Error!";
-    if (type == 'alert-info') header = 'Information';
-    if (type == 'alert-success') header = 'Success!';
+    if (type == 'alert-danger') header = "<i class='fa fa-times-circle-o'></i> Error";
+    if (type == 'alert-info') header = "<i class='fa fa-exclamation-circle'></i> Information";
+    if (type == 'alert-success') header = "<i class='fa fa-thumbs-up'></i> Success";
 
     $('#' + id).html("<div class='alert " + type + "'><button type='button' class='close' data-dismiss='alert'>&times;</button><h4>" + header + "</h4> " + msg +"</div>");
 return true;
 
+}
+
+
+global.ajaxLoader = function(divId)
+{
+    var html = "<div class='row' style=\"margin:50px 0;\">" +
+        "<div class='well col-lg-2 col-lg-offset-4 col-m-2 col-m-offset-4 col-s-2 col-s-offset-4 col-xs-2 col-xs-offset-4' align='center' style=\"min-width:150px;\">" +
+        "<img src='/public/images/loader.gif'> Loading..." +
+        "</div>" +
+        "</div>";
+
+    $(divId).html(html);
 }
 
 

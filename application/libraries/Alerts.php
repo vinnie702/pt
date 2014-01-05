@@ -3,22 +3,22 @@
 class Alerts
 {
 
-    public function alert ($msg, $title = 'Alert')
+    public function alert ($msg, $title = "<i class='fa fa-exclamation-triangle'></i> Alert")
     {
         return $this->generateHTML($title, $msg, 'alert-warning');
     }
 
-    public function error ($msg, $title = 'Error')
+    public function error ($msg, $title = "<i class='fa fa-times-circle-o'></i> Error")
     {
         return $this->generateHTML($title, $msg, 'alert-danger');
     }
 
-    public function info ($msg, $title = 'Information')
+    public function info ($msg, $title = "<i class='fa fa-exclamation-circle'></i> Information")
     {
         return $this->generateHTML($title, $msg, 'alert-info');
     }
 
-    public function success ($msg, $title = 'Success')
+    public function success ($msg, $title = "<i class='fa fa-thumbs-up'></i> Success")
     {
         return $this->generateHTML($title, $msg, 'alert-success');
     }

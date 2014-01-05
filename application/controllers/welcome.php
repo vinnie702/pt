@@ -101,6 +101,31 @@ class Welcome extends CI_Controller
         $this->load->view('welcome/login');
         $this->load->view('template/footer');
     }
+
+
+    public function logout($ajax = 0)
+    {
+        // page will not cache
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
+        $email = $this->session->userdata('email');
+
+        // destorys entire session
+        $this->session->sess_destroy();
+
+        if ((bool) $ajax == true)
+        {
+            $this->functions->jsonReturn('SUCCESS', "You have logged out!");
+        }
+        else
+        {
+            header("Location: /welcome/login?site-alert=" . urlencode("You have logged out!") . '&email=' . urlencode($email));
+            exit;
+        }
+    }
+
+
 }
 
 /* End of file welcome.php */
