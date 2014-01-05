@@ -119,7 +119,8 @@ class Scraper
      */
     public function checkRequireDownload ($id)
     {
-        $utOneDay = 86400; // 1 day in seconds
+        // $utOneDay = 86400; // 1 day in seconds
+        $utOneDay = 72000; // 20 hours in seconds
 
         $now = strtotime("now");
 
@@ -130,7 +131,7 @@ class Scraper
 
         $lsd = strtotime($lsDatestamp);
 
-        // its been over 24 hours since last download
+        // its been over 20 hours since last download
         if (($now - $utOneDay) >= $lsd)
         {
             return true;
@@ -281,7 +282,11 @@ class Scraper
         
         $price = $this->_getPrice($contents);
 
-        $this->savePrice($trackingItemID, $price);
+        // check if there is a price already saved for today
+        $saved = $this->checkPriceSaved($trackingItemID);
+
+        // no price has been saved for today
+        if ($saved == false) $this->savePrice($trackingItemID, $price);
 
         // echo 'Price: ' . $price . PHP_EOL;
     }
@@ -504,11 +509,74 @@ class Scraper
             (
                 'trackingItemID' => $trackingItemID,
                 'datestamp'=> DATESTAMP,
+                'priceDay' => date("Y-m-d", strtotime(DATESTAMP)),
                 'price' => $price
             );
 
         $this->ci->db->insert('trackingItemPrices', $data);
 
         return $this->ci->db->insert_id();
+    }
+
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return TODO
+     */
+    private function _getLastPriceDate ($trackingItemID)
+    {
+            $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $mtag = "lastPriceDate-{$trackingItemID}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->select('datestamp');
+            $this->ci->db->from('trackingItemPrices');
+            $this->ci->db->where('trackingItemID', $trackingItemID);
+            $this->ci->db->order_by('datestamp', 'desc');
+            $this->ci->db->limit(1);
+
+            $query = $this->ci->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->datestamp;
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
+
+    /**
+     * check there is alredy a price saved for current day8
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return boolean  - triue if there data is already saved for today
+     */
+    public function checkPriceSaved ($trackingItemID)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $lastPriceDate = $this->_getLastPriceDate($trackingItemID);
+
+        $lastPriceDateFormated = date("Y-m-d", strtotime($lastPriceDate));
+
+        $today = date("Y-m-d", strtotime("now"));
+
+        if ($today == $lastPriceDateFormated) return true;
+
+        return false;
     }
 }

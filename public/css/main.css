@@ -85,3 +85,8 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
     min-height:320px;
     max-height:320px;
 }
+
+#priceChartContainer
+{
+    margin-top:20px;
+}

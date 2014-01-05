@@ -175,4 +175,44 @@ class tracker_model extends CI_Model
 
         return $data;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     * @param mixed $date           
+     *
+     * @return TODO
+     */
+    public function getDayPrice ($trackingItemID, $day)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+        if (empty($day)) throw new Exception("Price Day is empty!");
+
+        $mtag = "dayPrice-{$trackingItemID}-{$day}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('price');
+            $this->db->from('trackingItemPrices');
+            $this->db->where('trackingItemID', $trackingItemID);
+            $this->db->where('priceDay', $day);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->price;
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        if (empty($data)) return false;
+
+        return $data;
+    }
 }

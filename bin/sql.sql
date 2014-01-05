@@ -38,8 +38,16 @@ explain trackingItemUserAssign;
 select * from trackingItemUserAssign;
 
 
+-- DELETE FROM trackingItemPrices WHERE trackingItemID = 2;
+
 -- truncate table trackingItemPrices;
 
 explain trackingItemPrices;
 
 SELECT * FROM trackingItemPrices;
+
+
+SELECT price
+FROM trackingItemPrices
+WHERE trackingItemID = 2
+AND priceDay = '2014-01-05'

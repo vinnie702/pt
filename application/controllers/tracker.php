@@ -42,6 +42,9 @@ class Tracker extends CI_Controller
      */
     public function addurl ()
     {
+        header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+
         if ($_POST)
         {
             try
@@ -111,8 +114,14 @@ class Tracker extends CI_Controller
         }
 
         $header['headscript'] = $this->functions->jsScript('tracker.js');
+
+        $header['charts'] = true;
+
         $header['onload'] = "tracker.detailsInit();";
+
         $header['singleCol'] = true;
+
+        $body['id'] = $id;
 
         try
         {
@@ -128,5 +137,28 @@ class Tracker extends CI_Controller
         $this->load->view('template/header', $header);
         $this->load->view('tracker/details', $body);
         $this->load->view('template/footer');
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function pricexml ($id)
+    {
+        header("Content-type: text/xml");
+
+        $body['id'] = $id;
+
+        try
+        {
+            
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+        $this->load->view('tracker/pricexml', $body);
     }
 }
