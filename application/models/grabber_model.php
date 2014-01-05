@@ -64,4 +64,18 @@ class grabber_model extends CI_Model
 
         return true;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $p 
+     *
+     * @return TODO
+     */
+    public function updateProductData ($id)
+    {
+
+
+
+    }
 }

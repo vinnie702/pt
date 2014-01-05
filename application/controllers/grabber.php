@@ -26,6 +26,7 @@ class Grabber extends CI_Controller
 
     public function grabinfo ()
     {
+        set_time_limit(0);
 
         $this->functions->checkLoggedIn();
 
@@ -51,11 +52,12 @@ class Grabber extends CI_Controller
                 if ($reqDL == true)
                 {
                     $this->scraper->downloadHTML($_POST['id']);
+
                 }
 
+                $this->grabber->updateProductData($_POST['id']);
 
-
-                $this->functions->jsonReturn('SUCCESS', 'Production information has been updated!');
+                $this->functions->jsonReturn('SUCCESS', 'Product information has been updated!');
             }
             catch (Exception $e)
             {
@@ -69,26 +71,15 @@ class Grabber extends CI_Controller
 
     public function test ($id)
     {
-        echo '<pre>';
-echo $_SERVER['DOCUMENT_ROOT'];
-        /*
-        echo 'ID: ' . $id . PHP_EOL;
+        // echo '<pre>';
+        // echo 'ID: ' . $id . PHP_EOL;
         try
         {
-            $info = $this->grabber->getTrackingItemInfo($id);
-
-            print_r($info);
-
-            echo "<hr>" . PHP_EOL;
-
-            $id = $this->scraper->getIDFromURL($info->url);
-
-            echo "ITEM ID: " . $id . PHP_EOL;
+            $this->scraper->scrapeLatestData($id);
         }
         catch (Exception $e)
         {
             $this->functions->sendStackTrace($e);
         }
-         */
     }
 }
