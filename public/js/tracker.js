@@ -91,3 +91,13 @@ tracker.viewDetails = function (id)
 {
     window.location = '/tracker/details/' + id;
 }
+
+tracker.unassignItem = function (b, id)
+{
+    if (confirm("Are you sure you wish to remove this item?"))
+    {
+        $.post("/tracker/unassign", $('#FormID').serialize(), function(data){
+            //code...
+        });
+    }
+}

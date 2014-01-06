@@ -128,6 +128,9 @@ class Tracker extends CI_Controller
             $this->load->model('grabber_model', 'grabber', true);
 
             $body['info'] = $info = $this->grabber->getTrackingItemInfo($id);
+
+            $header['bcText'] = $info->itemName;
+
         }
         catch (Exception $e)
         {

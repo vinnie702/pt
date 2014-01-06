@@ -45,17 +45,18 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class='nav navbar-nav'>
-                    <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
 <?php
 if ($this->session->userdata('logged_in') == true)
 {
 echo <<< EOS
+        <li><a href='/tracker/landing' title='Home'><i class='fa fa-home'></i></a></li>
         <li><a href='#'><i class='fa fa-cog'></i> Account Settings</a></li>
 EOS;
 }
 else
 {
 ?>
+    <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
     <li><a href='#'><i class='fa fa-pencil'></i> Register</a></li>
 
 <?php } ?>
@@ -83,7 +84,12 @@ else
 
 
 <ol class="breadcrumb">
+<?php if ($this->session->userdata('logged_in') == true) : ?>
+    <li><a href='/tracker/landing' title='Home'><i class='fa fa-home'></i></a></li>
+<?php else : ?>
     <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
+<?php endif; ?>
+
 <?php
 if (!empty($breadcrumbs))
 {

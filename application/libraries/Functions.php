@@ -203,9 +203,34 @@ class Functions
 
     public function stripTags ($s)
     {
-        $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><div><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td>');
+        // $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><div><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td>');
+        $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td><script>');
 
         return $s;
     }
 
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $url 
+     *
+     * @return TODO
+     */
+    public function checkAmazonAssociateID ($url)
+    {
+
+        $pattern = '/tag=cgisolution-20/';
+
+        $match = preg_match($pattern, $url);
+
+        // print_r($match);
+
+        // url does not have associate ID
+        if (empty($match))
+        {
+            $url = $url . "&tag=" . $this->ci->config->item('amazonAssID');
+        }
+
+        return $url;
+    }
 }

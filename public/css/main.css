@@ -86,7 +86,20 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
     max-height:320px;
 }
 
+.trackingItem .panel .panel-body:hover
+{
+    cursor:pointer;
+}
+
+
 #priceChartContainer
 {
     margin-top:20px;
+}
+
+.buyBtn
+{
+    float:none;
+    clear:none;
+    margin-top:25px;
 }
