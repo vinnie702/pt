@@ -49,6 +49,7 @@ echo <<< EOS
 
             <div class='panel-footer'>
                 <button type='button' class='btn btn-warning btn-xs' onclick="tracker.grabInfo(this, {$r->id});"><i class='fa fa-refresh'></i></button>
+                <button type='button' class='btn btn-danger btn-xs pull-right' onclick="tracker.unassignItem(this,{$r->id});"><i class='fa fa-trash-o'></i></button>
             </div>
         </div> <!-- .panel -->
 

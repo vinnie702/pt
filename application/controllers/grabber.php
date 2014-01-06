@@ -77,7 +77,19 @@ class Grabber extends CI_Controller
         // echo 'ID: ' . $id . PHP_EOL;
         try
         {
-            $this->scraper->scrapeLatestData($id);
+            $info = $this->grabber->getTrackingItemInfo($id);
+            
+            $url = $info->url;
+
+            // $url = "http://www.amazon.com/gp/product/B00004XMTJ/ref=as_li_qf_sp_asin_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00004XMTJ&linkCode=as2&tag=cgisolution-20";
+
+            print_r($url);
+            echo "<hr>" . PHP_EOL;
+
+            $url = $this->functions->checkAmazonAssociateID($url);
+
+            echo "New Url: {$url}";
+
         }
         catch (Exception $e)
         {
@@ -90,7 +102,6 @@ class Grabber extends CI_Controller
      */
     public function cron ()
     {
-
         try
         {
             echo PHP_EOL . 'Getting list of items' . PHP_EOL . PHP_EOL;

@@ -128,6 +128,9 @@ class Tracker extends CI_Controller
             $this->load->model('grabber_model', 'grabber', true);
 
             $body['info'] = $info = $this->grabber->getTrackingItemInfo($id);
+
+            $header['bcText'] = $info->itemName;
+
         }
         catch (Exception $e)
         {
@@ -160,5 +163,28 @@ class Tracker extends CI_Controller
         }
 
         $this->load->view('tracker/pricexml', $body);
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function unassign ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                $this->tracker->unassignTrackingItem($_POST['id']);
+
+                $this->functions->jsonReturn('SUCCESS', 'Item has been removed!');
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
     }
 }

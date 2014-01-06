@@ -52,7 +52,7 @@ class Functions
 
     public function checkLogin ($email, $passwd)
     {
-        $this->ci->db->select('id, status, admin');
+        $this->ci->db->select('id, firstName, lastName, status, admin');
         $this->ci->db->from('users');
         $this->ci->db->where('email', $email);
         $this->ci->db->where('passwd', sha1($passwd));
@@ -73,7 +73,7 @@ class Functions
      *
      * @return TODO
      */
-    public function setLoginSession ($user, $email, $logged_in = true)
+    public function setLoginSession ($user, $email, $name, $logged_in = true)
     {
 
         if (empty($user)) throw new Exception("User ID is empty!");
@@ -83,6 +83,7 @@ class Functions
             (
                 'userid' => (int) $user,
                 'email' => $email,
+                'name' => $name,
                 'logged_in' => $logged_in
             );
 
@@ -203,9 +204,34 @@ class Functions
 
     public function stripTags ($s)
     {
-        $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><div><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td>');
+        // $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><div><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td>');
+        $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td><script>');
 
         return $s;
     }
 
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $url 
+     *
+     * @return TODO
+     */
+    public function checkAmazonAssociateID ($url)
+    {
+
+        $pattern = '/tag=cgisolution-20/';
+
+        $match = preg_match($pattern, $url);
+
+        // print_r($match);
+
+        // url does not have associate ID
+        if (empty($match))
+        {
+            $url = $url . "&tag=" . $this->ci->config->item('amazonAssID');
+        }
+
+        return $url;
+    }
 }
