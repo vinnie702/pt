@@ -9,6 +9,7 @@ class Search extends CI_Controller
 
         $this->load->model('search_model', 'search', true);
         $this->load->model('grabber_model', 'grabber', true);
+        $this->load->model('tracker_model', 'tracker', true);
 
         $this->load->driver('cache');
 
@@ -32,6 +33,7 @@ class Search extends CI_Controller
     {
 
         $header['headscript'] = $this->functions->jsScript('search.js');
+        $header['headscript'] .= $this->functions->jsScript('tracker.js');
 
         $header['singleCol'] = true;
 

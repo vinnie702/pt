@@ -235,4 +235,44 @@ class tracker_model extends CI_Model
 
         return true;
     }
+
+    /**
+     * checks if a user is assigned to a trackign item
+     *
+     * @param int $trackingItemID
+     * @param int $user 
+     *
+     * @return boolean - true if assigned, false otherwise
+     */
+    public function checkTrackingItemAssigned ($trackingItemID, $user = 0)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        if (empty($user)) $user = $this->session->userdata('userid');
+
+        $user = intval($user);
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "checkTrackingItemAssigned-{$user}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItemUserAssign');
+            $this->db->where('trackingItemID', $trackingItemID);
+            $this->db->where('userid', $user);
+
+            $data = $this->db->count_all_results();
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        if(!empty($data)) return true;
+
+        return false;
+    }
 }

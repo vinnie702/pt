@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <h1><i class='fa fa-search'></i> Search</h1>
+    
+<input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
 
 <?php
 // print_r($itemResults);
@@ -13,14 +15,22 @@ if (empty($itemResults['matches']))
 }
 else
 {
+    $logged_in = $this->session->userdata('logged_in');
+
     $rcnt = 1;
     foreach ($itemResults['matches'] as $k => $v)
     {
-        $img = $info = null;
+        $img = $info = $assigned = null;
 
         try
         {
             $info = $this->grabber->getTrackingItemInfo($v['id']);
+
+            if ($logged_in  == true)
+            {
+                $assigned = $this->tracker->checkTrackingItemAssigned($v['id'], $this->session->userdata('userid'));
+            }
+
         }
         catch (Exception $e)
         {
@@ -44,12 +54,22 @@ echo <<< EOS
 
 EOS;
 
-        if ($this->session->userdata('logged_in') == true)
+        if ($logged_in == true && $assigned == false)
         {
+            echo "<div class='panel-footer'>" . PHP_EOL;
 
-            echo "<div class='panel-footer'>
-                <button type='button' class='btn btn-info btn-sm' onclick=\"\"><i class='fa fa-plus-circle'></i></button>
-            </div>";
+            echo "<button type='button' class='btn btn-info btn-sm' onclick=\"tracker.assignItem(this, {$v['id']});\"><i class='fa fa-plus-circle'></i></button>" . PHP_EOL;
+
+            echo "</div> <!-- .panel-footer -->";
+        }
+        elseif ($logged_in == true && $assigned == true)
+        {
+            echo "<div class='panel-footer'>" . PHP_EOL;
+
+            echo "<button type='button' class='btn btn-warning btn-sm' onclick=\"tracker.grabInfo(this, {$v['id']});\"><i class='fa fa-refresh'></i></button>" . PHP_EOL;
+            echo "<button type='button' class='btn btn-danger btn-sm pull-right' onclick=\"tracker.unassignItem(this,{$v['id']});\"><i class='fa fa-trash-o'></i></button>" . PHP_EOL;
+
+            echo "</div> <!-- .panel-footer -->";
         }
 
     echo "

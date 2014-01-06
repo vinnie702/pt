@@ -176,6 +176,32 @@ class Tracker extends CI_Controller
      *
      * @return TODO
      */
+    public function assign ()
+    {
+        $this->functions->checkLoggedIn(true);
+
+        if ($_POST)
+        {
+            try
+            {
+                $this->tracker->insertTrackItemUserAssign($_POST['id'], $this->session->userdata('userid'));
+
+                $this->functions->jsonReturn('SUCCESS', 'Item has been assign to your user profile to track!');
+
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
     public function unassign ()
     {
         $this->functions->checkLoggedIn();
