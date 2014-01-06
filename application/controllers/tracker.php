@@ -9,7 +9,7 @@ class Tracker extends CI_Controller
 
         $this->load->driver('cache');
 
-        $this->functions->checkLoggedIn();
+        // $this->functions->checkLoggedIn();
 
         $this->load->model('tracker_model', 'tracker', true);
     }
@@ -19,6 +19,8 @@ class Tracker extends CI_Controller
         $header['headscript'] = $this->functions->jsScript('tracker.js');
         $header['onload'] = "tracker.landingInit();";
         $header['singleCol'] = true;
+
+        $this->functions->checkLoggedIn();
 
         try
         {
@@ -44,6 +46,8 @@ class Tracker extends CI_Controller
     {
         header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
         header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+
+        $this->functions->checkLoggedIn();
 
         if ($_POST)
         {
@@ -88,6 +92,8 @@ class Tracker extends CI_Controller
      */
     public function gettrackeditems ()
     {
+        $this->functions->checkLoggedIn();
+
         try
         {
             $body['trackedItems'] = $this->tracker->getTrackingItems();
@@ -172,6 +178,8 @@ class Tracker extends CI_Controller
      */
     public function unassign ()
     {
+        $this->functions->checkLoggedIn();
+
         if ($_POST)
         {
             try

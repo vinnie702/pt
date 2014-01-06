@@ -15,17 +15,7 @@ else
 
         try
         {
-            /*
-            $info = $this->store->getItemInfo($item);
-            // print_r($info);
 
-            $shortDesc = nl2br($info->shortDescription);
-        
-            $img = $this->store->getItemMainImage($item);
-
-            if (empty($img)) $imgDisplay = "<i class='fa fa-tag item-blank-img img-responsive'></i>";
-            else $imgDisplay = "<img src='{$this->config->item('CGIBMSURL')}genimg/render/200?img=" . urlencode($img) . "&path=" . urlencode("uploader/{$this->config->item('company')}") . "' class='img-responsive'>";
-            */
         }
         catch (Exception $e)
         {

@@ -8,6 +8,7 @@ class Search extends CI_Controller
         parent::__construct();
 
         $this->load->model('search_model', 'search', true);
+        $this->load->model('grabber_model', 'grabber', true);
 
         $this->load->driver('cache');
 
@@ -29,9 +30,12 @@ class Search extends CI_Controller
      */
     public function index ()
     {
+
+        $header['headscript'] = $this->functions->jsScript('search.js');
+
         $header['singleCol'] = true;
 
-        $body['folder'] = 0;
+        // $body['folder'] = 0;
 
         try
         {
