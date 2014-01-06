@@ -24,7 +24,7 @@ id
 , imgUrl
 , status
 ,lastUpdated
-FROM trackingItems;
+FROM trackingItems
 
 -- ALTER TABLE trackingItems ADD COLUMN `imgUrl` VARCHAR(300) DEFAULT NULL AFTER `description`;
 -- ALTER TABLE trackingItems ADD COLUMN `lastUpdated` DATETIME DEFAULT NULL;
