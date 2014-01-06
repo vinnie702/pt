@@ -84,4 +84,53 @@ class Grabber extends CI_Controller
             $this->functions->sendStackTrace($e);
         }
     }
+
+    /**
+     * runs every hour and checks if items need to be downloaded and updated
+     */
+    public function cron ()
+    {
+
+        try
+        {
+            echo PHP_EOL . 'Getting list of items' . PHP_EOL . PHP_EOL;
+
+            $trackingItems = $this->grabber->getAllItemsToCheck();
+
+            if (empty($trackingItems)) die("No items to check. Program will exit now");
+
+            foreach ($trackingItems as $r)
+            {
+                echo "Checking Item: {$r->id}...";
+                
+                $reqDL = $this->scraper->checkRequireDownload($r->id);
+
+                if ($reqDL == true)
+                {
+                    echo "Downloading...";
+
+                    $this->scraper->downloadHTML($r->id);
+
+                    echo "100%! Updating item data...";
+
+                    $this->scraper->scrapeLatestData($r->id);
+
+                    echo "Done!" . PHP_EOL;
+                }
+                else
+                {
+                    echo "No download required." . PHP_EOL;
+                }
+            }
+
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+            echo "ERROR: " . $e->getMessage();;
+        }
+
+        echo "Finished!\n";
+
+    }
 }

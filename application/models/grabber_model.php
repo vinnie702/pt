@@ -78,4 +78,31 @@ class grabber_model extends CI_Model
         $file = $this->scraper->getLatestHtml($id);
 
     }
+    
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function getAllItemsToCheck ()
+    {
+        $mtag = "allTrackingItems";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('id');
+            $this->db->from('trackingItems');
+            $this->db->where('deleted', 0);
+
+            $query = $this->db->get();
+
+            $data = $query->result();
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 }

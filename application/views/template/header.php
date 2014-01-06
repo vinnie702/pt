@@ -53,7 +53,12 @@ echo <<< EOS
         <li><a href='#'><i class='fa fa-cog'></i> Account Settings</a></li>
 EOS;
 }
+else
+{
 ?>
+    <li><a href='#'><i class='fa fa-pencil'></i> Register</a></li>
+
+<?php } ?>
                 </ul>
 
                 <?php
