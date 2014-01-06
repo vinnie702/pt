@@ -96,8 +96,23 @@ tracker.unassignItem = function (b, id)
 {
     if (confirm("Are you sure you wish to remove this item?"))
     {
-        $.post("/tracker/unassign", $('#FormID').serialize(), function(data){
-            //code...
-        });
+        $(b).attr('disabled', 'disabled');
+
+        $.post("/tracker/unassign", { id: id, pt_token: global.CSRF_hash }, function(data){
+            if (data.status == 'SUCCESS')
+            {
+                global.renderAlert(data.msg, 'alert-success');
+
+                tracker.getTrackedItems();
+
+                return true;
+            }
+            else if (data.status == 'ERROR')
+            {
+                global.renderAlert(data.msg, 'alert-danger');
+                $(b).removeAttr('disabled');
+                return false;
+            }
+        }, 'json');
     }
 }

@@ -215,4 +215,24 @@ class tracker_model extends CI_Model
 
         return $data;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return TODO
+     */
+    public function unassignTrackingItem ($trackingItemID)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $this->db->where('trackingItemID', $trackingItemID);
+        $this->db->where('userid', $this->session->userdata('userid'));
+        $this->db->delete('trackingItemUserAssign');
+
+        return true;
+    }
 }

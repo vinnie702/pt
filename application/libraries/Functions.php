@@ -52,7 +52,7 @@ class Functions
 
     public function checkLogin ($email, $passwd)
     {
-        $this->ci->db->select('id, status, admin');
+        $this->ci->db->select('id, firstName, lastName, status, admin');
         $this->ci->db->from('users');
         $this->ci->db->where('email', $email);
         $this->ci->db->where('passwd', sha1($passwd));
@@ -73,7 +73,7 @@ class Functions
      *
      * @return TODO
      */
-    public function setLoginSession ($user, $email, $logged_in = true)
+    public function setLoginSession ($user, $email, $name, $logged_in = true)
     {
 
         if (empty($user)) throw new Exception("User ID is empty!");
@@ -83,6 +83,7 @@ class Functions
             (
                 'userid' => (int) $user,
                 'email' => $email,
+                'name' => $name,
                 'logged_in' => $logged_in
             );
 

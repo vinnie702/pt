@@ -20,6 +20,9 @@
     <div class='col-lg-8 col-md-8 col-sm-8 col-xs-8'>
         <?php if ($this->session->userdata('logged_in') == true) : ?>
             <a href='/welcome/logout' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-out'></i> Log Out</a>
+            <a href='<?=$this->config->item('CGIBMSURL')?>/user/edit/<?=$this->session->userdata('userid')?>' class='pull-right mainUserLink'>
+                <i class='fa fa-user'></i> <?=$this->session->userdata('name')?>
+            </a>
         <?php else: ?>
             <a href='/welcome/login' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-in'></i> Login</a>
         <?php endif; ?>
@@ -50,14 +53,14 @@ if ($this->session->userdata('logged_in') == true)
 {
 echo <<< EOS
         <li><a href='/tracker/landing' title='Home'><i class='fa fa-home'></i></a></li>
-        <li><a href='#'><i class='fa fa-cog'></i> Account Settings</a></li>
+        <li><a href='{$this->config->item('CGIBMSURL')}/user/edit/{$this->session->userdata('userid')}' target='_blank'><i class='fa fa-cog'></i> Account Settings</a></li>
 EOS;
 }
 else
 {
 ?>
     <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
-    <li><a href='#'><i class='fa fa-pencil'></i> Register</a></li>
+    <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?>'><i class='fa fa-pencil'></i> Register</a></li>
 
 <?php } ?>
                 </ul>

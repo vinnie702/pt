@@ -58,7 +58,7 @@ class Welcome extends CI_Controller
                     }
 
                     // set session
-                    $this->functions->setLoginSession($check->id, $_POST['email'], true);
+                    $this->functions->setLoginSession($check->id, $_POST['email'], ($check->firstName . ' ' . $check->lastName), true);
 
                      // user tried accessing a page while not logged in - takes them back to that page instead of landing
                     if (!empty($_POST['ref']))
