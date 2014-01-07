@@ -128,6 +128,28 @@ class Welcome extends CI_Controller
     }
 
 
+    public function tos ()
+    {
+        $header['singleCol'] = true;
+
+        $header['bcText'] = "Terms of Service";
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/tos', $body);
+        $this->load->view('template/footer');
+    }
+
+    public function privacy ()
+    {
+        $header['singleCol'] = true;
+
+        $header['bcText'] = "Privacy Policy";
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/privacy', $body);
+        $this->load->view('template/footer');
+    }
+
 }
 
 /* End of file welcome.php */
