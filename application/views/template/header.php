@@ -13,7 +13,7 @@
 <div class='row'>
     <div class='col-lg-4 col-md-4 col-sm-4 col-xs-4'>
 
-        <h1>Price Tracker</h1>
+        <h1>ProductPriceTracker.com</h1>
 
     </div>
 
