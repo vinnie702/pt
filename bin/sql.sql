@@ -5,6 +5,8 @@ show tables;
 SELECT * FROM companies;
 
 
+
+
 -- truncate table trackingItems;
 
 SELECT * FROM userCompanies;
@@ -38,7 +40,11 @@ explain trackingItemUserAssign;
 select * from trackingItemUserAssign;
 
 
--- DELETE FROM trackingItemPrices WHERE trackingItemID = 2;
+SELECT * FROM trackingItemPrices WHERE trackingItemID = 7;
+
+
+DELETE FROM trackingItemPrices WHERE trackingItemID = 7;
+
 
 -- truncate table trackingItemPrices;
 
@@ -48,7 +54,7 @@ SELECT * FROM trackingItemPrices;
 
 
 SELECT * FROM trackingItemPrices
--- WHERE trackingItemID = 4
+WHERE trackingItemID = 2
 ORDER BY datestamp DESC
 
 SELECT price

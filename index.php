@@ -1,12 +1,12 @@
 <?php
 
-date_default_timezone_set('UTC');
+// date_default_timezone_set('UTC');
+date_default_timezone_set('America/Los_Angeles');
 
 DEFINE('DATESTAMP', date('Y-m-d G:i:s'));
 DEFINE('DS', DIRECTORY_SEPARATOR);
 
 // sets site back to PST
-date_default_timezone_set('America/Los_Angeles');
 
 
 if (substr($_SERVER['DOCUMENT_ROOT'], -1) !== DIRECTORY_SEPARATOR)

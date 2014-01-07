@@ -335,10 +335,27 @@ class Scraper
     {
         // echo "<hr>";
 
+        $bxgyItemPrice = strpos($html, 'bxgy-item-price');
         $price = stripos($html, '<span class="price">');
         $priceLarge = stripos($html, '<b class="priceLarge">');
 
-        if (!empty($price))
+
+        if (!empty($bxgyItemPrice))
+        {
+            // error_log('Found bxgy-item-price');
+            $price = $this->_getTagVal($html, 'bxgy-item-price', '</span>');
+
+            // error_log("PRICE: {$price}");
+
+            $price = str_replace('bxgy-item-price', '', $price);
+            $price = str_replace('"', '', $price);
+            $price = str_replace('\'', '', $price);
+            $price = str_replace('>', '', $price);
+
+            // return $price;
+
+        }
+        elseif (!empty($price))
         {
             $price = $this->_getTagVal($html, '<span class="price">', '</span>');
 
