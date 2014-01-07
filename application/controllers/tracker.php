@@ -137,6 +137,12 @@ class Tracker extends CI_Controller
 
             $header['bcText'] = $info->itemName;
 
+            $body['latestPrice'] = $this->tracker->getLatestPrice($id);
+            $body['highPrice'] = $this->tracker->getLatestPrice($id, 'price', 'desc');
+            $body['lowPrice'] = $this->tracker->getLatestPrice($id, 'price', 'asc');
+            
+            $body['assigned'] = $this->tracker->checkTrackingItemAssigned($id);
+
         }
         catch (Exception $e)
         {

@@ -75,12 +75,10 @@ else
 
                     echo form_open('/search', $attr);
                 ?>
-                    <div class='input-group'>
+                    <div class='form-group'>
                         <input type='text' class='form-control' name='q' id='q' value="<?=urldecode($_GET['q'])?>" placeholder='Search'>
-                            <span class='input-group-btn'>
-                                <button type='submit' class='btn btn-default'><i class='fa fa-search'></i></button>
-                            </span>
-                    </div> <!-- .input-group -->
+                    </div> <!-- .form-group -->
+                    <button type='submit' class='btn btn-info'><i class='fa fa-search'></i></button>
                 </form>
             </div> <!-- .navbar-collapse -->
         </nav>

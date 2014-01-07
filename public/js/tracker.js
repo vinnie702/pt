@@ -63,23 +63,27 @@ tracker.grabInfo = function (b, id)
     $(b).find('i').addClass('fa-spin');
 
     $.post("/grabber/grabinfo", { id: id, pt_token: global.CSRF_hash }, function(data){
+        
+        var alertDisplay = ($('#trackItemAlert_' + id).exists()) ? 'trackItemAlert_' + id : undefined;
+
         if (data.status == 'SUCCESS')
         {
-            global.renderAlert(data.msg, 'alert-success', 'trackItemAlert_' + id);
+            global.renderAlert(data.msg, 'alert-success', alertDisplay);
             $(b).removeAttr('disabled');
             $(b).find('i').removeClass('fa-spin');
             return true;
         }
         else if (data.status == 'ALERT')
         {
-            global.renderAlert(data.msg, undefined, 'trackItemAlert_' + id);
+            global.renderAlert(data.msg, undefined, alertDisplay);
             $(b).removeAttr('disabled');
             $(b).find('i').removeClass('fa-spin');
             return false;
         }
         else if (data.status == 'ERROR')
         {
-            global.renderAlert(data.msg, 'alert-danger', 'trackItemAlert_' + id);
+
+            global.renderAlert(data.msg, 'alert-danger', alertDisplay);
             $(b).removeAttr('disabled');
             $(b).find('i').removeClass('fa-spin');
             return false;
