@@ -24,7 +24,7 @@ class Tracker extends CI_Controller
 
         try
         {
-            $body['trackedItems'] = $this->tracker->getTrackingItems();
+
         }
         catch (Exception $e)
         {
@@ -96,7 +96,24 @@ class Tracker extends CI_Controller
 
         try
         {
-            $body['trackedItems'] = $this->tracker->getTrackingItems();
+            if (isset($_GET['q']))
+            {
+                // loads sphinx
+                $config = array
+                    (
+                        'server' => $this->config->item('server'),
+                        'connect_timeout' => $this->config->item('connect_timeout'),
+                        'array_result' => $this->config->item('array_result')
+                    );
+
+                $this->load->library('sphinxsearch', $config);
+
+                $body['itemResults'] = $this->sphinxsearch->Query($_GET['q'], 'trackingItems');
+            }
+            else
+            {
+                $body['trackedItems'] = $this->tracker->getTrackingItems();
+            }
         }
         catch (Exception $e)
         {
