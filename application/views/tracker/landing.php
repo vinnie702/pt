@@ -33,6 +33,38 @@ echo form_open('#', $attr);
     </div> <!-- .panel -->
 
 
+    <div class='panel panel-default'>
+        <div class='panel-heading'><i class='fa fa-search'></i> Search Your Tracked Items</div>
+
+        <div class='panel-body'>
+
+<?php
+
+$attr = array
+    (
+        'name' => 'trackSearchForm',
+        'id' => 'trackSearchForm',
+        'onsubmit' => "return false;"
+    );
+
+echo form_open('#', $attr);
+?>
+            <input type='text' class='form-control' name='q' id='q' value="" placeholder=''>
+
+</form>
+
+        </div> <!-- .panel-body -->
+
+        <div class='panel-footer'>
+            <button type='button' class='btn btn-primary' id='trackitBtn'>Search <i class='fa-arrow-right'></i></button>
+        </div>
+
+    </div> <!-- .panel -->
+
+
+
+
+
 
 
     </div> <!-- col-3 -->
