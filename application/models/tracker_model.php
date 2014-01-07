@@ -8,6 +8,41 @@ class tracker_model extends CI_Model
         parent::__construct();
     }
 
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return TODO
+     */
+    public function getTrackingItemInfo ($trackingItemID)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("trackingItemID is empty!");
+
+        $mtag = "trackingItemInfo-{$trackingItemID}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItems');
+            $this->db->where('id', $trackingItemID);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0];
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
+
     /**
      * TODO: short description.
      *
@@ -306,6 +341,39 @@ class tracker_model extends CI_Model
 
             $data = $results[0];
 
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
+    
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $limit Optional, defaults to 4. 
+     *
+     * @return TODO
+     */
+    public function getTopTrackedItems ($limit = 4)
+    {
+
+        $mtag = "topTrackItems-{$limit}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+
+            $this->db->select('trackingItemID, COUNT(*) as cnt');
+            $this->db->from('trackingItemUserAssign');
+            $this->db->group_by('trackingItemID');
+            $this->db->order_by('cnt', 'desc');
+            $this->db->limit(4);
+            
+            $query = $this->db->get();
+
+            $data = $query->result();
+            
             $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
         }
 

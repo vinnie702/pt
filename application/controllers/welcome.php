@@ -10,12 +10,24 @@ class Welcome extends CI_Controller
         $this->load->driver('cache');
 
         $this->load->model('welcome_model', 'welcome', true);
+        $this->load->model('tracker_model', 'tracker', true);
     }
 
     public function index ()
     {
+
         $header['headscript'] = $this->functions->jsScript('welcome.js');
+        $header['headscript'] .= $this->functions->jsScript('tracker.js');
         $header['singleCol'] = true;
+
+        try
+        {
+            $body['topTrackedItems'] = $this->tracker->getTopTrackedItems(4);
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
 
         $this->load->view('template/header', $header);
         $this->load->view('welcome/index', $body);
