@@ -32,6 +32,30 @@ echo form_open('#', $attr);
 
     </div> <!-- .panel -->
 
+<hr class='trackingSearch'>
+
+<?php
+    
+$attr = array
+    (
+        'name' => 'trackSearchForm',
+        'id' => 'trackSearchForm',
+        'method' => 'GET'
+    );
+
+echo form_open('/tracker/landing', $attr);
+?>
+
+        <h4><i class='fa fa-search'></i> Search</h4>
+
+        <div class='input-group'>
+            <input type='text' class='form-control' name='q' id='q' value="<?=urldecode($_GET['q'])?>" placeholder='Toys'>
+            <span class='input-group-btn'>
+                <button type='button' class='btn btn-info' id='trackitBtn'><i class='fa fa-search'></i></button>
+            </span>
+        </div>
+
+</form>
 
 
 

@@ -3,7 +3,6 @@ var welcome = {}
 welcome.loginInit = function ()
 {
 
-
 }
 /*
 welcome.checkLoginForm = function ()
@@ -20,3 +19,8 @@ welcome.checkLoginForm = function ()
     return false;
 }
 */
+
+welcome.register = function (company)
+{
+    window.location = 'https://bms.cgisolution.com/register/index/' + company;
+}
