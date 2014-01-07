@@ -5,6 +5,10 @@ date_default_timezone_set('UTC');
 DEFINE('DATESTAMP', date('Y-m-d G:i:s'));
 DEFINE('DS', DIRECTORY_SEPARATOR);
 
+// sets site back to PST
+date_default_timezone_set('America/Los_Angeles');
+
+
 if (substr($_SERVER['DOCUMENT_ROOT'], -1) !== DIRECTORY_SEPARATOR)
 {
     $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
