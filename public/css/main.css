@@ -85,15 +85,25 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
     font-weight:bold;
 }
 
+.trackingItem .panel .panel-heading
+{
+    height:50px;
+    max-height:50x;
+    min-height:50px;
+    overflow:hidden;
+    font-size:12px;
+}
+
 
 .trackingItem .panel .panel-body
 {
-    min-height:320px;
-    max-height:320px;
+    min-height:370px;
+    max-height:370px;
 }
 
 .trackingItem .panel .panel-body:hover
 {
+    background:#fffdc8;
     cursor:pointer;
 }
 

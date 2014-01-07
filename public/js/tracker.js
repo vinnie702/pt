@@ -116,3 +116,22 @@ tracker.unassignItem = function (b, id)
         }, 'json');
     }
 }
+
+tracker.assignItem = function (b, id)
+{
+    $(b).attr('disabled', 'disabled');
+
+    $.post("/tracker/assign", { id: id, pt_token: global.CSRF_hash }, function(data){
+        if (data.status == 'SUCCESS')
+        {
+            global.renderAlert(data.msg, 'alert-success');
+            return true;
+        }
+        else
+        {
+            global.renderAlert(data.msg, 'alert-danger');
+            $(b).removeAttr('disabled');
+            return false;
+        }
+    }, 'json');
+}

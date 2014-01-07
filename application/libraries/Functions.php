@@ -97,7 +97,7 @@ class Functions
      *
      * @return boolean TRUE if logged in
      */
-    public function checkLoggedIn ()
+    public function checkLoggedIn ($jsonReturn = false)
     {
         if ($this->ci->session->userdata('logged_in') === true)
         {
@@ -105,6 +105,8 @@ class Functions
         }
         else
         {
+            if ($jsonReturn == true) $this->jsonReturn('ERROR', "You are not logged in!");
+
             header("Location: /welcome/login?site-error=" . urlencode("You are not logged in") . "&ref=" . uri_string());
             exit;
         }

@@ -5,6 +5,7 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'] . 'application' . DIRECTORY_SEPARATOR 
     include_once 'config.local.php';
 }
 
+include_once 'sphinxsearch.php';
 
 
 /*
