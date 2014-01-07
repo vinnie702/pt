@@ -1,11 +1,16 @@
 
+
 show tables;
 
 
 SELECT * FROM companies;
 
 
-
+SELECT trackingItemID, COUNT(*) as cnt
+FROM trackingItemUserAssign
+GROUP BY trackingItemID
+order by cnt desc
+limit 4
 
 -- truncate table trackingItems;
 
