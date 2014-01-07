@@ -18,7 +18,7 @@ class Tracker extends CI_Controller
     {
         $header['headscript'] = $this->functions->jsScript('tracker.js');
         $header['onload'] = "tracker.landingInit();";
-        $header['singleCol'] = true;
+        // $header['singleCol'] = true;
 
         $this->functions->checkLoggedIn();
 

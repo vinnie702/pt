@@ -1,6 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<hr>
 <?php
 if (empty($trackedItems))
 {
@@ -31,7 +30,7 @@ else
 
 echo <<< EOS
 
-    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 trackingItem'>
+    <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12 trackingItem'>
         <div class='panel panel-default'>
             <div class='panel-heading'>
                 <a href='/tracker/details/{$r->id}'>{$r->itemName}</a>
@@ -59,7 +58,7 @@ EOS;
     echo PHP_EOL;
 
 
-        if ($rcnt >= 4)
+        if ($rcnt >= 3)
         {
             echo "</div> <!-- .row -->" . PHP_EOL;
             $rcnt = 1;

@@ -142,13 +142,16 @@ if (!empty($bcText))
 <?php else: ?>
     <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12'>
 
-            <ul class='list-group'>
-                <li class='list-group-item active'><a href='#' data-toggle='tab'> Amazon</a></li>
-                <li class='list-group-item'><a href='#' data-toggle='tab'>Wal-Mart</a></li>
-                <li class='list-group-item'><a href='#' data-toggle='tab'>Target</a></li>
-                </ul>
+
+<?php
+
+/*
+ ***** PUT this in the top of your view if you are using 2 columns ****
     </div> <!-- col-3 -->
 
-    <div class='col-lg-9 col-md-9 col-sm-9 col-xs-12'>
+        <div class='col-lg-9 col-md-9 col-sm-9 col-xs-12'>
+ *
+ */
+?>
 <?php endif; ?>
 

@@ -207,7 +207,7 @@ class Functions
     public function stripTags ($s)
     {
         // $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><div><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td>');
-        $s = strip_tags($s, '<p><br><a><b><strong><i><u><h1><h2><h3><h4><h5><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td><script>');
+        $s = strip_tags($s, '<p><br><b><strong><i><u><h1><h2><h3><h4><h5><img><ul><ol><hr><li><span><label><dd><dt><dl><table><tbody><thead><tr><th><td><script>');
 
         return $s;
     }

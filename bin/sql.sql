@@ -40,10 +40,13 @@ explain trackingItemUserAssign;
 select * from trackingItemUserAssign;
 
 
-SELECT * FROM trackingItemPrices WHERE trackingItemID = 7;
+SELECT * FROM trackingItemPrices WHERE trackingItemID = 5;
 
+explain trackingItemPrices
 
-DELETE FROM trackingItemPrices WHERE trackingItemID = 7;
+DELETE FROM trackingItemsHtml WHERE trackingItemID = 5;
+
+DELETE FROM trackingItemPrices WHERE trackingItemID = 5;
 
 
 -- truncate table trackingItemPrices;
