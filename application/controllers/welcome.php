@@ -14,6 +14,7 @@ class Welcome extends CI_Controller
 
     public function index ()
     {
+        $header['headscript'] = $this->functions->jsScript('welcome.js');
         $header['singleCol'] = true;
 
         $this->load->view('template/header', $header);
