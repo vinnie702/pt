@@ -2,7 +2,7 @@
 
 <div class='jumbotron'>
     <h1>Welcome</h1>
-    <p class='lead'>To the home of the <strong>$20.00 / Month </strong>Price Tracker! </p>
+    <p class='lead'>To the home of the <strong>$9.99 / Month </strong>Price Tracker! </p>
 </div>
 
 <hr>
