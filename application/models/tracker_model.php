@@ -275,4 +275,40 @@ class tracker_model extends CI_Model
 
         return false;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return TODO
+     */
+    public function getLatestPrice ($trackingItemID, $orderCol = 'datestamp', $orderType = 'desc')
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $mtag = "latestPrice-{$trackingItemID}-{$orderCol}-{$orderType}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItemPrices');
+            $this->db->where('trackingItemID', $trackingItemID);
+            $this->db->order_by($orderCol, $orderType);
+            $this->db->limit(1);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0];
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 }

@@ -11,11 +11,15 @@ else
     $rcnt = 1;
     foreach ($trackedItems as $k => $r)
     {
-        $img = $info = null;
+        $img = $info = $url = $latestPrice = null;
 
         try
         {
+            $url = $this->functions->checkAmazonAssociateID($r->url);
 
+            $latestPrice = $this->tracker->getLatestPrice($r->id);
+
+            $priceDisplay = number_format($latestPrice->price, 2);
         }
         catch (Exception $e)
         {
@@ -38,35 +42,20 @@ echo <<< EOS
             </div>
 
             <div class='panel-footer'>
-                <button type='button' class='btn btn-warning btn-xs' onclick="tracker.grabInfo(this, {$r->id});"><i class='fa fa-refresh'></i></button>
-                <button type='button' class='btn btn-danger btn-xs pull-right' onclick="tracker.unassignItem(this,{$r->id});"><i class='fa fa-trash-o'></i></button>
+                <a href="{$url}" class='btn btn-success btn-sm' target='_blank'><i class='fa fa-dollar'></i></a>
+                <button type='button' class='btn btn-warning btn-sm' onclick="tracker.grabInfo(this, {$r->id});"><i class='fa fa-refresh'></i></button>
+                <button type='button' class='btn btn-danger btn-sm' onclick="tracker.unassignItem(this,{$r->id});"><i class='fa fa-trash-o'></i></button>
+    
+                <label class='pricePreview pull-right'>
+                \${$priceDisplay}
+                </label>
+
             </div>
         </div> <!-- .panel -->
 
     </div> <!-- col-3 -->
 EOS;
 
-/*
-echo <<< EOS
-    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 homepageItem'>
-        <div class='wrapper'>
-            <div onclick="store.viewItemDetails({$item}, 0)">
-                <div id='trackItemAlert_{$r->id}'></div>
-                {$imgDisplay}
-                <label>{$r->itemName}</label>
-
-                <img class='img-responsive' src='{$r->imgUrl}'>
-            </div> <!-- onclick div container -->
-
-        <div class='itemPriceContainer'>
-            <span class='price'>\${$info->retailPrice}</span>
-            <button type='button' class='btn btn-warning' onclick="tracker.grabInfo(this, {$r->id});"><i class='fa fa-refresh'></i></button>
-        </div> <!-- .itemPriceContainer -->
-
-        </div> <!-- .wrapper -->
-    </div> <!-- col-3 -->
-EOS;
- */
     echo PHP_EOL;
 
 

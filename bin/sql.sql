@@ -47,6 +47,10 @@ explain trackingItemPrices;
 SELECT * FROM trackingItemPrices;
 
 
+SELECT * FROM trackingItemPrices
+-- WHERE trackingItemID = 4
+ORDER BY datestamp DESC
+
 SELECT price
 FROM trackingItemPrices
 WHERE trackingItemID = 2
