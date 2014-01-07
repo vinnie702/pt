@@ -8,6 +8,12 @@ DEFINE('DS', DIRECTORY_SEPARATOR);
 
 // sets site back to PST
 
+if (PHP_SAPI == 'cli')
+{
+    $_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__);
+}
+
+
 
 if (substr($_SERVER['DOCUMENT_ROOT'], -1) !== DIRECTORY_SEPARATOR)
 {
