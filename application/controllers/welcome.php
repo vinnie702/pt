@@ -14,8 +14,10 @@ class Welcome extends CI_Controller
 
     public function index ()
     {
-        $this->load->view('template/header');
-        $this->load->view('welcome/index');
+        $header['singleCol'] = true;
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/index', $body);
         $this->load->view('template/footer');
     }
 
