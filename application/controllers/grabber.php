@@ -56,9 +56,8 @@ class Grabber extends CI_Controller
                 {
                     $this->scraper->downloadHTML($_POST['id']);
 
+                    $this->scraper->scrapeLatestData($_POST['id']);
                 }
-
-                $this->scraper->scrapeLatestData($_POST['id']);
 
                 // $this->grabber->updateProductData($_POST['id']);
 
