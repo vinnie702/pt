@@ -2,12 +2,30 @@ body
 {
     /* font-size:1.2em; */
     font-family:'Open Sans',Arial,sans-serif;
-    background:#fff;
+    /* background:#fff; */
 
-    /* background:#808080; */
+    background:#2F3034;
+    /* background:#c9c9c9 url('/public/images/carbon_tile.jpg') repeat; */
+
 
     color:#777
     /* padding-top:60px; */
+}
+
+.wrapper
+{
+    margin-top:4px;
+    padding-bottom:30px;
+    background:#FFF;
+    /*
+    -webkit-box-shadow: 6px 5px 8px rgba(50, 50, 50, 0.1);
+    -moz-box-shadow:    6px 5px 8px rgba(50, 50, 50, 0.1);
+    box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
+    */
+    -webkit-box-shadow: 6px 5px 8px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow:    6px 5px 8px rgba(255, 255, 255, 0.2);
+    box-shadow:         6px 5px 8px rgba(255, 255, 255, 0.2);
+    margin-bottom:20px;
 }
 
 address
@@ -20,8 +38,19 @@ address
     background:url('/public/images/chart.jpg');
     color:white;
 
-text-shadow: 2px 2px rgba(50, 50, 50, 0.5);
+    text-shadow: 2px 2px rgba(50, 50, 50, 0.5);
 }
+
+.footer-container
+{
+    min-height:250px;
+}
+
+.footer-container, .footer-container a
+{
+    color:white;
+}
+
 
 .mainUserLink
 {
