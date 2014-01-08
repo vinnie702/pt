@@ -9,8 +9,6 @@ class Tracker extends CI_Controller
 
         $this->load->driver('cache');
 
-        // $this->functions->checkLoggedIn();
-
         $this->load->model('tracker_model', 'tracker', true);
         $this->load->model('grabber_model', 'grabber', true);
     }
