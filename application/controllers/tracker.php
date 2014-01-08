@@ -12,6 +12,7 @@ class Tracker extends CI_Controller
         // $this->functions->checkLoggedIn();
 
         $this->load->model('tracker_model', 'tracker', true);
+        $this->load->model('grabber_model', 'grabber', true);
     }
 
     public function landing ()
@@ -98,6 +99,7 @@ class Tracker extends CI_Controller
         {
             if (isset($_GET['q']))
             {
+                $body['q'] = urldecode($_GET['q']);
                 // loads sphinx
                 $config = array
                     (
@@ -148,7 +150,6 @@ class Tracker extends CI_Controller
 
         try
         {
-            $this->load->model('grabber_model', 'grabber', true);
 
             $body['info'] = $info = $this->grabber->getTrackingItemInfo($id);
 
