@@ -4,7 +4,7 @@
 if (empty($width)) $width = 4;
 ?>
 
-    <div class='col-lg-<?=$width?> col-md-<?=$width?> col-sm-<?=$width?> col-xs-6 trackingItem'>
+    <div class='col-lg-<?=$width?> col-md-<?=$width?> col-sm-<?=$width?> col-xs-12 trackingItem'>
         <div class='panel panel-default'>
             <div class='panel-heading'>
                 <a href='/tracker/details/<?=$r->id?>'><?=$r->itemName?></a>

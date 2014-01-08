@@ -8,6 +8,12 @@ tracker.landingInit = function ()
 
     tracker.getTrackedItems();
 
+    // $('#trackSearchForm #q').keyup().change(function(){
+    $('#trackSearchForm #q').on('keyup keypress blur focus change', function(){
+        console.log('q changed' + $(this).val());
+        tracker.getTrackedItems($(this).val());
+    });
+
 }
 
 tracker.detailsInit = function ()
@@ -15,11 +21,13 @@ tracker.detailsInit = function ()
 
 }
 
-tracker.getTrackedItems = function ()
+tracker.getTrackedItems = function (q)
 {
-    global.ajaxLoader('#trackingItemDisplay');
+    // global.ajaxLoader('#trackingItemDisplay');
 
-    $.get("/tracker/gettrackeditems", function(data){
+    var search = (q == undefined || q == '') ? '' : '?q=' + escape(q);
+
+    $.get("/tracker/gettrackeditems" + search, function(data){
         $('#trackingItemDisplay').html(data);
     });
 }
