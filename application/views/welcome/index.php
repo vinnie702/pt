@@ -2,14 +2,31 @@
 
 <div class='jumbotron'>
     <h1>Welcome</h1>
-    <p class='lead'>To the home of the <strong>$9.99 / Month </strong>Price Tracker! </p>
+
+    <p class='lead'>ProductPriceTracker.com is leading online resource for tracking prices from Amazon<sup>&reg;</sup>. The regular price will be $20.00 / Month, however while we are currently in <label class='label label-info'>Beta</label>, you can sign up today and lock in your monthly rate at only <strong>$9.99 / Month </strong>.</p>
+
+<button type='button' id='registerBtn' name='registerBtn' class='btn btn-success btn-lg' onclick="welcome.register(<?=$this->config->item('company')?>)"><i class='fa fa-pencil'></i> Register Now</button>
 </div>
 
-<hr>
+<div class='row'>
+    <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>
+        <h3><i class='fa fa-envelope'></i> E-mail Alerts</h3>
+        <p>As a member, you have the ability to have e-mail alerts delivered to you every time a price increases or decreases in your tracking list.</p>
+    </div>
 
-<p class='lead'>ProductPriceTracker.com is the best resource online to track prices on Amazon<sup>&reg;</sup>.</p>
+    <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>
+        <h3><i class='fa fa-list'></i> Custom Tracking Lists</h3>
 
-<center><button type='button' id='registerBtn' name='registerBtn' class='btn btn-success btn-lg' onclick="welcome.register(<?=$this->config->item('company')?>)">Register Here!!</button></center>
+        <p>Users have the ability to add items to be tracked even if they are currently not being tracked in the system. Simply copy and paste the URL and the system will take over.</p>
+    </div>
+
+    <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>
+        <h3><i class='fa fa-clock-o'></i> Price History</h3>
+        <p>Once an item is added to our tracking system, it's price will be checked at least daily for any variances.</p>
+    </div>
+
+</div> <!-- .row -->
+
 
 <hr>
 
