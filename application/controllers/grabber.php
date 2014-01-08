@@ -100,8 +100,16 @@ class Grabber extends CI_Controller
 
             if (empty($trackingItems)) die("No items to check. Program will exit now");
 
+            $failCount = 0;
+
             foreach ($trackingItems as $r)
             {
+                if ($failCount >= 3)
+                {
+                    echo "3 Failed scapes have happend! Please resolve!";
+                    break;
+                }
+
                 echo "Checking Item: {$r->id}...";
                 
                 $reqDL = $this->scraper->checkRequireDownload($r->id);
@@ -128,8 +136,9 @@ class Grabber extends CI_Controller
                     }
                     catch (Exception $e)
                     {
-                        $this->funcitons->sendStackTrace($e);
+                        $this->functions->sendStackTrace($e);
                         echo "ERROR: {$e->geMessage()}";
+                        $failCount++;
                         continue;
                     }
 
