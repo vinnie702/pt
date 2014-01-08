@@ -92,6 +92,8 @@ class Grabber extends CI_Controller
     {
         try
         {
+            $this->load->model('tracker_model', 'tracker', true);
+
             echo PHP_EOL . 'Getting list of items' . PHP_EOL . PHP_EOL;
 
             $trackingItems = $this->grabber->getAllItemsToCheck();
@@ -103,6 +105,14 @@ class Grabber extends CI_Controller
                 echo "Checking Item: {$r->id}...";
                 
                 $reqDL = $this->scraper->checkRequireDownload($r->id);
+                
+                $latestPrice = $this->tracker->getLatestPrice($r->id);
+
+                $lpDoY = date("z", strtotime($latestPrice));
+                $todayDoY = date("z", strtotime(DATESTAMP));
+
+                // once its a new day will force new download
+                if ($lpDoY !== $todayDoY) $reqDL = true;
 
                 if ($reqDL == true)
                 {
