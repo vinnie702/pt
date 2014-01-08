@@ -49,9 +49,9 @@ SELECT * FROM trackingItemPrices WHERE trackingItemID = 5;
 
 explain trackingItemPrices
 
-DELETE FROM trackingItemsHtml WHERE trackingItemID = 5;
+DELETE FROM trackingItemsHtml WHERE trackingItemID = 3;
 
-DELETE FROM trackingItemPrices WHERE trackingItemID = 5;
+DELETE FROM trackingItemPrices WHERE trackingItemID = 3;
 
 
 -- truncate table trackingItemPrices;
