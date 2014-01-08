@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<div class='jumbotron'>
+<div class='jumbotron chartJumbo'>
     <h1>Welcome</h1>
 
     <p class='lead'>ProductPriceTracker.com is leading online resource for tracking prices from Amazon<sup>&reg;</sup>. The regular price will be $20.00 / Month, however while we are currently in <label class='label label-info'>Beta</label>, you can sign up today and lock in your monthly rate at only <strong>$9.99 / Month </strong>.</p>
