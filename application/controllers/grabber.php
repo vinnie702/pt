@@ -47,7 +47,10 @@ class Grabber extends CI_Controller
                     $info->itemID = $itemID;
                 }
 
-                $reqDL  = $this->scraper->checkRequireDownload($_POST['id']);
+                // $reqDL  = $this->scraper->checkRequireDownload($_POST['id']);
+
+
+                $reqDL = true;
 
                 if ($reqDL == true)
                 {
