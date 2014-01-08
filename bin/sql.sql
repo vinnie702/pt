@@ -45,7 +45,8 @@ explain trackingItemUserAssign;
 select * from trackingItemUserAssign;
 
 
-SELECT * FROM trackingItemPrices WHERE trackingItemID = 5;
+SELECT * FROM trackingItemPrices 
+WHERE trackingItemID = 5;
 
 explain trackingItemPrices
 

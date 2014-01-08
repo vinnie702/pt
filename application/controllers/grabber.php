@@ -108,7 +108,7 @@ class Grabber extends CI_Controller
                 
                 $latestPrice = $this->tracker->getLatestPrice($r->id);
 
-                $lpDoY = date("z", strtotime($latestPrice));
+                $lpDoY = date("z", strtotime($latestPrice->priceDay));
                 $todayDoY = date("z", strtotime(DATESTAMP));
 
                 // once its a new day will force new download
@@ -121,8 +121,17 @@ class Grabber extends CI_Controller
                     $this->scraper->downloadHTML($r->id);
 
                     echo "100%! Updating item data...";
-
-                    $this->scraper->scrapeLatestData($r->id);
+                    
+                    try
+                    {
+                        $this->scraper->scrapeLatestData($r->id);
+                    }
+                    catch (Exception $e)
+                    {
+                        $this->funcitons->sendStackTrace($e);
+                        echo "ERROR: {$e->geMessage()}";
+                        continue;
+                    }
 
                     echo "Done!" . PHP_EOL;
                 }
