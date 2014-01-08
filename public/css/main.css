@@ -15,6 +15,14 @@ address
     font-size:14px;
 }
 
+.chartJumbo
+{
+    background:url('/public/images/chart.jpg');
+    color:white;
+
+text-shadow: 2px 2px rgba(50, 50, 50, 0.5);
+}
+
 .mainUserLink
 {
     margin-top:23px;
