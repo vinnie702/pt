@@ -19,16 +19,20 @@ else
 
         try
         {
-            $info = $b['r'] = $this->grabber->getTrackingItemInfo($v['id']);
-
-            $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($v['id']);
-
-            $b['priceDisplay'] = number_format($latestPrice->price, 2);
 
             if ($logged_in  == true)
             {
                 $assigned = $this->tracker->checkTrackingItemAssigned($v['id'], $this->session->userdata('userid'));
             }
+
+            // skips items that are not assigned
+            if ($assigned === false) continue;
+
+            $info = $b['r'] = $this->grabber->getTrackingItemInfo($v['id']);
+
+            $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($v['id']);
+
+            $b['priceDisplay'] = number_format($latestPrice->price, 2);
 
         }
         catch (Exception $e)
