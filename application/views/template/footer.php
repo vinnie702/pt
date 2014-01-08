@@ -4,8 +4,10 @@
         </div> <!-- col-9 -->
     </div> <!-- .row -->
 
-    <hr>
+</div> <!-- container -->
+</div> <!-- .wrapper  -->
 
+<div class='container footer-container'>
     <div class='row'>
         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>
             <p>&copy; Price Tracker <?=date("Y")?></p>

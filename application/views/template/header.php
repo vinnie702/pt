@@ -8,6 +8,7 @@
 
 <body<?=(empty($onload)) ? null : " onload=\"{$onload}\""?>>
 
+<div class='wrapper'>
 <div class='container'>
 
 <div class='row'>
