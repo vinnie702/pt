@@ -28,7 +28,7 @@ EOS;
 
     foreach ($companyUsers as $r)
     {
-        $name = null;
+        $name = $positionName = $statusDisplay = null;
 
         try
         {
@@ -36,6 +36,12 @@ EOS;
 
             $userCompanyPosition = $this->users->getUserCompanyPosition($r->userid);
 
+            if (empty($userCompanyPosition)) $positionName = "<small><span class='text-muted'>(Not assigned)</span></small>";
+            else $positionName = $this->users->getPositionName($userCompanyPosition);
+
+            $status = $this->users->getStatus($r->userid);
+
+            $statusDisplay = $this->functions->codeDisplay(7, $status);
         }
         catch (Exception $e)
         {
@@ -45,8 +51,8 @@ EOS;
         echo "<tr>" . PHP_EOL;
 
         echo "\t<td>{$name}</td>" . PHP_EOL;
-        echo "\t<td></td>" . PHP_EOL;
-        echo "\t<td></td>" . PHP_EOL;
+        echo "\t<td>{$positionName}</td>" . PHP_EOL;
+        echo "\t<td>{$statusDisplay}</td>" . PHP_EOL;
         echo "\t<td><button type='button' class='btn btn-primary btn-sm pull-right' onclick=\"users.loginas(this, {$r->userid})\"><i class='fa fa-sign-in'></i> Login As</button></td>" . PHP_EOL;
         
         echo "</tr>" . PHP_EOL;

@@ -14,7 +14,11 @@ order by cnt desc
 limit 4
 
 
+SELECT * FROM codes;
+
 SELECT * FROM users ORDER BY id DESC;
+
+SELECT status FROM users;
 
 select * from trackingItemUserAssign
 
@@ -23,6 +27,10 @@ select * from trackingItemUserAssign
 SELECT * FROM userCompanies;
 
 SELECT * FROM userCompanyPositions
+WHERE userid = 105
+
+SELECT * FROM positions WHERE id = 44;
+
 
 SELECT name FROM positions;
 
