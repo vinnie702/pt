@@ -41,6 +41,11 @@ address
     text-shadow: 2px 2px rgba(50, 50, 50, 0.5);
 }
 
+.modal-footer
+{
+    background:#2F3034;
+}
+
 .footer-container
 {
     min-height:250px;
@@ -211,3 +216,29 @@ table.itemPreview td.currentPrice, table.itemPreview td.highPrice, table.itemPre
     font-weight:bold;
 }
 
+.chart-preview
+{
+    display:block;
+    height:400px;
+}
+
+.chart-preview span, .chart-preview img
+{
+    position:absolute;
+    display:inline;
+
+}
+
+.chart-preview span
+{
+    color:#777;
+    font-size:40px;
+    font-weight:bold;
+    z-index:10000;
+
+    text-align:center;
+    display:-inline-block;
+    width:100%;
+
+    margin-top:10%
+}

@@ -21,8 +21,13 @@
         <tbody>
             <tr>
                 <td class='currentPrice'>$<?=number_format($latestPrice->price, 2)?></td>
-                <td class='highPrice'>$<?=number_format($highPrice->price, 2)?></td>
-                <td class='lowPrice'>$<?=number_format($lowPrice->price, 2)?></td>
+                <?php if ($this->session->userdata('logged_in') == true) : ?>
+                    <td class='highPrice'>$<?=number_format($highPrice->price, 2)?></td>
+                    <td class='lowPrice'>$<?=number_format($lowPrice->price, 2)?></td>
+                <?php else : ?>
+                    <td class='highPrice'>Members Only</td>
+                    <td class='lowPrice'>Members Only</td>
+                <?php endif; ?>
             </tr>
         </tbody>
     </table>
@@ -61,6 +66,8 @@
 </div> <!-- .row -->
 
 <div class='row'>
+<?php if ($this->session->userdata('logged_in') == true) : ?>
+
         <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='priceChartContainer'>
             Loading Price Graph...
     </div> <!-- col12 -->
@@ -72,4 +79,13 @@
         priceChartVar.render("priceChartContainer");
     //-->
     </script>
+<?php else: ?>
+    <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 chart-preview'>
+        <div class='clearfix'>
+        <span class=''>Memebers Only</span>
+        <img src='/public/images/pricechart_sample.png' class='img-responsive'>
+        </div>
+    </div>
+
+<?php endif; ?>
 </div> <!-- .row -->

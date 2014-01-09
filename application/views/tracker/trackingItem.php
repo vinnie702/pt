@@ -29,8 +29,13 @@ if (empty($width)) $width = 4;
                         <tbody>
                             <tr>
                                 <td class='currentPrice'>$<?=number_format($latestPrice->price, 2)?></td>
-                                <td class='highPrice'>$<?=number_format($highPrice->price, 2)?></td>
-                                <td class='lowPrice'>$<?=number_format($lowPrice->price, 2)?></td>
+                                <?php if ($this->session->userdata('logged_in') == true) : ?>
+                                    <td class='highPrice'>$<?=number_format($highPrice->price, 2)?></td>
+                                    <td class='lowPrice'>$<?=number_format($lowPrice->price, 2)?></td>
+                                <?php else : ?>
+                                    <td class='highPrice'>Members Only</td>
+                                    <td class='lowPrice'>Members Only</td>
+                                <?php endif; ?>
                             </tr>
                         </tbody>
                     </table>
