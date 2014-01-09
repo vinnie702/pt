@@ -36,6 +36,15 @@ welcome.contactusInit = function ()
 }
 
 
+welcome.resetpasswordInit = function ()
+{
+    $('#submitBtn').click(function(e){
+        welcome.checkResetPasswdForm();
+    });
+}
+
+
+
 welcome.checkForm = function ()
 {
     if ($('#name').val() == '')
@@ -121,3 +130,52 @@ welcome.checkForgotPasswordForm = function ()
     }, 'json');
 }
 
+
+welcome.checkResetPasswdForm = function ()
+{
+    if ($('#password').val() == '')
+    {
+        global.renderAlert("Please enter a password!");
+        $('#password').focus();
+        $('#password').effect(global.effect);
+        return false;
+    }
+
+    if ($('#confirmPassword').val() == '')
+    {
+        global.renderAlert("Please confirm the password!");
+        $('#confirmPassword').focus();
+        $('#confirmPassword').effect(global.effect);
+        return false;
+    }
+
+    if ($('#password').val() !== $('#confirmPassword').val())
+    {
+        global.renderAlert("Passwords do not match!");
+        $('#password').focus();
+        $('#password').effect(global.effect);
+        return false;
+    }
+
+    $('#submitBtn').attr('disabled', 'disabled');
+
+    $.post("/welcome/processpasswordrequest", $('#resetPasswordForm').serialize(), function(data){
+            if (data.status == 'SUCCESS')
+            {
+                window.location = "/welcome/login?site-success=" + escape(data.msg);
+            }
+            else if (data.status == 'ALERT')
+            {
+                global.renderAlert(data.msg);
+                $('#submitBtn').removeAttr('disabled');
+                return false;
+            }
+            else
+            {
+                global.renderAlert(data.msg, 'alert-error');
+                $('#submitBtn').removeAttr('disabled');
+                return false;
+            }
+
+    }, 'json');
+}
