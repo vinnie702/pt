@@ -345,4 +345,45 @@ class Functions
         // $this->ci->email->print_debugger();
 
     }
+
+    /**
+     * Checks if a user is a company admin (that is different from a site admin!)
+     *
+     * @param mixed $user    
+     * @param mixed $company 
+     *
+     * @return boolean - true if they are a company admin
+     */
+    public function isCompanyAdmin ($user = 0)
+    {
+        $user = intval($user);
+
+        if (empty($user)) $user = $this->ci->session->userdata('userid');
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $company = $this->ci->config->item('company');
+
+        if (empty($company)) throw new Exception("Company ID is empty!");
+
+        $mtag = "isCompanyAdmin-{$user}-{$company}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->from('companyAdmins');
+            $this->ci->db->where('userid', $user);
+            $this->ci->db->where('company', $company);
+
+            $data = $this->ci->db->count_all_results();
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+
+        if ($data > 0) return true;
+
+        return false;
+    }
 }

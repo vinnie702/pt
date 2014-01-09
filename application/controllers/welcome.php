@@ -225,6 +225,50 @@ class Welcome extends CI_Controller
         $this->load->view('template/footer');
     }
 
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function loginas ()
+    {
+        // page will not cache
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
+
+        if (!$this->functions->isCompanyAdmin())
+        {
+            show_404();
+        }
+
+        try
+        {
+
+            $this->load->model('users_model', 'users', true);
+
+            $email = $this->users->getEmail($_POST['user']);
+            $name = $this->users->getName($_POST['user']);
+
+            // destorys entire session
+            // $this->session->sess_destroy();
+
+            $this->functions->setLoginSession($_POST['user'], $email, $name, true);
+
+            $this->functions->jsonReturn('SUCCESS', "You are now logged in as {$name}!");
+            // header("Location: /?site-success=" . urlencode("You are now logged in as {$name}!"));
+            // exit;
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+            $this->functions->jsonReturn('ERROR', $e->getMessage());
+            // header("Location: /users?site-error=" . urlencode("Error logging as users!"));
+            // exit;
+        }
+
+    }
 }
 
 /* End of file welcome.php */

@@ -66,6 +66,11 @@ else
 <?php } ?>
 
     <li><a href='/welcome/contactus'><i class='fa fa-phone'></i> Contact Us</a></li>
+
+    <?php if ($this->session->userdata('logged_in') == true AND $this->functions->isCompanyAdmin()) : ?>
+        <li><a href='/users'><i class='fa fa-user'></i> Users</a></li>
+    <?php endif; ?>
+
                 </ul>
 
                 <?php
