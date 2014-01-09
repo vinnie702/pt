@@ -57,7 +57,6 @@ class Tracker extends CI_Controller
                 // first get the items Item ID
                 $_POST['itemID'] = $this->scraper->getIDFromURL($_POST['url']);
 
-
                 // checks if an item exists with that item ID
                 $id = $this->tracker->itemExists($_POST['itemID']);
 
@@ -65,6 +64,12 @@ class Tracker extends CI_Controller
                 {
                     $id = $this->tracker->insertTrackingItem($_POST);
                 }
+
+                // checks if item is already assined to user
+                $currentlyTracking = $this->tracker->checkTrackingItemAssigned($id);
+
+
+                if ($currentlyTracking == true) $this->functions->jsonReturn('ALERT', "You are already tracking this item!");
 
                 // assigns item to user
                 $this->tracker->insertTrackItemUserAssign($id, $this->session->userdata('userid'));
