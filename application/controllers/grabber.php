@@ -12,6 +12,7 @@ class Grabber extends CI_Controller
         $this->load->library('scraper');
 
         $this->load->model('grabber_model', 'grabber', true);
+        $this->load->model('tracker_model', 'tracker', true);
     }
 
     /**
@@ -94,7 +95,6 @@ class Grabber extends CI_Controller
     {
         try
         {
-            $this->load->model('tracker_model', 'tracker', true);
 
             echo PHP_EOL . 'Getting list of items' . PHP_EOL . PHP_EOL;
 
@@ -115,7 +115,8 @@ class Grabber extends CI_Controller
                 echo "Checking Item: {$r->id}...";
                 
                 $reqDL = $this->scraper->checkRequireDownload($r->id);
-                
+
+                // gets latest price before scrape
                 $latestPrice = $this->tracker->getLatestPrice($r->id);
 
                 $lpDoY = date("z", strtotime($latestPrice->priceDay));
@@ -135,11 +136,31 @@ class Grabber extends CI_Controller
                     try
                     {
                         $this->scraper->scrapeLatestData($r->id);
+
+                        echo "Checking Prices...";
+
+                        $newLatestPrice = $this->tracker->getLatestPrice($r->id);
+
+
+                        if ($latestPrice->price !== $newLatestPrice->price)
+                        {
+                            echo "price has changed...";
+
+                            // there has been a price change
+                            $sentCnt = $this->_alertOfPriceChange($r->id);
+
+                            echo "{$sentCnt} users notified...";
+                        }
+                        else
+                        {
+                            echo "No Price Change...";
+                        }
+
                     }
                     catch (Exception $e)
                     {
                         $this->functions->sendStackTrace($e);
-                        echo "ERROR: {$e->geMessage()}";
+                        echo "ERROR: {$e->getMessage()}";
                         $failCount++;
                         continue;
                     }
@@ -161,5 +182,43 @@ class Grabber extends CI_Controller
 
         echo "Finished!\n";
 
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return TODO
+     */
+    private function _alertOfPriceChange ($trackingItemID)
+    {
+        // gets everyone assigned to item
+        $users = $this->grabber->getUsersAssignedToItem($trackingItemID);
+
+        if (empty($users)) return false;
+
+        $info = $this->tracker->getTrackingItemInfo($trackingItemID);
+
+        $subject = "Price Changed: {$info->itemName}";
+
+        $msg = "<h2>Price Changed</h2>
+            <p>Price for {$info->itemName} has changed. <a href='http://productpricetracker.com/tracker/details/{$trackingItemID}'>Click Here</a> to view the price difference.</p>
+            ";
+
+        $sentCnt = 0;
+        foreach ($users as $user)
+        {
+            // get the users email
+            $email = $this->functions->getUsersEmail($user);
+
+            if (empty($email)) continue;
+
+            $this->functions->sendEmail($subject, $msg, $email);
+
+            $sentCnt++;
+        }
+
+        return $sentCnt;
     }
 }

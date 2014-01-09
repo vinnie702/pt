@@ -48,7 +48,7 @@
         }
         elseif ($this->session->userdata('logged_in') == true AND $assigned == true)
         {
-            echo "<button type='button' class='btn btn-warning btn-lg buyBtn' onclick=\"tracker.grabInfo(this, {$id});\"><i class='fa fa-refresh'></i> Download</button>" . PHP_EOL;
+            echo "<button type='button' class='btn btn-warning btn-lg buyBtn' onclick=\"tracker.grabInfo(this, {$id});\"><i class='fa fa-refresh'></i> Refresh</button>" . PHP_EOL;
             echo "<button type='button' class='btn btn-danger btn-lg buyBtn' onclick=\"tracker.unassignItem(this,{$id});\"><i class='fa fa-trash-o'></i> Unassign</button>" . PHP_EOL;
         }
             ?>

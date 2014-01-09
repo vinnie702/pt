@@ -49,8 +49,12 @@ SELECT * FROM trackingItemPrices
 WHERE trackingItemID = 5;
 
 explain trackingItemPrices
+SELECT * FROM trackingItemPrices;
 
-DELETE FROM trackingItemsHtml WHERE trackingItemID = 3;
+
+DELETE FROM trackingItemsHtml;
+
+DELETE FROM trackingItemsHtml WHERE trackingItemID = 1;
 
 DELETE FROM trackingItemPrices WHERE trackingItemID = 3;
 
