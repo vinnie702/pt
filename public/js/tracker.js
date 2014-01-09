@@ -55,6 +55,10 @@ tracker.checkTrackForm = function (b)
 
             tracker.getTrackedItems();
         }
+        else if (data.status == 'ALERT')
+        {
+            global.renderAlert(data.msg);
+        }
         else
         {
             global.renderAlert(data.msg, 'alert-danger');

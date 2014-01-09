@@ -13,6 +13,9 @@ GROUP BY trackingItemID
 order by cnt desc
 limit 4
 
+
+select * from trackingItemUserAssign
+
 -- truncate table trackingItems;
 
 SELECT * FROM userCompanies;
