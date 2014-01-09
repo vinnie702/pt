@@ -185,6 +185,8 @@ class Tracker extends CI_Controller
      */
     public function pricexml ($id)
     {
+        $this->functions->checkLoggedIn(true);
+
         header("Content-type: text/xml");
 
         $body['id'] = $id;

@@ -46,7 +46,7 @@ else
 
     foreach ($topTrackedItems as $k => $ttir)
     {
-        $img = $info = $url = $latestPrice = null;
+        $img = $info = $url = $latestPrice = $b = null;
 
         try
         {
@@ -57,6 +57,10 @@ else
 
 
             $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($ttir->trackingItemID);
+            $b['highPrice'] = $highPrice = $this->tracker->getLatestPrice($ttir->trackingItemID, 'price', 'desc');
+            $b['lowPrice'] = $lowPrice = $this->tracker->getLatestPrice($ttir->trackingItemID, 'price', 'asc');
+
+
 
             $b['priceDisplay'] = number_format($latestPrice->price, 2);
 

@@ -269,6 +269,46 @@ class Welcome extends CI_Controller
         }
 
     }
+
+    public function forgotpassword ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                // get user ID from email address
+                // $user = $this->users->getIDFromEmail($_POST['fpEmail']);
+
+                if ($user !== false)
+                {
+                    // gets home company
+                    $company = $this->companies->getHomeLocation($user, 1);
+
+                    $requestID = $this->intranet->insertPasswordResetRequest($user, $company);
+
+                    // get user email Address
+                    // $emailTo = $this->users->getTableValue('email', $user);
+
+                    // $companyName = $this->companies->getCompanyName($company);
+
+                    $subject = "Password Reset";
+
+                    $msg = "<h1>Password Reset</h1><p><a href='http://" . $_SERVER['HTTP_HOST'] . "/welcome/resetpassword/?requestID=" . urlencode($requestID)  . "' target='_blank'>Click here to reset your password</a></p>";
+                    
+                    $this->functions->sendEmail($subject, $msg, $emailTo);
+                }
+
+                $this->functions->jsonReturn('SUCCESS', "An e-mail will be sent to <strong>{$_POST['fpEmail']}</strong> with instructions on how to reset the password if there is an account associated with that e-mail address.", $requestID);
+
+
+            }
+            catch(Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
 }
 
 /* End of file welcome.php */
