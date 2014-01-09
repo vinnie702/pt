@@ -15,7 +15,7 @@ else
     // goes through searched items
     foreach ($itemResults['matches'] as $k => $v)
     {
-        $img = $info = $assigned = null;
+        $img = $info = $assigned = $b = null;
 
         try
         {
@@ -31,6 +31,8 @@ else
             $info = $b['r'] = $this->grabber->getTrackingItemInfo($v['id']);
 
             $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($v['id']);
+            $b['highPrice'] = $highPrice = $this->tracker->getLatestPrice($v['id'], 'price', 'desc');
+            $b['lowPrice'] = $lowPrice = $this->tracker->getLatestPrice($v['id'], 'price', 'asc');
 
             $b['priceDisplay'] = number_format($latestPrice->price, 2);
 
@@ -69,6 +71,10 @@ else
                 $b['url'] = $this->functions->checkAmazonAssociateID($r->url);
 
                 $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($r->id);
+                $b['highPrice'] = $highPrice = $this->tracker->getLatestPrice($r->id, 'price', 'desc');
+                $b['lowPrice'] = $lowPrice = $this->tracker->getLatestPrice($r->id, 'price', 'asc');
+
+
 
                 $b['priceDisplay'] = number_format($latestPrice->price, 2);
 
