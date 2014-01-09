@@ -82,7 +82,7 @@
 <?php else: ?>
     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 chart-preview'>
         <div class='clearfix'>
-        <span class=''>Memebers Only</span>
+        <span class=''>Members Only</span>
         <img src='/public/images/pricechart_sample.png' class='img-responsive'>
         </div>
     </div>
