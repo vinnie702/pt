@@ -105,4 +105,46 @@ class grabber_model extends CI_Model
 
         return $data;
     }
+
+    /**
+     * gets all user id's that are assigned to an item
+     *
+     * @param mixed $trackingItemID 
+     *
+     * @return array
+     */
+    public function getUsersAssignedToItem ($trackingItemID)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
+
+        $mtag = "usersAssignedToItem-{$trackingItemID}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('userid');
+            $this->db->from('trackingItemUserAssign');
+            $this->db->where('trackingItemID', $trackingItemID);
+
+            $query = $this->db->get();
+
+            $data = $query->result();
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        if (empty($data)) return false;
+
+        $userArray = array();
+
+        foreach ($data as $r)
+        {
+            $userArray[] = $r->userid;
+        }
+
+        return $userArray;
+    }
 }

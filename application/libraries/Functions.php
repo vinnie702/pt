@@ -236,4 +236,113 @@ class Functions
 
         return $url;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $user 
+     *
+     * @return TODO
+     */
+    public function getUsersEmail ($user)
+    {
+        $user = intval($user);
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "checkCompany-{$userid}-{$company}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->select('email');
+            $this->ci->db->from('users');
+            $this->ci->db->where('id', $user);
+
+            $query = $this->ci->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->email;
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        if (empty($data)) return false;
+
+        return $data;
+    }
+
+    public function sendEmail ($subject, $message, $to, $from = 'noreply@productpricetracker.com', $fromName = 'ProductPRiceTracker.com', $cc = null, $bcc = null, $config = null)
+    {
+        // if no config params were defined for sending the message
+        // will use localhost relay
+        if (empty($config))
+        {
+            $config['protocol'] = 'sendmail';
+            $config['mailpath'] = '/usr/sbin/sendmail';
+            // $config['charset'] = 'iso-8859-1';
+            $config['wordwrap'] = false;
+            $config['mailtype'] = 'html';
+        }
+
+        $this->ci->email->initialize($config);
+
+        $this->ci->email->from($from, $fromName);
+
+        if ($this->ci->config->item('live') == true)
+        {
+            // Adds To
+            if (is_array($to))
+            {
+                foreach ($to as $t)
+                {
+                    $this->ci->email->to($t);
+                }
+            }
+            else
+            {
+                $this->ci->email->to($to);
+            }
+
+            // Adds CC
+            if (is_array($cc))
+            {
+                foreach ($cc as $c)
+                {
+                    $this->ci->email->cc($c);
+                }
+            }
+            else
+            {
+                $this->ci->email->cc($cc);
+            }
+
+            // adds BCC
+            if (is_array($bcc))
+            {
+                foreach ($bcc as $b)
+                {
+                    $this->ci->email->bcc($b);
+                }
+            }
+            else
+            {
+                $this->ci->email->bcc($bcc);
+            }
+
+        }
+        else
+        {
+            // not on live site, will send to dev email address
+            $this->ci->email->to($this->ci->config->item('devEmail'));
+        }
+        $this->ci->email->subject($subject);
+        $this->ci->email->message($message);
+
+        $this->ci->email->send();
+        
+        // $this->ci->email->print_debugger();
+
+    }
 }

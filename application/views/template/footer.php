@@ -10,7 +10,7 @@
 <div class='container footer-container'>
     <div class='row'>
         <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>
-            <p>&copy; Price Tracker <?=date("Y")?></p>
+            <p>&copy; ProductPriceTracker.com <?=date("Y")?></p>
             <p>Powered by: <a href='http://cgisolution.com' target='_blank' title='CGI Solution'>CGI Solution</a></p>
             <p><label class='label label-info'>Beta</label></p>
         </div>
