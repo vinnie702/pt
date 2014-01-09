@@ -2,7 +2,9 @@ var welcome = {}
 
 welcome.loginInit = function ()
 {
-
+    $('#submitFPBtn').click(function(e){
+        welcome.checkForgotPasswordForm();
+    });
 }
 /*
 welcome.checkLoginForm = function ()
@@ -82,3 +84,40 @@ welcome.checkForm = function ()
 
 
 }
+
+
+welcome.checkForgotPasswordForm = function ()
+{
+    if ($('#fpEmail').val() == '')
+    {
+        global.renderAlert('Please enter an email address!', undefined, 'passwordAlert')
+        $('#fpEmail').effect(global.effect);
+        $('#fpEmail').focus();
+        return false;
+    }
+
+    // clears alerts
+    global.renderAlert('', undefined, 'passwordAlert');
+
+        $.post("/welcome/forgotpassword", { fpEmail: $('#fpEmail').val(), pt_token:global.CSRF_hash  }, function(data){
+
+            if (data.status == 'SUCCESS')
+            {
+                $('#passwordModal').modal('hide');
+                $('#fpEmail').val(''); // clears email value
+
+                global.renderAlert(data.msg, 'alert-success');
+            }
+            else if (data.status == 'ALERT')
+            {
+                global.renderAlert(data.msg, 'alert-error', 'passwordAlert');
+                return false;
+            }
+            else
+            {
+                global.renderAlert(data.msg, 'alert-danger', 'passwordAlert');
+                return false;
+            }
+    }, 'json');
+}
+

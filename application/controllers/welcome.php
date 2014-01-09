@@ -276,20 +276,28 @@ class Welcome extends CI_Controller
         {
             try
             {
-                // get user ID from email address
-                // $user = $this->users->getIDFromEmail($_POST['fpEmail']);
+                $this->load->model('users_model', 'users', true);
 
-                if ($user !== false)
+                // get user ID from email address
+                $user = $this->users->getIDFromEmail($_POST['fpEmail']);
+error_log("USER:  {$user} from: {$_POST['fpEmail']}");
+                if (empty($user))
+                {
+                    $this->functions->jsonReturn('ALERT', "Unable to find any accounts linked to that e-mail address!");
+                }
+                else
                 {
                     // gets home company
-                    $company = $this->companies->getHomeLocation($user, 1);
-
-                    $requestID = $this->intranet->insertPasswordResetRequest($user, $company);
+                    $company = $this->config->item('company');
+                error_log("company $company");
+                    $requestID = $this->welcome->insertPasswordResetRequest($user, $company);
 
                     // get user email Address
-                    // $emailTo = $this->users->getTableValue('email', $user);
+                    $emailTo = $this->users->getEmail($user);
 
-                    // $companyName = $this->companies->getCompanyName($company);
+                    error_log("Email To: {$emailTo}");
+
+                    // $companyName = $this->config->item('companyName');
 
                     $subject = "Password Reset";
 

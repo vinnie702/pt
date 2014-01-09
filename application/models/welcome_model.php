@@ -34,4 +34,47 @@ class welcome_model extends CI_Model
 
         return $this->db->insert_id();
     }
+
+    public function insertPasswordResetRequest ($user, $company)
+    {
+        if (empty($user)) throw new Exception("User ID is empty!");
+        if (empty($company)) throw new Exception("Company ID is empty!");
+
+        $requestID = uniqid(null, true);
+
+        $data = array
+            (
+                'datestamp' => DATESTAMP,
+                'userid' => $user,
+                'company' => $company,
+                'requestID' => $requestID,
+            );
+
+        $this->db->insert('passwordResets', $data);
+
+        return $requestID;
+    }
+
+    public function insertPasswordResetRequest ($user, $company)
+    {
+        if (empty($user)) throw new Exception("User ID is empty!");
+        if (empty($company)) throw new Exception("Company ID is empty!");
+
+        $requestID = uniqid(null, true);
+
+        $data = array
+            (
+                'datestamp' => DATESTAMP,
+                'userid' => $user,
+                'company' => $company,
+                'requestID' => $requestID,
+            );
+
+        $this->db->insert('passwordResets', $data);
+
+        return $requestID;
+    }
+
+
+
 }

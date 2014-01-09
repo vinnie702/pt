@@ -383,6 +383,7 @@ if (!isset($config['cache_timeout'])) $config['cache_timeout'] = 5;
 
 // Company ID in CGI Solution BMS system
 if (!isset($config['company'])) $config['company'] = 35;
+if (!isset($config['companyName'])) $config['companyName'] = "Product Price Tracker";
 
 if (!isset($config['CGIBMSURL'])) $config['CGIBMSURL'] = "https://bms.cgisolution.com/";
 
