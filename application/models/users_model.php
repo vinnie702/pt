@@ -108,7 +108,40 @@ class users_model extends CI_Model
         return $data;
     }
 
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $user 
+     *
+     * @return TODO
+     */
+    public function getStatus ($user)
+    {
+        $user = intval($user);
 
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "userStatus-{$user}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('status');
+            $this->db->from('users');
+            $this->db->where('id', $user);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->status;
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 
     /**
      * TODO: short description.
@@ -119,8 +152,6 @@ class users_model extends CI_Model
      */
     public function getUserCompanyPosition ($user)
     {
-        $user = $this->session->userdata('userid');
-
         $user = intval($user);
 
         if (empty($user)) throw new Exception("User ID is empty!");
@@ -171,18 +202,27 @@ class users_model extends CI_Model
 
         if (empty($position)) throw new Exception("Position ID is empty");
 
-        $mtag = "userCompanyPosition-{$user}-{$company}";
+        $mtag = "positionName-{$position}";
 
         $data = $this->cache->memcached->get($mtag);
 
         if (!$data)
         {
 
+            $this->db->select('name');
+            $this->db->from('positions');
+            $this->db->where('id', $position);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->name;
+
             $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
         }
 
-
-
+        return $data;
     }
 
     public function getIDFromEmail ($email)

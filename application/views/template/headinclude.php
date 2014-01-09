@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
 
-    <title><?php if(!empty($title)) echo "{$title} - "; ?> Price Tracker</title>
+    <title><?php if(!empty($title)) echo "{$title} - "; ?> Produce Price Tracker.com</title>
 
 
     <meta charset="utf-8">

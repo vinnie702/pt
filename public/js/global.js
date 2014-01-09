@@ -38,10 +38,20 @@ $(function(){
         });
     }
 
-    if ($('#q').exists())
-    {
-        // $('#q').css('width', '300px');
-    }
+
+    global.adjustNavbar();
+
+    // executes function on resizing of window
+    $(window).resize(function(){
+        global.adjustNavbar();
+    });
+
+    $(window).load(function(){
+
+        // re-adjusts nav bar once page is completely loaded
+        global.adjustNavbar();
+
+    });
 });
 
 
@@ -103,4 +113,28 @@ global.ajaxLoader = function(divId)
     $(divId).html(html);
 }
 
+
+global.adjustNavbar = function ()
+{
+    if ($('#main-nav').exists())
+    {
+        var navWidth = $('#main-nav').outerWidth();
+
+        var container = $('#main-nav').parent().parent().innerWidth();
+
+        // var brand = $('#main-nav').parent().parent().find('.navbar-brand').outerWidth();
+
+        // console.log($('#main-nav').parent().parent().attr('class'));
+
+        // console.log('navwidth: ' + navWidth);
+        // console.log('Brand width: ' + brand);
+        // console.log('container Width: ' + container);
+
+        var diff = container - (navWidth );
+
+        $('#q').width(diff - 150);
+
+    }
+
+}
 

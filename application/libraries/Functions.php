@@ -386,4 +386,79 @@ class Functions
 
         return false;
     }
+
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $group     
+     * @param mixed $company   Optional, defaults to 0. 
+     * @param mixed $orderCol  Optional, defaults to null. 
+     * @param mixed $orderType Optional, defaults to null. 
+     *
+     * @return TODO
+     */
+    public function getCodes($group, $company = 0, $orderCol = 'display', $orderType = 'asc')
+    {
+        $tag = "codes{$group}-{$company}-{$orderCol}-{$orderType}";
+
+        $ci =& get_instance();
+
+        $data = $ci->cache->memcached->get($tag);
+
+        if (empty($data))
+        {
+            $ci->db->from('codes');
+            $ci->db->where('group', $group);
+            $ci->db->where('code <>', 0);
+            $ci->db->where('active', 1);
+            $companyArray = array('0');
+
+            if (!empty($company)) $companyArray[] = $company;
+
+            $ci->db->where_in('company', $companyArray);
+
+            if (empty($orderCol)) $ci->db->order_by('display', 'asc');
+            else $ci->db->order_by($orderCol, $orderType);
+
+            $query = $ci->db->get();
+
+            $data = $query->result();
+
+            $ci->cache->memcached->save($tag, $data, $ci->config->item('cache_timeout'));
+        }
+
+    return $data;
+    }
+
+    public function codeDisplay($group, $code)
+    {
+        if (empty($group)) throw new Exception("Group is empty!");
+        if (empty($code)) throw new Exception("code is empty!");
+
+        $mtag = "code-{$group}-{$code}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (empty($data))
+        {
+            $this->ci->db->select('display');
+            $this->ci->db->from('codes');
+            $this->ci->db->where('group', $group);
+            $this->ci->db->where('code', $code);
+
+            $query = $this->ci->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->display;
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
+
+
+
 }
