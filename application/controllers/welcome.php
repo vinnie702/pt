@@ -387,4 +387,15 @@ error_log("USER:  {$user} from: {$_POST['fpEmail']}");
         }
     }
 
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function test()
+    {
+        // echo "hey";
+        show_404();
+    }
 }

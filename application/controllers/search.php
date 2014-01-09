@@ -39,6 +39,8 @@ class Search extends CI_Controller
 
         // $body['folder'] = 0;
 
+        $body['q'] = urldecode($_GET['q']);
+
         try
         {
             $body['itemResults'] = $this->sphinxsearch->Query($_GET['q'], 'trackingItems');

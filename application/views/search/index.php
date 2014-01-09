@@ -1,7 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <h1><i class='fa fa-search'></i> Search</h1>
-    
+
+    <p class='lead'>Below are the search results for <strong>&ldquo;<?=$q?>&rdquo;</strong></p>
+
 <input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
 
 <?php
@@ -28,8 +30,22 @@ else
 
             if ($logged_in  == true)
             {
-                $assigned = $this->tracker->checkTrackingItemAssigned($v['id'], $this->session->userdata('userid'));
+                $b['assigned'] = $assigned = $this->tracker->checkTrackingItemAssigned($v['id'], $this->session->userdata('userid'));
             }
+
+            $b['width'] = 3;
+
+            $b['url'] = $this->functions->checkAmazonAssociateID($info->url);
+
+            $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($info->id);
+            $b['highPrice'] = $highPrice = $this->tracker->getLatestPrice($info->id, 'price', 'desc');
+            $b['lowPrice'] = $lowPrice = $this->tracker->getLatestPrice($info->id, 'price', 'asc');
+
+
+
+            $b['priceDisplay'] = number_format($latestPrice->price, 2);
+
+            $b['r'] = $info;
 
         }
         catch (Exception $e)
@@ -40,44 +56,7 @@ else
 
         if ($rcnt == 1) echo PHP_EOL . "<div class='row homepageItemRow'>" . PHP_EOL;
 
-echo <<< EOS
-
-    <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12 trackingItem'>
-        <div class='panel panel-default'>
-            <div class='panel-heading'>
-                <a href='/tracker/details/{$v['id']}'>{$info->itemName}</a>
-            </div>
-
-            <div class='panel-body' onclick="search.viewDetails({$v['id']});">
-                <img class='img-responsive' src='{$info->imgUrl}'>
-            </div>
-
-EOS;
-
-        if ($logged_in == true && $assigned == false)
-        {
-            echo "<div class='panel-footer'>" . PHP_EOL;
-
-            echo "<button type='button' class='btn btn-info btn-sm' onclick=\"tracker.assignItem(this, {$v['id']});\"><i class='fa fa-plus-circle'></i></button>" . PHP_EOL;
-
-            echo "</div> <!-- .panel-footer -->";
-        }
-        elseif ($logged_in == true && $assigned == true)
-        {
-            echo "<div class='panel-footer'>" . PHP_EOL;
-
-            echo "<button type='button' class='btn btn-warning btn-sm' onclick=\"tracker.grabInfo(this, {$v['id']});\"><i class='fa fa-refresh'></i></button>" . PHP_EOL;
-            echo "<button type='button' class='btn btn-danger btn-sm pull-right' onclick=\"tracker.unassignItem(this,{$v['id']});\"><i class='fa fa-trash-o'></i></button>" . PHP_EOL;
-
-            echo "</div> <!-- .panel-footer -->";
-        }
-
-    echo "
-        </div> <!-- .panel -->
-
-    </div> <!-- col-3 -->";
-
-    echo PHP_EOL;
+        $this->load->view('tracker/trackingItem', $b);
 
 
         if ($rcnt >= 4)
