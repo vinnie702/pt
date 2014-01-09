@@ -140,6 +140,68 @@ class Welcome extends CI_Controller
         }
     }
 
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function contactus ()
+    {
+
+        $header['headscript'] = $this->functions->jsScript('welcome.js');
+        $header['onload'] = "welcome.contactusInit();";
+        $header['singleCol'] = true;
+    
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/contactus', $body);
+        $this->load->view('template/footer');
+    }
+
+    public function sendcontactus ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                // saves contat form in db
+                $this->welcome->insertContactus($_POST);
+
+
+                $subject = "New Contact Us Form! {$_POST['name']}";
+
+
+                $message = "
+                <h1>New Contact Us Form</h1>
+
+                <p><strong>Name:</strong> {$_POST['name']}</p>
+                <p><strong>E-mail:</strong> {$_POST['email']}</p>
+                <p><strong>Phone:</strong> {$_POST['phone']}</p>
+                <p><strong>Message:</strong></p>
+                " .
+                nl2br($_POST['message']);
+
+                $emailTo = array ('bvinall@cgisolution.com', 'williamgallios@gmail.com');
+
+                // will now send out email
+                $this->functions->sendEmail($subject, $message, $emailTo);
+
+                $this->functions->jsonReturn('SUCCESS', "Contact us form has been received!");
+
+            }
+            catch(Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+
+        }
+
+        $this->functions->jsonReturn('ERROR', 'GET not supported!');
+    }
+
+
+
 
     public function tos ()
     {

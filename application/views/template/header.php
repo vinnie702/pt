@@ -64,6 +64,8 @@ else
     <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?>'><i class='fa fa-pencil'></i> Register</a></li>
 
 <?php } ?>
+
+    <li><a href='/welcome/contactus'><i class='fa fa-phone'></i> Contact Us</a></li>
                 </ul>
 
                 <?php
