@@ -11,8 +11,31 @@ if (empty($width)) $width = 4;
             </div>
 
             <div class='panel-body' onclick="tracker.viewDetails(<?=$r->id?>);">
+
+                <div align='center'> 
                 <img class='img-responsive' src='<?=$r->imgUrl?>'>
-            </div>
+                </div>
+                <!-- <div class='row'> -->
+                    <!-- <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'> -->
+
+                    <table class='table itemPreview'>
+                        <thead>
+                            <tr>
+                                <th>Current</th>
+                                <th>Highest</th>
+                                <th>Lowest</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class='currentPrice'>$<?=number_format($latestPrice->price, 2)?></td>
+                                <td class='highPrice'>$<?=number_format($highPrice->price, 2)?></td>
+                                <td class='lowPrice'>$<?=number_format($lowPrice->price, 2)?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        <div class='cleafix'></div>
+            </div> <!-- .panel-body -->
 
             <div class='panel-footer'>
                 <?php if ($noBtns == true) : 
@@ -24,11 +47,14 @@ if (empty($width)) $width = 4;
                 <button type='button' class='btn btn-danger btn-sm' onclick="tracker.unassignItem(this,<?=$r->id?>);"><i class='fa fa-trash-o'></i></button>
                 <?php endif; ?>
 
+                <?php /*
                 <label class='pricePreview pull-right'>
                         $<?=$priceDisplay?>
                 </label>
+                */ ?>
 
-            </div>
+
+            </div> <!-- .panel-footer -->
         </div> <!-- .panel -->
 
     </div> <!-- col-<?=$width?> -->

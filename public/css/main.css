@@ -135,8 +135,8 @@ box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
 
 .trackingItem .panel .panel-body
 {
-    min-height:370px;
-    max-height:370px;
+    min-height:410px;
+    max-height:410px;
 }
 
 .trackingItem .panel .panel-body:hover
@@ -188,5 +188,26 @@ hr.trackingSearch
 .contactUsRow
 {
     margin-top:20px;
+}
+
+table.itemPreview
+{
+    font-size:10px;
+
+    margin-top:15px;
+    margin-bottom:10px;
+
+    /* margin:15px auto 10px auto; */
+
+    width:75%;
+    position:absolute;
+    bottom:80px;
+}
+
+
+table.itemPreview td.currentPrice, table.itemPreview td.highPrice, table.itemPreview td.lowPrice
+{
+    font-size:12px;
+    font-weight:bold;
 }
 
