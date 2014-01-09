@@ -32,6 +32,8 @@ id
 , status
 ,lastUpdated
 FROM trackingItems
+ORDER BY id desc;
+
 
 -- ALTER TABLE trackingItems ADD COLUMN `imgUrl` VARCHAR(300) DEFAULT NULL AFTER `description`;
 -- ALTER TABLE trackingItems ADD COLUMN `lastUpdated` DATETIME DEFAULT NULL;
@@ -41,6 +43,8 @@ explain trackingItemsHtml;
 select * from trackingItemsHtml
 
 explain trackingItemUserAssign;
+
+SELECT * FROM trackingItemUserAssign WHERE userid = 105;
 
 select * from trackingItemUserAssign;
 
