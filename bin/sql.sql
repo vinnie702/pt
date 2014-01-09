@@ -5,6 +5,7 @@ show tables;
 
 SELECT * FROM companies;
 
+explain companyUsers;
 
 SELECT trackingItemID, COUNT(*) as cnt
 FROM trackingItemUserAssign
@@ -16,7 +17,16 @@ limit 4
 
 SELECT * FROM userCompanies;
 
-    explain trackingItems;
+SELECT * FROM userCompanyPositions
+
+SELECT name FROM positions;
+
+SELECT * FROM userPositions;
+
+SELECT * FROM userCompanies WHERE userid = 105;
+
+
+explain trackingItems;
 
 select * FROM trackingItems;
 
