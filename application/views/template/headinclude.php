@@ -15,7 +15,8 @@
 
     <!-- Bootstrap -->
     <script type='text/javascript' src='/public/bootstrap3.0.3/js/bootstrap.min.js'></script>
-    <link type="text/css" href="/public/bootstrap3.0.3/css/bootstrap.min.css" rel="Stylesheet" />
+    <!-- <link type="text/css" href="/public/bootstrap3.0.3/css/bootstrap.min.css" rel="Stylesheet" /> -->
+    <link type="text/css" href="/public/css/bootstrap/bootstrap.spacelab.min.css" rel="Stylesheet" />
 
 
     <!-- jQueryUI -->
