@@ -184,4 +184,36 @@ class users_model extends CI_Model
 
 
     }
+
+    public function getIDFromEmail ($email)
+    {
+        if (empty($email)) throw new Exception("Email is empty!");
+
+
+        $mtag = "UserIDFromEmail-{$email}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('id');
+            $this->db->from('users');
+            $this->db->where('email', $email);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->id;
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+
+        }
+
+        if (empty($data)) return false;
+
+        return $data;
+    }
+
+
 }

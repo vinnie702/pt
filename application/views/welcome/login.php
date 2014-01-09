@@ -1,5 +1,6 @@
 <?php if(!defined('BASEPATH')) die('Direct access not allowed'); ?>
 
+<input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
 <div class='row'>
 
 <div class='col-lg-6 col-lg-offset-3'>

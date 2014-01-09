@@ -11,6 +11,7 @@ class Welcome extends CI_Controller
 
         $this->load->model('welcome_model', 'welcome', true);
         $this->load->model('tracker_model', 'tracker', true);
+        $this->load->model('users_model', 'users', true);
     }
 
     public function index ()
@@ -246,7 +247,6 @@ class Welcome extends CI_Controller
         try
         {
 
-            $this->load->model('users_model', 'users', true);
 
             $email = $this->users->getEmail($_POST['user']);
             $name = $this->users->getName($_POST['user']);
@@ -276,20 +276,28 @@ class Welcome extends CI_Controller
         {
             try
             {
-                // get user ID from email address
-                // $user = $this->users->getIDFromEmail($_POST['fpEmail']);
+                $this->load->model('users_model', 'users', true);
 
-                if ($user !== false)
+                // get user ID from email address
+                $user = $this->users->getIDFromEmail($_POST['fpEmail']);
+error_log("USER:  {$user} from: {$_POST['fpEmail']}");
+                if (empty($user))
+                {
+                    $this->functions->jsonReturn('ALERT', "Unable to find any accounts linked to that e-mail address!");
+                }
+                else
                 {
                     // gets home company
-                    $company = $this->companies->getHomeLocation($user, 1);
-
-                    $requestID = $this->intranet->insertPasswordResetRequest($user, $company);
+                    $company = $this->config->item('company');
+                error_log("company $company");
+                    $requestID = $this->welcome->insertPasswordResetRequest($user, $company);
 
                     // get user email Address
-                    // $emailTo = $this->users->getTableValue('email', $user);
+                    $emailTo = $this->users->getEmail($user);
 
-                    // $companyName = $this->companies->getCompanyName($company);
+                    error_log("Email To: {$emailTo}");
+
+                    // $companyName = $this->config->item('companyName');
 
                     $subject = "Password Reset";
 
@@ -309,7 +317,74 @@ class Welcome extends CI_Controller
             }
         }
     }
-}
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+    public function resetpassword ()
+    {
+        $header['headscript'] = $this->functions->jsScript('welcome.js');
+        $header['onload'] = "welcome.resetpasswordInit();";
+        $header['singleCol'] = true;
+
+        $body['requestID'] = $requestID = urldecode($_GET['requestID']);
+
+        // no requestId was passed
+        if (empty($requestID))
+        {
+            header("Location: /intranet/login");
+            exit;
+        }
+
+        try
+        {
+            // first verify requestID is valid
+            $user = $this->welcome->getPasswordResetUser($requestID);
+
+            if (empty($user))
+            {
+                header("Location: /welcome/login?site-alert=" . urlencode("Unable to find a valid password reset request based upon that password request ID"));
+                exit;
+            }
+
+            $body['email'] = $this->users->getEmail($user);
+
+        }
+        catch(Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/resetpassword', $body);
+        $this->load->view('template/footer');
+    }
+
+    /**
+     * used to process a password request
+     */
+    public function processpasswordrequest ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                // first verify requestID is valid
+                $user = $this->welcome->getPasswordResetUser($_POST['requestID']);
+
+                if (empty($user)) $this->functions->jsonReturn('ALERT', "Unable to find a valid password reset request based upon that password request ID");
+
+                // first reset password
+                $this->welcome->updateUserPassword($user, $_POST['password']);
+
+                // deactivates all password reset requests for that user - they need to fill out the form again to reset their password again
+                $this->welcome->deactivatePasswordRequests($user);
+                
+                $this->functions->jsonReturn('SUCCESS', "Password has been reset");
+            }
+            catch(Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
+
+}

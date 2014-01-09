@@ -14,6 +14,8 @@ order by cnt desc
 limit 4
 
 
+SELECT * FROM users ORDER BY id DESC;
+
 select * from trackingItemUserAssign
 
 -- truncate table trackingItems;
