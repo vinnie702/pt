@@ -22,7 +22,7 @@ else
 
             if ($logged_in  == true)
             {
-                $assigned = $this->tracker->checkTrackingItemAssigned($v['id'], $this->session->userdata('userid'));
+                $b['assigned'] = $assigned = $this->tracker->checkTrackingItemAssigned($v['id'], $this->session->userdata('userid'));
             }
 
             // skips items that are not assigned
@@ -68,6 +68,7 @@ else
 
             try
             {
+                $b['assigned'] = true;
                 $b['url'] = $this->functions->checkAmazonAssociateID($r->url);
 
                 $b['latestPrice'] = $latestPrice = $this->tracker->getLatestPrice($r->id);
