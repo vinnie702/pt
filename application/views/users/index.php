@@ -30,8 +30,14 @@ EOS;
     {
         $name = $positionName = $statusDisplay = null;
 
+        $deleted = false;
+
         try
         {
+            $deleted = $this->users->isDeleted($r->userid);
+
+            if ($deleted == true) continue;
+
             $name = $this->users->getName($r->userid);
 
             $userCompanyPosition = $this->users->getUserCompanyPosition($r->userid);

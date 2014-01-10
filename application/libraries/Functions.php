@@ -58,6 +58,7 @@ class Functions
         $this->ci->db->where('passwd', sha1($passwd));
         // $this->ci->db->where_in('status', array(1,3));
         $this->ci->db->where('status', 1); // only allows active users to login
+        $this->ci->db->where('deleted', 0);  // deleted users cannot login
 
         $query = $this->ci->db->get();
 

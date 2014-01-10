@@ -255,5 +255,41 @@ class users_model extends CI_Model
         return $data;
     }
 
+    /**
+     * Checks if a user is deleted
+     *
+     * @param mixed $user 
+     *
+     * @return boolean, true if they are deleted, false if nto
+     */
+    public function isDeleted ($user)
+    {
+        $user = intval($user);
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "userDeleted-{$user}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('deleted');
+            $this->db->from('users');
+            $this->db->where('id', $user);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->deleted;
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        if ($data == 1) return true;
+
+        return false;
+    }
 
 }
