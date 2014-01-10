@@ -54,7 +54,7 @@ if ($this->session->userdata('logged_in') == true)
 {
 echo <<< EOS
         <li><a href='/tracker/landing' title='Home'><i class='fa fa-home'></i></a></li>
-        <li><a href='{$this->config->item('CGIBMSURL')}/user/edit/{$this->session->userdata('userid')}' target='_blank'><i class='fa fa-cog'></i> Account Settings</a></li>
+        <li><a href='{$this->config->item('CGIBMSURL')}user/edit/{$this->session->userdata('userid')}' target='_blank'><i class='fa fa-cog'></i> Account Settings</a></li>
 EOS;
 }
 else

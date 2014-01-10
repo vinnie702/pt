@@ -460,6 +460,38 @@ class Functions
         return $data;
     }
 
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $user 
+     *
+     * @return TODO
+     */
+    public function getUserPassword ($user)
+    {
+        $user = intval($user);
 
+        if (empty($user)) throw new Exception("User ID is empty!");
 
+        $mtag = "checkCompany-{$userid}-{$company}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->select('passwd');
+            $this->ci->db->from('users');
+            $this->ci->db->where('id', $user);
+
+            $query = $this->ci->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->passwd;
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 }

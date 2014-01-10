@@ -28,7 +28,25 @@
 
 </div> <!-- container -->
 
-    
+<?php 
+if ($this->session->userdata('logged_in') == true)
+{
+    try
+    {
+        $password = $this->functions->getUserPassword($this->session->userdata('userid'));
+
+        $email = urlencode($this->session->userdata('email'));
+        $password = $this->encrypt->encode(urlencode($password));
+        $company = urlencode($this->config->item('company'));
+
+        echo "<iframe class='hiddenIframe' src=\"{$this->config->item('CGIBMSURL')}intranet/iframelogin?email={$email}&password={$password}&company={$company}\"></iframe>" . PHP_EOL;
+    }
+    catch (Exception $e)
+    {
+        $this->functions->sendStackTrace($e);
+    }
+}
+?>
 
 </body>
 </html>
