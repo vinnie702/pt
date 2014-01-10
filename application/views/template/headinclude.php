@@ -32,6 +32,16 @@
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
+
+<?php if ($datatables == true) : ?>
+        <script type='text/javascript' src='/public/datatables1.9.4/media/js/jquery.dataTables.min.js'></script>
+        <style type='text/css' title='currentStyle'>
+            @import '/public/datatables1.9.4/media/css/jquery.dataTables.css';
+        </style>
+<?php endif; ?>
+
+
+
 <?php if ($this->config->item('live') == true) : ?>
 
 <!-- Google Analytics -->

@@ -1,5 +1,17 @@
 var users = {}
 
+users.indexInit = function ()
+{
+    if ($('#userTbl').exists())
+    {
+        $('#userTbl').dataTable({
+            "bStateSave": true
+        });
+    }
+
+
+}
+
 users.loginas = function (b, user)
 {
     $(b).attr('disabled', 'disabled');

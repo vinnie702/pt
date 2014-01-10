@@ -14,7 +14,7 @@ if (empty($companyUsers))
 else
 {
 echo <<< EOS
-    <table class='table table-hover table-bordered'>
+    <table class='table table-hover table-bordered' id='userTbl'>
         <thead>
             <tr>
                 <th>Name</th>

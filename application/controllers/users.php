@@ -32,6 +32,7 @@ class Users extends CI_Controller
         $header['headscript'] = $this->functions->jsScript('users.js');
         $header['onload'] = "users.indexInit();";
         $header['singleCol'] = true;
+        $header['datatables'] = true;
 
         try
         {
