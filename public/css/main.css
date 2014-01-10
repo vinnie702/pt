@@ -249,3 +249,9 @@ table.itemPreview td.currentPrice, table.itemPreview td.highPrice, table.itemPre
 
     margin-top:10%
 }
+
+iframe.hiddenIframe
+{
+    visibility:hidden;
+    display:none;
+}

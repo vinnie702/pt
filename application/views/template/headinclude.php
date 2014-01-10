@@ -70,7 +70,8 @@ if($this->session->userdata('logged_in') === true)
 {
     echo <<< EOS
 <script type='text/javascript'>
-    global.logged_in = true;
+global.logged_in = true;
+global.userid = {$this->session->userdata('userid')}
 </script>
 EOS;
 echo PHP_EOL;
@@ -87,4 +88,7 @@ EOS;
 
 ?>
 
+<script type='text/javascript'>
+global.bmsUrl = "<?=$this->config->item('CGIBMSURL')?>";
+</script>
 

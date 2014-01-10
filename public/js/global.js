@@ -6,9 +6,15 @@ global.CSRF_hash = '';
 global.showEffect = 'highlight';
 global.hideEffect = 'highlight';
 
+global.subNotificationTimeout;
+
 global.effect = 'highlight';
 
+global.bmsUrl;
+
+global.notTimeoutSeconds = 60000; // millisecond until timeout checks again for msgs, notifcations etc.
 global.logged_in = false;
+global.userid = 0;
 global.admin = false;
 
 // jquery function to check if element exists;
@@ -144,4 +150,44 @@ global.adjustNavbar = function ()
     }
 
 }
+
+global.checkSubscription = function (setTimeoutFunc, redirect)
+{
+
+    if (setTimeoutFunc == undefined) setTimeoutFunc = true;
+    if (redirect == undefined) redirect = true;
+
+    // re-directed in order to fix their subscirption
+    $.get(global.bmsUrl + "user/checksubscription/" + global.userid, function(data){
+        
+        // alert(data);
+
+        /*
+        if (data.status == 'EXEMPT')
+        {
+            // do nothing pretty much
+        }
+        else if (data.status == 'ALERT')
+        {
+            if (redirect == true)
+            {
+                if (global.admin == true)
+                {
+                    window.location = '/companysettings?site-alert=' + escape(data.msg);
+                }
+                else
+                {
+                    window.location = '/intranet/login?site-alert=' + escape(data.msg);
+                }
+            }
+        }
+        else
+        {
+        }
+        */
+        if(setTimeoutFunc == true) global.subNotificationTimeout = setTimeout('global.checkSubscription()', global.notTimeoutSeconds);
+    });
+}
+
+
 
