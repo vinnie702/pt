@@ -65,3 +65,26 @@ ga('send', 'pageview');
 
 
     <?=$this->functions->jsScript('global.js')?>
+<?php
+if($this->session->userdata('logged_in') === true)
+{
+    echo <<< EOS
+<script type='text/javascript'>
+    global.logged_in = true;
+</script>
+EOS;
+echo PHP_EOL;
+}
+
+if($this->session->userdata('admin') === true)
+{
+    echo <<< EOS
+<script type='text/javascript'>
+    global.admin = true;
+</script>
+EOS;
+}
+
+?>
+
+

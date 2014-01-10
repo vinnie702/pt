@@ -8,6 +8,9 @@ global.hideEffect = 'highlight';
 
 global.effect = 'highlight';
 
+global.logged_in = false;
+global.admin = false;
+
 // jquery function to check if element exists;
 jQuery.fn.exists = function(){ return this.length>0; }
 
@@ -38,6 +41,10 @@ $(function(){
         });
     }
 
+    if (global.logged_in == true)
+    {
+        global.checkSubscription();
+    }
 
     global.adjustNavbar();
 

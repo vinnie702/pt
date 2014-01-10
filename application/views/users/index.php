@@ -18,6 +18,7 @@ echo <<< EOS
         <thead>
             <tr>
                 <th>Name</th>
+                <th>User ID</th>
                 <th>Position</th>
                 <th>Status</th>
                 <th>&nbsp;</th>
@@ -57,6 +58,7 @@ EOS;
         echo "<tr>" . PHP_EOL;
 
         echo "\t<td>{$name}</td>" . PHP_EOL;
+        echo "\t<td>{$r->userid}</td>" . PHP_EOL;
         echo "\t<td>{$positionName}</td>" . PHP_EOL;
         echo "\t<td>{$statusDisplay}</td>" . PHP_EOL;
         echo "\t<td><button type='button' class='btn btn-primary btn-sm pull-right' onclick=\"users.loginas(this, {$r->userid})\"><i class='fa fa-sign-in'></i> Login As</button></td>" . PHP_EOL;
