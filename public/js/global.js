@@ -17,6 +17,9 @@ global.logged_in = false;
 global.userid = 0;
 global.admin = false;
 
+global.company = 35;
+
+
 // jquery function to check if element exists;
 jQuery.fn.exists = function(){ return this.length>0; }
 
@@ -158,33 +161,19 @@ global.checkSubscription = function (setTimeoutFunc, redirect)
     if (redirect == undefined) redirect = true;
 
     // re-directed in order to fix their subscirption
-    $.get(global.bmsUrl + "user/checksubscription/" + global.userid, function(data){
+    $.getJSON(global.bmsUrl + "user/checksubscription/" + global.userid + '/' + global.company, function(data){
         
         // alert(data);
 
-        /*
-        if (data.status == 'EXEMPT')
+        if (data.status == 'EXEMPT' || data.status == 'ACTIVE')
         {
             // do nothing pretty much
         }
-        else if (data.status == 'ALERT')
-        {
-            if (redirect == true)
-            {
-                if (global.admin == true)
-                {
-                    window.location = '/companysettings?site-alert=' + escape(data.msg);
-                }
-                else
-                {
-                    window.location = '/intranet/login?site-alert=' + escape(data.msg);
-                }
-            }
-        }
         else
         {
+
+                window.location = global.bmsUrl + "user/edit/" + global.userid+ "/9?site-alert=" + escape(data.msg);
         }
-        */
         if(setTimeoutFunc == true) global.subNotificationTimeout = setTimeout('global.checkSubscription()', global.notTimeoutSeconds);
     });
 }
