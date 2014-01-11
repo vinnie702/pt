@@ -253,4 +253,41 @@ class Tracker extends CI_Controller
             }
         }
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function report ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                // get item info
+                $info = $this->tracker->getTrackingItemInfo($_POST['trackingItemID']);
+
+                $subject = "Item Reported: {$info->itemName}";
+
+                $msg = "
+                    <h1>Item Reported</h1>
+                    <p>The following item has been reported as having issues. please check it out.</p>
+
+                    <p><a href='http://" . $_SERVER['HTTP_HOST'] . "/tracker/details/{$_POST['trackingItemID']}'>{$info->itemName}</a></p>
+
+                    <p><strong>Amazon URL: </strong> <a href='{$info->url}'>{$info->url}</a></p>
+                    ";
+
+                $this->functions->sendEmail($subject, $msg, array('williamgallios@gmail.com', 'brandonvinall@gmail.com'));
+
+                $this->functions->jsonReturn('SUCCESS', 'Item has been reported. Our team will look into this item. Thank you!');
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
 }

@@ -35,7 +35,7 @@
 
 <div class='row'>
     <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-        <nav class="navbar navbar-default" role="navigation">
+        <nav class="navbar navbar-default" role="navigation" id='main-top-nav'>
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -48,13 +48,13 @@
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class='nav navbar-nav'>
+                <ul id='main-nav' class='nav navbar-nav'>
 <?php
 if ($this->session->userdata('logged_in') == true)
 {
 echo <<< EOS
         <li><a href='/tracker/landing' title='Home'><i class='fa fa-home'></i></a></li>
-        <li><a href='{$this->config->item('CGIBMSURL')}/user/edit/{$this->session->userdata('userid')}' target='_blank'><i class='fa fa-cog'></i> Account Settings</a></li>
+        <li><a href='{$this->config->item('CGIBMSURL')}user/edit/{$this->session->userdata('userid')}' target='_blank'><i class='fa fa-cog'></i> Account Settings</a></li>
 EOS;
 }
 else
@@ -84,7 +84,7 @@ else
                     echo form_open('/search', $attr);
                 ?>
                     <div class='form-group'>
-                        <input type='text' class='form-control' name='q' id='q' value="<?=urldecode($_GET['q'])?>" placeholder='Search'>
+                        <input type='text' class='form-control' name='q' id='q' value="<?=urldecode($_GET['q'])?>" placeholder='Search Tracked Items'>
                     </div> <!-- .form-group -->
                     <button type='submit' class='btn btn-info'><i class='fa fa-search'></i></button>
                 </form>

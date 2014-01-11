@@ -1,14 +1,14 @@
 body
 {
     /* font-size:1.2em; */
-    font-family:'Open Sans',Arial,sans-serif;
+    /* font-family:'Open Sans',Arial,sans-serif; */
     /* background:#fff; */
 
     background:#2F3034;
     /* background:#c9c9c9 url('/public/images/carbon_tile.jpg') repeat; */
 
 
-    color:#777
+    /* color:#777 */
     /* padding-top:60px; */
 }
 
@@ -73,7 +73,14 @@ address
 -webkit-box-shadow: 6px 5px 8px rgba(50, 50, 50, 0.1);
 -moz-box-shadow:    6px 5px 8px rgba(50, 50, 50, 0.1);
 box-shadow:         6px 5px 8px rgba(50, 50, 50, 0.1);
+}
 
+
+#q
+{
+-webkit-box-shadow: none !important;
+-moz-box-shadow: none !important;
+box-shadow: none !important;
 }
 
 
@@ -241,4 +248,10 @@ table.itemPreview td.currentPrice, table.itemPreview td.highPrice, table.itemPre
     width:100%;
 
     margin-top:10%
+}
+
+iframe.hiddenIframe
+{
+    visibility:hidden;
+    display:none;
 }

@@ -232,7 +232,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'pr!ceT@cker69';
+$config['encryption_key'] = 'tunafi$h';
 
 /*
 |--------------------------------------------------------------------------
@@ -377,7 +377,7 @@ if (in_array(strtolower($_SERVER['HTTP_HOST']), $config['liveUrls'])) $config['l
 if (PHP_SAPI == 'cli') $config['live'] = true;
 
 
-if (!isset($config['min_version'])) $config['min_version'] = 8; // <!---- this one - this is the min version
+if (!isset($config['min_version'])) $config['min_version'] = 11; // <!---- this one - this is the min version
 
 if (!isset($config['min_debug'])) $config['min_debug'] = null;
 

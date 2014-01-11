@@ -6,7 +6,19 @@ global.CSRF_hash = '';
 global.showEffect = 'highlight';
 global.hideEffect = 'highlight';
 
+global.subNotificationTimeout;
+
 global.effect = 'highlight';
+
+global.bmsUrl;
+
+global.notTimeoutSeconds = 60000; // millisecond until timeout checks again for msgs, notifcations etc.
+global.logged_in = false;
+global.userid = 0;
+global.admin = false;
+
+global.company = 35;
+
 
 // jquery function to check if element exists;
 jQuery.fn.exists = function(){ return this.length>0; }
@@ -38,10 +50,24 @@ $(function(){
         });
     }
 
-    if ($('#q').exists())
+    if (global.logged_in == true)
     {
-        // $('#q').css('width', '300px');
+        global.checkSubscription();
     }
+
+    global.adjustNavbar();
+
+    // executes function on resizing of window
+    $(window).resize(function(){
+        global.adjustNavbar();
+    });
+
+    $(window).load(function(){
+
+        // re-adjusts nav bar once page is completely loaded
+        global.adjustNavbar();
+
+    });
 });
 
 
@@ -102,5 +128,55 @@ global.ajaxLoader = function(divId)
 
     $(divId).html(html);
 }
+
+
+global.adjustNavbar = function ()
+{
+    if ($('#main-nav').exists())
+    {
+        var navWidth = $('#main-nav').outerWidth();
+
+        var container = $('#main-nav').parent().parent().innerWidth();
+
+        // var brand = $('#main-nav').parent().parent().find('.navbar-brand').outerWidth();
+
+        // console.log($('#main-nav').parent().parent().attr('class'));
+
+        // console.log('navwidth: ' + navWidth);
+        // console.log('Brand width: ' + brand);
+        // console.log('container Width: ' + container);
+
+        var diff = container - (navWidth );
+
+        $('#q').width(diff - 150);
+
+    }
+
+}
+
+global.checkSubscription = function (setTimeoutFunc, redirect)
+{
+
+    if (setTimeoutFunc == undefined) setTimeoutFunc = true;
+    if (redirect == undefined) redirect = true;
+
+    // re-directed in order to fix their subscirption
+    $.getJSON(global.bmsUrl + "user/checksubscription/" + global.userid + '/' + global.company, function(data){
+        
+        // alert(data);
+
+        if (data.status == 'EXEMPT' || data.status == 'ACTIVE')
+        {
+            // do nothing pretty much
+        }
+        else
+        {
+
+                window.location = global.bmsUrl + "user/edit/" + global.userid+ "/9?site-alert=" + escape(data.msg);
+        }
+        if(setTimeoutFunc == true) global.subNotificationTimeout = setTimeout('global.checkSubscription()', global.notTimeoutSeconds);
+    });
+}
+
 
 
