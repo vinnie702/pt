@@ -79,9 +79,12 @@ explain trackingItemPrices
 SELECT * FROM trackingItemPrices;
 
 
-DELETE FROM trackingItemsHtml;
+-- DELETE FROM trackingItemsHtml;
 
-DELETE FROM trackingItemsHtml WHERE trackingItemID = 34;
+DELETE FROM trackingItemsHtml WHERE trackingItemID = 44;
+
+
+SELECT * FROM trackingItemsHtml
 
 DELETE FROM trackingItemPrices WHERE trackingItemID = 3;
 

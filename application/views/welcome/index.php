@@ -27,6 +27,17 @@
 
 </div> <!-- .row -->
 
+<div align='center'>
+<script async src="//"></script>
+<!-- Homepage ads -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:970px;height:90px"
+     data-ad-client="ca-pub-1738268756195334"
+     data-ad-slot="1520256201"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
 
 <hr>
 
@@ -101,3 +112,4 @@ else
 
 }
 ?>
+
