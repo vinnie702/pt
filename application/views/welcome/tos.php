@@ -34,6 +34,7 @@
 <p>Our Privacy Policy, as it may change from time to time, is a part of this Agreement. </p>
 <h4>15. Payments.</h4>
 <p>You represent and warrant that if you are purchasing something from us or from Merchants that (i) any credit information you supply is true and complete, (ii) charges incurred by you will be honored by your credit card company, and (iii) you will pay the charges incurred by you at the posted prices, including any applicable taxes. </p>
+<p>CGI Solution, LLC is not responsible monetarily or any other means if our IP is blocked and no longer have access to requested sites. If this is to occure, CGI Solution will cancel all subscriptions and no further payments will be processed unless when/if access is restored to the site in question.</p>
 <h4>16. Refund Policy.</h4>
 <p>CGI Solution LLC does NOT offer refunds. Once a payment has been processed, a membership for the remaining pay cycle will remain active. At the end of the cycle, the account will be closed.</p>
 <p>If there are any additional fees from processing cards (fees from declined cards, etc) the member will be responsible for all applicable fees.</p>
