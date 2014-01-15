@@ -74,8 +74,25 @@ class Grabber extends CI_Controller
         $this->functions->jsonReturn('ERROR', 'GET is not supported!');
     }
 
-    public function test ($id)
+    public function test ()
     {
+
+        echo "LIVE: {$this->config->item('live')}" . PHP_EOL;
+
+        $subject = "Test";
+        // $email = "brandonvinall@gmail.com";
+        $email = "wgallios@cgisolution.com";
+
+        $msg = "<h1>Test</h1> This is a test email.";
+
+
+        echo "Sending Email to {$email}" . PHP_EOL;
+        $this->functions->sendEmail($subject, $msg, $email);
+
+        echo "Test is now complete" . PHP_EOL;
+
+
+        /*
         echo '<pre>';
         echo 'ID: ' . $id . PHP_EOL;
         try
@@ -86,6 +103,7 @@ class Grabber extends CI_Controller
         {
             $this->functions->sendStackTrace($e);
         }
+         */
     }
 
     /**
