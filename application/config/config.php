@@ -395,6 +395,9 @@ $config['uploads'] = $_SERVER['DOCUMENT_ROOT'] . 'public' . DIRECTORY_SEPARATOR 
 
 if (!isset($config['amazonAssID'])) $config['amazonAssID'] = "cgisolution-20";
 
+// time to download? seconds since last download of HTML that it requires new DL
+if (!isset($config['TTD'])) $config['TTD'] = 21600;
+
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
