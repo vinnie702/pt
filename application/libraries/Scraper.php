@@ -119,8 +119,7 @@ class Scraper
      */
     public function checkRequireDownload ($id)
     {
-        // $utOneDay = 86400; // 1 day in seconds
-        $utOneDay = 72000; // 20 hours in seconds
+        $ttd = (int) $this->ci->config->item('TTD');
 
         $now = strtotime("now");
 
@@ -132,7 +131,7 @@ class Scraper
         $lsd = strtotime($lsDatestamp);
 
         // its been over 20 hours since last download
-        if (($now - $utOneDay) >= $lsd)
+        if (($now - $ttd) >= $lsd)
         {
             return true;
         }

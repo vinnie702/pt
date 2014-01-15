@@ -86,7 +86,7 @@ class Grabber extends CI_Controller
 
             // $email = $this->functions->getUsersEmail($user);
 
-            $subject = "Test to {$email}";
+            $subject = "Working Test to {$email}";
             // $email = "brandonvinall@hotmail.com";
             // $email = "wgallios@cgisolution.com";
             // $email = "georgewburroughs@yahoo.com";
@@ -95,7 +95,7 @@ class Grabber extends CI_Controller
 
 
             echo "Sending Email to {$email}" . PHP_EOL;
-            $this->functions->sendEmail($subject, $msg, $email);
+            // $this->functions->sendEmail($subject, $msg, $email);
 
             echo "Test is now complete" . PHP_EOL;
 
@@ -142,6 +142,8 @@ class Grabber extends CI_Controller
                 $lpDoY = date("z", strtotime($latestPrice->priceDay));
                 $todayDoY = date("z", strtotime(DATESTAMP));
 
+                echo "LP-DOY: {$lpDoY} - Today-DOY: {$todayDoY}";
+
                 // once its a new day will force new download
                 if ($lpDoY !== $todayDoY) $reqDL = true;
 
@@ -152,7 +154,10 @@ class Grabber extends CI_Controller
                     $this->scraper->downloadHTML($r->id);
 
                     echo "100%! Updating item data...";
-                    
+
+                    // sleeps
+                    sleep(1);
+
                     try
                     {
                         $this->scraper->scrapeLatestData($r->id);
