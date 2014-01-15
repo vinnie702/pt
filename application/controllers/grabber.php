@@ -74,36 +74,38 @@ class Grabber extends CI_Controller
         $this->functions->jsonReturn('ERROR', 'GET is not supported!');
     }
 
-    public function test ()
+    public function test ($user = 0)
     {
-
-        echo "LIVE: {$this->config->item('live')}" . PHP_EOL;
-
-        $subject = "Test";
-        // $email = "brandonvinall@gmail.com";
-        $email = "wgallios@cgisolution.com";
-
-        $msg = "<h1>Test</h1> This is a test email.";
-
-
-        echo "Sending Email to {$email}" . PHP_EOL;
-        $this->functions->sendEmail($subject, $msg, $email);
-
-        echo "Test is now complete" . PHP_EOL;
-
-
-        /*
-        echo '<pre>';
-        echo 'ID: ' . $id . PHP_EOL;
         try
         {
-            $this->scraper->scrapeLatestData($id);
+            if (empty($user)) throw new Exception("UserID is empty!");
+
+            echo "LIVE: {$this->config->item('live')}" . PHP_EOL;
+
+            $email = "wgallios@cgisolution.com";
+
+            // $email = $this->functions->getUsersEmail($user);
+
+            $subject = "Test to {$email}";
+            // $email = "brandonvinall@hotmail.com";
+            // $email = "wgallios@cgisolution.com";
+            // $email = "georgewburroughs@yahoo.com";
+
+            $msg = "<h1>Test</h1> This is a test email. Text will or brandon if you got this";
+
+
+            echo "Sending Email to {$email}" . PHP_EOL;
+            $this->functions->sendEmail($subject, $msg, $email);
+
+            echo "Test is now complete" . PHP_EOL;
+
+
         }
         catch (Exception $e)
         {
             $this->functions->sendStackTrace($e);
+            echo "<hr>" . $e->getMessage();
         }
-         */
     }
 
     /**
