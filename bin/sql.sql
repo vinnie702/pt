@@ -67,7 +67,9 @@ select * from trackingItemsHtml
 
 explain trackingItemUserAssign;
 
-SELECT * FROM trackingItemUserAssign WHERE userid = 105;
+SELECT * FROM trackingItemUserAssign 
+
+WHERE userid = 105;
 
 select * from trackingItemUserAssign;
 

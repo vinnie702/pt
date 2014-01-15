@@ -250,7 +250,7 @@ class Functions
         $user = intval($user);
         if (empty($user)) throw new Exception("User ID is empty!");
 
-        $mtag = "checkCompany-{$userid}-{$company}";
+        $mtag = "userEmail-{$user}";
 
         $data = $this->ci->cache->memcached->get($mtag);
 
@@ -274,7 +274,7 @@ class Functions
         return $data;
     }
 
-    public function sendEmail ($subject, $message, $to, $from = 'noreply@productpricetracker.com', $fromName = 'ProductPRiceTracker.com', $cc = null, $bcc = null, $config = null)
+    public function sendEmail ($subject, $message, $to, $from = 'noreply@productpricetracker.com', $fromName = 'ProductPriceTracker.com', $cc = null, $bcc = null, $config = null)
     {
         // if no config params were defined for sending the message
         // will use localhost relay
@@ -287,9 +287,13 @@ class Functions
             $config['mailtype'] = 'html';
         }
 
+        // print_r($config);
+
         $this->ci->email->initialize($config);
 
         $this->ci->email->from($from, $fromName);
+
+        if (empty($to)) throw new Exception("To address name is empty!");
 
         if ($this->ci->config->item('live') == true)
         {
@@ -306,42 +310,53 @@ class Functions
                 $this->ci->email->to($to);
             }
 
-            // Adds CC
-            if (is_array($cc))
+            if (!empty($cc))
             {
-                foreach ($cc as $c)
+                // Adds CC
+                if (is_array($cc))
                 {
-                    $this->ci->email->cc($c);
+                    foreach ($cc as $c)
+                    {
+                        $this->ci->email->cc($c);
+                    }
+                }
+                else
+                {
+                    $this->ci->email->cc($cc);
                 }
             }
-            else
-            {
-                $this->ci->email->cc($cc);
-            }
 
-            // adds BCC
-            if (is_array($bcc))
+            if (!empty($bcc))
             {
-                foreach ($bcc as $b)
+                // adds BCC
+                if (is_array($bcc))
                 {
-                    $this->ci->email->bcc($b);
+                    foreach ($bcc as $b)
+                    {
+                        $this->ci->email->bcc($b);
+                    }
+                }
+                else
+                {
+                    $this->ci->email->bcc($bcc);
                 }
             }
-            else
-            {
-                $this->ci->email->bcc($bcc);
-            }
-
         }
         else
         {
             // not on live site, will send to dev email address
             $this->ci->email->to($this->ci->config->item('devEmail'));
+            $subject = "DEV: {$subject}";
         }
         $this->ci->email->subject($subject);
         $this->ci->email->message($message);
 
-        $this->ci->email->send();
+        if(!$this->ci->email->send())
+        {
+            // record stack track
+            error_log("Unable to send email message!");
+            error_log($this->ci->email->print_debugger());
+        }
         
         // $this->ci->email->print_debugger();
 
