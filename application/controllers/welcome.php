@@ -182,7 +182,8 @@ class Welcome extends CI_Controller
                 " .
                 nl2br($_POST['message']);
 
-                $emailTo = array ('bvinall@cgisolution.com', 'williamgallios@gmail.com');
+                // $emailTo = array ('bvinall@cgisolution.com', 'williamgallios@gmail.com');
+                $emailTo = array ('brandonvinall@gmail.com', 'williamgallios@gmail.com');
 
                 // will now send out email
                 $this->functions->sendEmail($subject, $message, $emailTo);
