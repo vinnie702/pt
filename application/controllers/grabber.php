@@ -126,11 +126,13 @@ class Grabber extends CI_Controller
 
             foreach ($trackingItems as $r)
             {
+                /*
                 if ($failCount >= 3)
                 {
                     echo "3 Failed scapes have happend! Please resolve!";
                     break;
                 }
+                 */
 
                 echo "Checking Item: {$r->id}...";
                 
@@ -142,7 +144,7 @@ class Grabber extends CI_Controller
                 $lpDoY = date("z", strtotime($latestPrice->priceDay));
                 $todayDoY = date("z", strtotime(DATESTAMP));
 
-                echo "LP-DOY: {$lpDoY} - Today-DOY: {$todayDoY}";
+                echo "LP-DOY: {$lpDoY} - Today-DOY: {$todayDoY}..";
 
                 // once its a new day will force new download
                 if ($lpDoY !== $todayDoY) $reqDL = true;
@@ -202,7 +204,7 @@ class Grabber extends CI_Controller
         catch (Exception $e)
         {
             $this->functions->sendStackTrace($e);
-            echo "ERROR: " . $e->getMessage();;
+            echo "ERROR: " . $e->getMessage() . PHP_EOL;
         }
 
         echo "Finished!\n";
