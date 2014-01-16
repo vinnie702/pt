@@ -74,11 +74,11 @@ class Grabber extends CI_Controller
         $this->functions->jsonReturn('ERROR', 'GET is not supported!');
     }
 
-    /*
     public function test ($user = 0)
     {
         try
         {
+            /*
             if (empty($user)) throw new Exception("UserID is empty!");
 
             echo "LIVE: {$this->config->item('live')}" . PHP_EOL;
@@ -97,7 +97,7 @@ class Grabber extends CI_Controller
 
             // echo "Sending Email to {$email}" . PHP_EOL;
             // $this->functions->sendEmail($subject, $msg, $email);
-
+            */
             echo "Test is now complete" . PHP_EOL;
 
 
@@ -108,7 +108,6 @@ class Grabber extends CI_Controller
             echo "<hr>" . $e->getMessage();
         }
     }
-    */
     /**
      * runs every hour and checks if items need to be downloaded and updated
      */

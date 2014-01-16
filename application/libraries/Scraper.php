@@ -238,6 +238,8 @@ class Scraper
             $this->ci->db->select('fileName');
             $this->ci->db->from('trackingItemsHtml');
             $this->ci->db->where('trackingItemID', $trackingItemID);
+            $this->ci->db->order_by('datestamp', 'desc');
+            $this->ci->db->limit(1);
 
             $query = $this->ci->db->get();
 
@@ -262,10 +264,14 @@ class Scraper
     public function scrapeLatestData ($trackingItemID)
     {
         $fileName = $this->_getLatestHtml($trackingItemID);
+        
+        // error_log('FileName: ' . $fileName);
 
-        // echo 'FileName: ' . $fileName;
+        $path = $_SERVER['DOCUMENT_ROOT'] . 'public/uploads/html/' . $trackingItemID . '/';
 
-        $contents = file_get_contents('public/uploads/html/' . $trackingItemID . '/'  . $fileName);
+        if (!file_exists($path . $fileName)) throw new Exception("File to scrape does not exists! ({$path}{$fileName})");
+
+        $contents = file_get_contents($path  . $fileName);
 
         $title = $this->_getTitle($contents);
         // echo "Title: {$title}\n";
@@ -410,11 +416,12 @@ class Scraper
         }
 
         // unable to get title from previous attempt
+        /*
         if (empty($title))
         {
             // error_log('No title, trying: a-spacing-none">');
 
-            $titlePos = stripos($html, 'a-spacing-none');
+            $titlePos = stripos($html, 'a-spacing-none"');
 
             $firstGT = stripos($html, '>', $titlePos);
 
@@ -428,9 +435,9 @@ class Scraper
                 // echo 'title found!';
             }
         }
-
-        error_log('TITLE:' . $title);
-    
+        */
+        // error_log('TITLE:' . $title);
+        
         return $title;
     }
 
