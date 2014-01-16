@@ -22,6 +22,10 @@ SELECT status FROM users;
 
 select * from trackingItemUserAssign
 
+select * FROM trackingItems WHERE id = 34;
+
+
+SELECT *
 -- truncate table trackingItems;
 
 SELECT * FROM userCompanies;
@@ -64,6 +68,8 @@ ORDER BY id desc;
 explain trackingItemsHtml;
 
 select * from trackingItemsHtml
+WHERE trackingItemID = 34
+ORDER BY datestamp desc
 
 explain trackingItemUserAssign;
 

@@ -74,6 +74,7 @@ class Grabber extends CI_Controller
         $this->functions->jsonReturn('ERROR', 'GET is not supported!');
     }
 
+    /*
     public function test ($user = 0)
     {
         try
@@ -82,9 +83,9 @@ class Grabber extends CI_Controller
 
             echo "LIVE: {$this->config->item('live')}" . PHP_EOL;
 
-            $email = "wgallios@cgisolution.com";
+            // $email = "wgallios@cgisolution.com";
 
-            // $email = $this->functions->getUsersEmail($user);
+            $email = $this->functions->getUsersEmail($user);
 
             $subject = "Working Test to {$email}";
             // $email = "brandonvinall@hotmail.com";
@@ -94,7 +95,7 @@ class Grabber extends CI_Controller
             $msg = "<h1>Test</h1> This is a test email. Text will or brandon if you got this";
 
 
-            echo "Sending Email to {$email}" . PHP_EOL;
+            // echo "Sending Email to {$email}" . PHP_EOL;
             // $this->functions->sendEmail($subject, $msg, $email);
 
             echo "Test is now complete" . PHP_EOL;
@@ -107,7 +108,7 @@ class Grabber extends CI_Controller
             echo "<hr>" . $e->getMessage();
         }
     }
-
+    */
     /**
      * runs every hour and checks if items need to be downloaded and updated
      */

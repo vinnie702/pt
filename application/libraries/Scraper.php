@@ -67,6 +67,8 @@ class Scraper
 
         $url = $this->getTrackingItemUrl($id);
 
+        // error_log("Getting info from {$url}");
+
         // gets html
         $html = file_get_contents($url);
 
@@ -79,6 +81,8 @@ class Scraper
         @fclose($fp);
 
         $this->_insertTrackingItemHtml($id, $filename);
+
+        // $this->scrapeLatestData($id);
 
         return $filename;
     }
@@ -401,9 +405,31 @@ class Scraper
             $title = $this->_getTagVal($html, $firstGT, '</span>');
 
             $title = str_replace('>', null, $title);
+
             // echo 'title found!';
         }
-        
+
+        // unable to get title from previous attempt
+        if (empty($title))
+        {
+            // error_log('No title, trying: a-spacing-none">');
+
+            $titlePos = stripos($html, 'a-spacing-none');
+
+            $firstGT = stripos($html, '>', $titlePos);
+
+            if (!empty($titlePos))
+            {
+                $title = $this->_getTagVal($html, $firstGT, '</h1>');
+
+                $title = str_replace('</h1>', null, $title);
+
+                $title = trim($title);
+                // echo 'title found!';
+            }
+        }
+
+        error_log('TITLE:' . $title);
     
         return $title;
     }
