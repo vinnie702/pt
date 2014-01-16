@@ -67,6 +67,8 @@ class Scraper
 
         $url = $this->getTrackingItemUrl($id);
 
+        // error_log("Getting info from {$url}");
+
         // gets html
         $html = file_get_contents($url);
 
@@ -79,6 +81,8 @@ class Scraper
         @fclose($fp);
 
         $this->_insertTrackingItemHtml($id, $filename);
+
+        // $this->scrapeLatestData($id);
 
         return $filename;
     }
@@ -234,6 +238,8 @@ class Scraper
             $this->ci->db->select('fileName');
             $this->ci->db->from('trackingItemsHtml');
             $this->ci->db->where('trackingItemID', $trackingItemID);
+            $this->ci->db->order_by('datestamp', 'desc');
+            $this->ci->db->limit(1);
 
             $query = $this->ci->db->get();
 
@@ -258,10 +264,14 @@ class Scraper
     public function scrapeLatestData ($trackingItemID)
     {
         $fileName = $this->_getLatestHtml($trackingItemID);
+        
+        // error_log('FileName: ' . $fileName);
 
-        // echo 'FileName: ' . $fileName;
+        $path = $_SERVER['DOCUMENT_ROOT'] . 'public/uploads/html/' . $trackingItemID . '/';
 
-        $contents = file_get_contents('public/uploads/html/' . $trackingItemID . '/'  . $fileName);
+        if (!file_exists($path . $fileName)) throw new Exception("File to scrape does not exists! ({$path}{$fileName})");
+
+        $contents = file_get_contents($path  . $fileName);
 
         $title = $this->_getTitle($contents);
         // echo "Title: {$title}\n";
@@ -401,10 +411,33 @@ class Scraper
             $title = $this->_getTagVal($html, $firstGT, '</span>');
 
             $title = str_replace('>', null, $title);
+
             // echo 'title found!';
         }
+
+        // unable to get title from previous attempt
+        /*
+        if (empty($title))
+        {
+            // error_log('No title, trying: a-spacing-none">');
+
+            $titlePos = stripos($html, 'a-spacing-none"');
+
+            $firstGT = stripos($html, '>', $titlePos);
+
+            if (!empty($titlePos))
+            {
+                $title = $this->_getTagVal($html, $firstGT, '</h1>');
+
+                $title = str_replace('</h1>', null, $title);
+
+                $title = trim($title);
+                // echo 'title found!';
+            }
+        }
+        */
+        // error_log('TITLE:' . $title);
         
-    
         return $title;
     }
 
