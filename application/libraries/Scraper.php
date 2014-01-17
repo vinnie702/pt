@@ -292,10 +292,10 @@ class Scraper
         $price = $this->_getPrice($contents);
 
         // check if there is a price already saved for today
-        $saved = $this->checkPriceSaved($trackingItemID);
+        // $saved = $this->checkPriceSaved($trackingItemID);
 
-        // no price has been saved for today
-        if ($saved == false) $this->savePrice($trackingItemID, $price);
+        // always updates price
+        $this->savePrice($trackingItemID, $price);
 
         // echo 'Price: ' . $price . PHP_EOL;
     }
@@ -342,12 +342,15 @@ class Scraper
      */
     private function _getPrice ($html)
     {
-        // echo "<hr>";
+        // $opPrice = stripos($html, 'priceblock_ourprice');
+
+        if (empty($html)) throw new Exception("HTML is empty! No HTML to get price from!");
 
         $bxgyItemPrice = strpos($html, 'bxgy-item-price');
         $price = stripos($html, '<span class="price">');
         $priceLarge = stripos($html, '<b class="priceLarge">');
 
+        $priceTxt = stripos($html, ">Price:");
 
         if (!empty($bxgyItemPrice))
         {
@@ -379,9 +382,16 @@ class Scraper
             $price = str_replace('<b class="priceLarge">', '', $price);
             // echo 'price Large found';
         }
+        elseif (!empty($priceTxt))
+        {
+            $dsPos = stripos($html, '$', $priceTxt);
+
+            $price = substr($html, $dsPos, stripos($html, '</span>', $dsPos));
+            // error_log('PRICE FOUND ' . $price);
+        }
         else
         {
-            // echo 'no price found';
+            // error_log("*** NO PRICE FOUND ***");
         }
     
         $price = str_replace('$', '', $price);
@@ -416,12 +426,9 @@ class Scraper
         }
 
         // unable to get title from previous attempt
-        /*
         if (empty($title))
         {
-            // error_log('No title, trying: a-spacing-none">');
-
-            $titlePos = stripos($html, 'a-spacing-none"');
+            $titlePos = stripos($html, '<h1');
 
             $firstGT = stripos($html, '>', $titlePos);
 
@@ -430,12 +437,12 @@ class Scraper
                 $title = $this->_getTagVal($html, $firstGT, '</h1>');
 
                 $title = str_replace('</h1>', null, $title);
+                $title = str_replace('>', null, $title);
 
                 $title = trim($title);
                 // echo 'title found!';
             }
         }
-        */
         // error_log('TITLE:' . $title);
         
         return $title;
@@ -472,6 +479,31 @@ class Scraper
         $img = $this->_getTagVal($html, $imgPos, '" alt="" >');
 
         $img = str_replace('<img id="main-image-nonjs" src="', null, $img);
+
+        if (empty($img))
+        {
+            $imgPos = stripos($html, 'id="rwImages_hidden"');
+            $firstGT = stripos($html, '>', $imgPos); // first > symbol after it finds that tag
+
+            if (!empty($imgPos))
+            {
+                $imgHtml = $this->_getTagVal($html, $firstGT, '</div>');
+
+                $imgHtml = str_replace('>', null, $imgHtml);
+
+                $imgHtml = trim($imgHtml);
+
+                // now get src of image
+
+                // error_log("Img HTML: {$imgHtml}");
+
+                $imgHtml = str_replace("<img src=\"", null, $imgHtml);
+
+                $img = substr((string) $imgHtml, 0, stripos($imgHtml, '"'));
+
+                $img = trim($img);
+            }
+        }
 
         return $img;
     }
