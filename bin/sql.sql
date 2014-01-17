@@ -52,14 +52,16 @@ id
 , datestamp
 , userid
 , company
-, url
 , itemID
 , itemName
 , imgUrl
 , status
 ,lastUpdated
 FROM trackingItems
+WHERE id = 34
 ORDER BY id desc;
+
+-- UPDATE trackingItems SET itemName = '' WHERE id = 34
 
 
 -- ALTER TABLE trackingItems ADD COLUMN `imgUrl` VARCHAR(300) DEFAULT NULL AFTER `description`;
@@ -89,7 +91,7 @@ SELECT * FROM trackingItemPrices;
 
 -- DELETE FROM trackingItemsHtml;
 
-DELETE FROM trackingItemsHtml WHERE trackingItemID = 44;
+DELETE FROM trackingItemsHtml WHERE trackingItemID = 34;
 
 
 SELECT * FROM trackingItemsHtml

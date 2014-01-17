@@ -78,6 +78,24 @@ class Grabber extends CI_Controller
     {
         try
         {
+
+            echo "<pre>";
+
+            $html = "<span id=\"priceblock_ourprice\" class=\"a-size-medium a-color-price\">$29.99</span>";
+    
+            $pattern = '/priceblock_ourprice/';
+            $preg = preg_match($pattern, $html);
+
+
+
+            // echo $html . PHP_EOL;
+
+            // $opPrice = stripos($html, 'priceblock_ourprice');
+
+
+            // echo "opPrice: {$opPrice}\n";
+            echo "Preg: {$preg}\n";
+
             /*
             if (empty($user)) throw new Exception("UserID is empty!");
 
