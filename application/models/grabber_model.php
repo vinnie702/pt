@@ -157,7 +157,11 @@ class grabber_model extends CI_Model
      */
     public function getUsersTrackingItems ($items)
     {
-        if (empty($items)) throw new Exception("No Items to check");
+        if (empty($items))
+        {
+            error_log('**** ITEMS: ' . $items);
+            throw new Exception("No Items to check");
+        }
 
         $users = array();
 
