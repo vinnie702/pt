@@ -37,6 +37,29 @@ if (empty($width)) $width = 4;
                                     <td class='lowPrice'>Members Only</td>
                                 <?php endif; ?>
                             </tr>
+
+                            <?php if ($this->session->userdata('logged_in') == true) : ?>
+
+                            <?php 
+                            try
+                            {
+                                $diff = $this->tracker->calcPriceDiffPrevDay($r->id);
+                                
+                                $lastPriceDate = $this->tracker->getLatestPriceDate($r->id);
+                            }
+                            catch (Exception $e)
+                            {
+                                $this->functions->sendStackTrace($e);
+                            }
+                            ?>
+                            <tr>
+                            <td class='percentChange'><?=$diff?>% 
+                                <?php if ($diff <> 0) echo "<i class='fa fa-arrow-" . (($diff > 0) ? 'up danger' : 'down success') . "'></i>"; ?>
+                                </td>
+                                    <td colspan='2'><span class='text-muted'><?=date("m/d g:i A T", strtotime($lastPriceDate))?></span></td>
+                            </tr>
+                            <?php endif; ?>
+
                         </tbody>
                     </table>
                         <div class='cleafix'></div>

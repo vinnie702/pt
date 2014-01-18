@@ -44,7 +44,10 @@ SELECT * FROM userPositions;
 
 SELECT * FROM userCompanies WHERE userid = 105;
 
-SELECT * FROM trackingItemPrices;
+SELECT * FROM trackingItemPrices
+WHERE trackingItemID = 2
+ORDER BY datestamp DESC 
+LIMIT 1
 
 
 explain trackingItems;

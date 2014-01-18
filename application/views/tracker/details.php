@@ -35,7 +35,7 @@
             <td class='percentChange'><?=$diff?>% 
                 <?php if ($diff <> 0) echo "<i class='fa fa-arrow-" . (($diff > 0) ? 'up danger' : 'down success') . "'></i>"; ?>
                 </td>
-                    <td colspan='2'><span class='text-muted'>Last Updated: <?=date("m/d/Y g:i A", strtotime($secondLast->datestamp))?></span></td>
+                    <td colspan='2'><span class='text-muted'>Last Updated: <?=date("m/d/Y g:i A T (O)", strtotime($lastPriceDate))?></span></td>
             </tr>
             <?php endif; ?>
         </tbody>
