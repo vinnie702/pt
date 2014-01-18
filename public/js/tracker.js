@@ -41,6 +41,7 @@ tracker.detailsInit = function ()
 tracker.getTrackedItems = function (q)
 {
     // global.ajaxLoader('#trackingItemDisplay');
+    tracker.toggleLeftSearch(true);
 
     var search = (q == undefined || q == '') ? '' : '?q=' + escape(q);
 
@@ -57,6 +58,8 @@ tracker.getTrackedItemsTbl = function ()
 {
     $('#tblViewBtn').attr('disabled', 'disabled');
 
+    tracker.toggleLeftSearch(false);
+
     $.get("/tracker/gettrackeditemstbl", function(data){
     
         $('#gridViewBtn').removeAttr('disabled');
@@ -70,6 +73,18 @@ tracker.getTrackedItemsTbl = function ()
         }
 
     });
+}
+
+tracker.toggleLeftSearch = function (visible)
+{
+    if (visible == false)
+    {
+        $('#leftSearchContainer').hide(global.hideEffect);
+    }
+    else
+    {
+        $('#leftSearchContainer').show(global.showEffect);
+    }
 }
 
 
