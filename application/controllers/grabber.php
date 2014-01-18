@@ -80,13 +80,10 @@ class Grabber extends CI_Controller
     {
         try
         {
-            $email = "williamgallios@gmail.com";
 
-            $subject = "Test Message";
-            
-            $msg = "<h1>Test Message</h1><p>This is another test message.</p>";
+            $assigned = $this->tracker->checkTrackingItemAssigned(34, 1);
 
-                $this->functions->sendEmail($subject, $msg, $email);
+            print_r($assigned);
 
             // $users = $this->grabber->getUsersTrackingItems(array(1,34));
 
