@@ -80,9 +80,13 @@ tracker.grabInfo = function (b, id)
 
         if (data.status == 'SUCCESS')
         {
-            global.renderAlert(data.msg, 'alert-success', alertDisplay);
-            $(b).removeAttr('disabled');
+            // global.renderAlert(data.msg, 'alert-success', alertDisplay);
+            // $(b).removeAttr('disabled');
             $(b).find('i').removeClass('fa-spin');
+            
+            // reload page
+            window.location = '/tracker/details/' + id + '?site-success=' + escape(data.msg);
+            
             return true;
         }
         else if (data.status == 'ALERT')

@@ -377,7 +377,7 @@ if (in_array(strtolower($_SERVER['HTTP_HOST']), $config['liveUrls'])) $config['l
 if (PHP_SAPI == 'cli') $config['live'] = true;
 
 
-if (!isset($config['min_version'])) $config['min_version'] = 12; // <!---- this one - this is the min version
+if (!isset($config['min_version'])) $config['min_version'] = 13; // <!---- this one - this is the min version
 
 if (!isset($config['min_debug'])) $config['min_debug'] = null;
 
@@ -396,7 +396,8 @@ $config['uploads'] = $_SERVER['DOCUMENT_ROOT'] . 'public' . DIRECTORY_SEPARATOR 
 if (!isset($config['amazonAssID'])) $config['amazonAssID'] = "cgisolution-20";
 
 // time to download? seconds since last download of HTML that it requires new DL
-if (!isset($config['TTD'])) $config['TTD'] = 21600;
+// if (!isset($config['TTD'])) $config['TTD'] = 21600;
+if (!isset($config['TTD'])) $config['TTD'] = 21300; // minus 5 minutes from 6 hours so cron will DL every 6 hours
 
 
 /* End of file config.php */
