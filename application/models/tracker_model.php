@@ -293,7 +293,7 @@ class tracker_model extends CI_Model
 
         if (empty($user)) throw new Exception("User ID is empty!");
 
-        $mtag = "checkTrackingItemAssigned-{$user}";
+        $mtag = "checkTrackingItemAssigned-{$trackingItemID}-{$user}";
 
         $data = $this->cache->memcached->get($mtag);
 
