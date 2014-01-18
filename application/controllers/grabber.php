@@ -23,6 +23,7 @@ class Grabber extends CI_Controller
      */
     public function index ()
     {
+        show_404();
         // echo 'hey';
     }
 
@@ -123,6 +124,8 @@ class Grabber extends CI_Controller
                 
                 $reqDL = $this->scraper->checkRequireDownload($r->id);
 
+                // if ($r->id == 1) $reqDL = true;
+
                 // gets latest price before scrape
                 $latestPrice = $this->tracker->getLatestPrice($r->id);
 
@@ -158,7 +161,7 @@ class Grabber extends CI_Controller
                         {
                             echo "price has changed...";
 
-                            $adjustedItems[] = $r->id;
+                            $adjustedItems[] = (int) $r->id;
 
                             echo "Added item ({$r->id}) to adjustedItems array...";
 
@@ -188,6 +191,10 @@ class Grabber extends CI_Controller
                     echo "No download required." . PHP_EOL;
                 }
             }
+
+            echo "\n\nAdjusted Items\n\n";
+
+            print_r($adjustedItems);
 
             echo "\n\n***Item Updates complete. Will now send emails out to users***\n\n";
 
