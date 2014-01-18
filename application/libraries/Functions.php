@@ -349,6 +349,22 @@ class Functions
             $subject = "DEV: {$subject}";
         }
         $this->ci->email->subject($subject);
+        
+        $message = "{$message}
+
+        <br>
+        <p>
+        Product Price Tracker Team<br>
+        <strong><span style='color:#DC0000;'>CGI</span> Solution LLC</strong><br>
+        (888) 444-9350
+        </p>
+        <p>
+            <a href='http://productpricetracker.com'>ProductPriceTracker.com</a><br>
+            <a href='http://cgisolution.com'>CGISolution.com</a></p>
+
+        <p style='font-size:10px;'>
+        This message and any attachments contain confidential information and is intended only for the individual named. If you are not the named addressee you should not disseminate, distribute or copy this e-mail or attachments (if any). Please notify the sender immediately by e-mail if you have received this e-mail by mistake and delete this e-mail and attachments (if any) from your system. E-mail transmission cannot be guaranteed to be secure or error-free as information could be intercepted, corrupted, lost, destroyed, arrive late or incomplete, or contain viruses. The sender therefore does not accept liability for any errors or omissions in the contents or attachments (if any) of this message, which arise as a result of e-mail transmission.</p>";
+        
         $this->ci->email->message($message);
 
         if(!$this->ci->email->send())

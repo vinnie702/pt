@@ -1,6 +1,4 @@
-
-
-show tables;
+SHOW TABLES;
 
 
 SELECT * FROM companies;
@@ -12,6 +10,10 @@ FROM trackingItemUserAssign
 GROUP BY trackingItemID
 order by cnt desc
 limit 4
+
+
+
+SELECT DISTINCT userid FROM trackingItemUserAssign WHERE trackingItemID = 1;
 
 
 SELECT * FROM codes;
@@ -41,6 +43,8 @@ SELECT name FROM positions;
 SELECT * FROM userPositions;
 
 SELECT * FROM userCompanies WHERE userid = 105;
+
+SELECT * FROM trackingItemPrices;
 
 
 explain trackingItems;
@@ -114,3 +118,8 @@ SELECT price
 FROM trackingItemPrices
 WHERE trackingItemID = 2
 AND priceDay = '2014-01-05'
+
+
+SELECT * FROM trackingItemPrices WHERE trackingItemID = 34;
+
+-- DELETE FROM trackingItemPrices WHERE id = 1119;

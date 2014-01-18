@@ -147,4 +147,45 @@ class grabber_model extends CI_Model
 
         return $userArray;
     }
+
+    /**
+     * returns array of distinct userid's tracking any item ID's passed
+     *
+     * @param mixed $items 
+     *
+     * @return array - false if empty
+     */
+    public function getUsersTrackingItems ($items)
+    {
+        if (empty($items)) throw new Exception("No Items to check");
+
+        $users = array();
+
+        $this->db->distinct('userid');
+        $this->db->select('userid');
+        $this->db->from('trackingItemUserAssign');
+
+        if (is_array($items))
+        {
+            $this->db->where_in('trackingItemID', $items);
+        }
+        else
+        {
+            $this->db->where('trackingItemID', $items);
+        }
+
+        $query = $this->db->get();
+
+        $results = $query->result();
+
+        if (empty($results)) return false;
+
+        foreach ($results as $r)
+        {
+            $users[] = $r->userid;
+        }
+
+        return $users;
+    }
+
 }
