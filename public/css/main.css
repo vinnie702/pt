@@ -255,3 +255,13 @@ iframe.hiddenIframe
     visibility:hidden;
     display:none;
 }
+
+i.danger
+{
+    color:#c91212;
+}
+
+i.success
+{
+    color:#178216;
+}

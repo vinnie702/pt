@@ -167,6 +167,9 @@ class Tracker extends CI_Controller
             
             $body['assigned'] = $this->tracker->checkTrackingItemAssigned($id);
 
+            $body['diff'] = $this->tracker->calcPriceDiff($id);
+
+            $body['secondLast'] = $this->tracker->getSecondLatestPrice($id);
         }
         catch (Exception $e)
         {
