@@ -381,4 +381,73 @@ class tracker_model extends CI_Model
 
         return $data;
     }
+
+    /**
+     * Gets a percentage of increase from last price
+     *
+     * @param mixed $item 
+     *
+     * @return TODO
+     */
+    public function calcPriceDiff ($item)
+    {
+        $item = intval($item);
+
+        if (empty($item)) throw new Exception("Item ID is empty!");
+
+        // first gets the current price
+        $latestPrice = $this->tracker->getLatestPrice($item);
+
+        if (empty($latestPrice)) return 0; // no prices at all to compare
+
+        $prevPrice = $this->getSecondLatestPrice($item);
+
+        // if no previous price, simply returns false;
+        if (empty($prevPrice)) return 0;
+
+        // echo "Latest: " . $latestPrice->price;
+        // echo "Prev: " . $prevPrice->price;
+
+        $diff = $latestPrice->price / $prevPrice->price;
+
+        $diff = ($diff * 100) - 100;
+
+        return number_format($diff, 2);
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $trackingItemID
+     *
+     * @return object
+     */
+    public function getSecondLatestPrice ($trackingItemID)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("trackingItemID is empty!");
+
+        $mtag = "secondLatestPrice-{$trackingItemID}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItemPrices');
+            $this->db->where('trackingItemID', $trackingItemID);
+            $this->db->order_by('datestamp', 'desc');
+            $this->db->limit(1, 1);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0];
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 }

@@ -29,6 +29,15 @@
                     <td class='lowPrice'>Members Only</td>
                 <?php endif; ?>
             </tr>
+
+            <?php if ($this->session->userdata('logged_in') == true) : ?>
+            <tr>
+            <td class='percentChange'><?=$diff?>% 
+                <?php if ($diff <> 0) echo "<i class='fa fa-arrow-" . (($diff > 0) ? 'up danger' : 'down success') . "'></i>"; ?>
+                </td>
+                    <td colspan='2'><span class='text-muted'>Last Updated: <?=date("m/d/Y g:i A", strtotime($secondLast->datestamp))?></span></td>
+            </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 

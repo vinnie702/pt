@@ -86,8 +86,20 @@ WHERE userid = 105;
 select * from trackingItemUserAssign;
 
 
-SELECT * FROM trackingItemPrices 
-WHERE trackingItemID = 5;
+SELECT *
+FROM trackingItemPrices
+WHERE trackingItemID = 3
+AND price <> '56.63'
+ORDER BY datestamp DESC
+LIMIT 1;
+
+
+SELECT *
+FROM trackingItemPrices
+WHERE trackingItemID = 3
+-- AND price <> '56.63'
+ORDER BY datestamp DESC
+LIMIT 1, 1;
 
 explain trackingItemPrices
 SELECT * FROM trackingItemPrices;
