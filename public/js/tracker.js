@@ -6,13 +6,30 @@ tracker.landingInit = function ()
         tracker.checkTrackForm(this);
     });
 
-    tracker.getTrackedItems();
+    // tracker.getTrackedItems();
 
     // $('#trackSearchForm #q').keyup().change(function(){
     $('#trackSearchForm #q').on('keyup keypress blur focus change', function(){
         console.log('q changed' + $(this).val());
         tracker.getTrackedItems($(this).val());
     });
+
+    $('#gridViewBtn').click(function(e){
+        tracker.getTrackedItems();
+    });
+
+    $('#tblViewBtn').click(function(e){
+        tracker.getTrackedItemsTbl();
+    });
+
+    if ($('#viewType').val() == 2)
+    {
+        tracker.getTrackedItemsTbl();
+    }
+    else
+    {
+        tracker.getTrackedItems();
+    }
 
 }
 
@@ -27,8 +44,31 @@ tracker.getTrackedItems = function (q)
 
     var search = (q == undefined || q == '') ? '' : '?q=' + escape(q);
 
+    $('#gridViewBtn').attr('disabled', 'disabled');
+
     $.get("/tracker/gettrackeditems" + search, function(data){
+    
+        $('#tblViewBtn').removeAttr('disabled');
         $('#trackingItemDisplay').html(data);
+    });
+}
+
+tracker.getTrackedItemsTbl = function ()
+{
+    $('#tblViewBtn').attr('disabled', 'disabled');
+
+    $.get("/tracker/gettrackeditemstbl", function(data){
+    
+        $('#gridViewBtn').removeAttr('disabled');
+        $('#trackingItemDisplay').html(data);
+        
+        if ($('#mainDisplayTbl').exists())
+        {
+            $('#mainDisplayTbl').dataTable({
+                "bStateSave": true
+            });
+        }
+
     });
 }
 

@@ -1,6 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
+<input type='hidden' id='viewType' value='<?=$viewType?>'>
+<?php
+/*
+<h4><i class='fa fa-sort'></i> Sort By</h4>
 
+<p>
+<select name="sort" id="sort" class='form-control'>
+    <option value=""></option>
+    <!-- options -->
+</select>
+</p>
+<hr>
+ */
+?>
     <div class='panel panel-default'>
         <div class='panel-heading'><i class='fa fa-bar-chart-o'></i> Track an Item</div>
 
@@ -32,7 +45,9 @@ echo form_open('#', $attr);
 
     </div> <!-- .panel -->
 
-<hr class='trackingSearch'>
+<div id='leftSearchContainer'>
+
+    <hr class='trackingSearch'>
 
 <?php
     
@@ -57,6 +72,20 @@ echo form_open('/tracker/landing', $attr);
 
 </form>
 
+</div> <!-- #letSearchContainer -->
+
+<hr>
+
+<h4><i class='fa fa-eye'></i> View</h4>
+
+<div class='btn-group'>
+<?php
+    if ((int) $viewType == 2) $tblDis = "disabled='disabled'";
+    else $gridDis = "disabled='disabled'";
+    ?>
+        <button type='button' class='btn btn-default' id='gridViewBtn' <?=$gridDis?>><i class='fa fa-th'></i> Grid</button>
+        <button type='button' class='btn btn-default'  id='tblViewBtn' <?=$tblDis?>><i class='fa fa-th-list'></i> Table</button>
+</div>
 
 
     </div> <!-- col-3 -->

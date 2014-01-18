@@ -265,3 +265,8 @@ i.success
 {
     color:#178216;
 }
+
+#mainDisplayTbl td:hover
+{
+    cursor:pointer;
+}
