@@ -266,6 +266,9 @@ class Grabber extends CI_Controller
                     {
                         // get users e-mail address
                         $email = $this->users->getEmail($user);
+
+                        echo "Sending Email to: {$email}" . PHP_EOL;
+
                         $this->functions->sendEmail($subject, $msg, $email);
                     }
                     catch (Exception $e)
