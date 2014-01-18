@@ -383,7 +383,7 @@ class tracker_model extends CI_Model
     }
 
     /**
-     * Gets a percentage of increase from last price
+     * Gets a percentage of increase from last price check
      *
      * @param mixed $item 
      *
@@ -413,6 +413,77 @@ class tracker_model extends CI_Model
         $diff = ($diff * 100) - 100;
 
         return number_format($diff, 2);
+    }
+
+    /**
+     * Compares current price on chart, vs previous day on chart
+     * for item details
+     *
+     * @param mixed $item 
+     *
+     * @return double
+     */
+    public function calcPriceDiffPrevDay ($item)
+    {
+        $item = intval($item);
+
+        if (empty($item)) throw new Exception("Item ID is empty!");
+
+        // first gets the current price
+        $latestPrice = $this->tracker->getLatestPrice($item);
+
+        if (empty($latestPrice)) return 0; // no prices at all to compare
+
+        $prevDayPrice = $this->getPreviousDayPrice($item, $latestPrice->priceDay);
+
+        // if no previous price, simply returns false;
+        if (empty($prevDayPrice)) return 0;
+
+        $diff = $latestPrice->price / $prevDayPrice->price;
+
+        $diff = ($diff * 100) - 100;
+
+        return number_format($diff, 2);
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $item       
+     * @param mixed $currentDay (YYYY-MM-DDD) - the day you wish to get the price before
+     *
+     * @return TODO
+     */
+    public function getPreviousDayPrice ($trackingItemID, $currentDay)
+    {
+        $trackingItemID = intval($trackingItemID);
+
+        if (empty($trackingItemID)) throw new Exception("trackingItemID is empty!");
+
+        $mtag = "prevDayPrice-{$trackingItemID}-{$currentDay}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItemPrices');
+            $this->db->where('trackingItemID', $trackingItemID);
+            $this->db->where('priceDay <>', $currentDay);
+            $this->db->order_by('datestamp', 'desc');
+            $this->db->limit(1);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            // echo $this->db->last_query();
+
+            $data = $results[0];
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
     }
 
     /**

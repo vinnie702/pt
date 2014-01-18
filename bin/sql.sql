@@ -101,6 +101,22 @@ WHERE trackingItemID = 3
 ORDER BY datestamp DESC
 LIMIT 1, 1;
 
+
+SELECT *
+FROM trackingItemPrices
+WHERE trackingItemID = 3
+AND priceDay <> '2014-01-18'
+ORDER BY datestamp DESC
+LIMIT 1
+
+SELECT *
+FROM (`trackingItemPrices`)
+WHERE `trackingItemID` =  3
+AND `priceDay` <> '2014-01-18'
+ORDER BY `datestamp` desc
+LIMIT 1
+
+
 explain trackingItemPrices
 SELECT * FROM trackingItemPrices;
 
