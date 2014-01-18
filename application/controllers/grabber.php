@@ -194,8 +194,11 @@ class Grabber extends CI_Controller
 
             echo "\n\n***Item Updates complete. Will now send emails out to users***\n\n";
 
-            $this->_cronSendCompiledEmails($adjustedItems);
-
+            // if there were items adjusted it will attempt to send them out
+            if (!empty($adjustedItems))
+            {
+                $this->_cronSendCompiledEmails($adjustedItems);
+            }
         }
         catch (Exception $e)
         {
