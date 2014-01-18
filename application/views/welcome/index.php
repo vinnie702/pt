@@ -3,7 +3,7 @@
 <div class='jumbotron chartJumbo'>
     <h1>Welcome</h1>
 
-    <p class='lead'>ProductPriceTracker.com is leading online resource for tracking prices from Amazon<sup>&reg;</sup>. The regular price will be $20.00 / Month, however while we are currently in <label class='label label-info'>Beta</label>, you can sign up today and lock in your monthly rate at only <strong>$9.99 / Month </strong>.</p>
+    <p class='lead'>ProductPriceTracker.com is the leading online resource for tracking prices from Amazon<sup>&reg;</sup>. The regular price will be $20.00 / Month, however while we are currently in <label class='label label-info'>Beta</label>, you can sign up today and lock in your monthly rate at only <strong>$9.99 / Month </strong>.</p>
 
 <button type='button' id='registerBtn' name='registerBtn' class='btn btn-success btn-lg' onclick="welcome.register(<?=$this->config->item('company')?>)"><i class='fa fa-pencil'></i> Register Now</button>
 </div>

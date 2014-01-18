@@ -20,12 +20,15 @@ SELECT * FROM codes;
 
 SELECT * FROM users ORDER BY id DESC;
 
-SELECT status FROM users;
+SELECT id, firstname, lastName, status, pptViewType FROM users
+WHERE id = 1
 
 select * from trackingItemUserAssign
 
 select * FROM trackingItems WHERE id = 34;
 
+
+explain users;
 
 SELECT *
 -- truncate table trackingItems;
@@ -41,6 +44,8 @@ SELECT * FROM positions WHERE id = 44;
 SELECT name FROM positions;
 
 SELECT * FROM userPositions;
+
+
 
 SELECT * FROM userCompanies WHERE userid = 105;
 
@@ -73,6 +78,12 @@ ORDER BY id desc;
 
 -- ALTER TABLE trackingItems ADD COLUMN `imgUrl` VARCHAR(300) DEFAULT NULL AFTER `description`;
 -- ALTER TABLE trackingItems ADD COLUMN `lastUpdated` DATETIME DEFAULT NULL;
+
+ALTER TABLE users ADD COLUMN `pptViewType` SMALLINT(5) UNSIGNED DEFAULT 0;
+
+explain users;
+
+SELECT * FROM users;
 
 explain trackingItemsHtml;
 

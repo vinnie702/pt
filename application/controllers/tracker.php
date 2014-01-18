@@ -11,6 +11,7 @@ class Tracker extends CI_Controller
 
         $this->load->model('tracker_model', 'tracker', true);
         $this->load->model('grabber_model', 'grabber', true);
+        $this->load->model('users_model', 'users', true);
     }
 
     public function landing ()
@@ -19,11 +20,13 @@ class Tracker extends CI_Controller
         $header['onload'] = "tracker.landingInit();";
         // $header['singleCol'] = true;
 
+        $header['datatables'] = true;
+
         $this->functions->checkLoggedIn();
 
         try
         {
-
+            $body['viewType'] = $this->users->getViewType($this->session->userdata('userid'));
         }
         catch (Exception $e)
         {
@@ -122,6 +125,16 @@ class Tracker extends CI_Controller
             {
                 $body['trackedItems'] = $this->tracker->getTrackingItems();
             }
+
+            // gets current view type
+            $viewType = $this->users->getViewType($this->session->userdata('userid'));
+
+            if ((int) $viewType !== 1)
+            {
+                // update view type to grid
+                $this->users->updateViewType($this->session->userdata('userid'), 1);
+            }
+
         }
         catch (Exception $e)
         {
@@ -129,6 +142,36 @@ class Tracker extends CI_Controller
         }
     
         $this->load->view('tracker/gettrackingitems', $body);
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function gettrackeditemstbl ()
+    {
+        try
+        {
+            $body['trackedItems'] = $this->tracker->getTrackingItems();
+
+            // gets current view type
+            $viewType = $this->users->getViewType($this->session->userdata('userid'));
+
+            if ((int) $viewType !== 2)
+            {;
+                // update view type to grid
+                $this->users->updateViewType($this->session->userdata('userid'), 2);
+            }
+
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+
+        $this->load->view('tracker/gettrackingitemstbl', $body);
     }
 
     /**

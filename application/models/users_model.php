@@ -292,4 +292,63 @@ class users_model extends CI_Model
         return false;
     }
 
+    /**
+     * Gets a users view type
+     *
+     * @param mixed $user 
+     *
+     * @return SMALLINT
+     */
+    public function getViewType ($user)
+    {
+        $user = intval($user);
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "viewType-{$user}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->select('pptViewType');
+            $this->db->from('users');
+            $this->db->where('id', $user);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0]->pptViewType;
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
+
+    /**
+     * Updates users view type
+     *
+     * @param mixed $user     
+     * @param mixed $viewType 
+     *
+     * @return boolean
+     */
+    public function updateViewType ($user, $viewType)
+    {
+
+        $user = intval($user);
+        $viewType = intval($viewType);
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+        if (empty($viewType)) throw new Exception("View is empty!");
+
+        $data = array('pptViewType' => $viewType);
+
+        $this->db->where('id', $user);
+        $this->db->update('users', $data);
+
+        return true;
+    }
 }
