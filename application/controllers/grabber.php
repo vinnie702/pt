@@ -13,6 +13,7 @@ class Grabber extends CI_Controller
 
         $this->load->model('grabber_model', 'grabber', true);
         $this->load->model('tracker_model', 'tracker', true);
+        $this->load->model('users_model', 'users', true);
     }
 
     /**
@@ -35,6 +36,7 @@ class Grabber extends CI_Controller
         {
             try
             {
+                // gets item info
                 $info = $this->grabber->getTrackingItemInfo($_POST['id']);
 
                 // if the item id is empty gets it from URL
@@ -74,48 +76,22 @@ class Grabber extends CI_Controller
         $this->functions->jsonReturn('ERROR', 'GET is not supported!');
     }
 
-    public function test ($user = 0)
+    public function test ()
     {
         try
         {
+            $email = "williamgallios@gmail.com";
 
-            echo "<pre>";
+            $subject = "Test Message";
+            
+            $msg = "<h1>Test Message</h1><p>This is another test message.</p>";
 
-            $html = "<span id=\"priceblock_ourprice\" class=\"a-size-medium a-color-price\">$29.99</span>";
-    
-            $pattern = '/priceblock_ourprice/';
-            $preg = preg_match($pattern, $html);
+                $this->functions->sendEmail($subject, $msg, $email);
 
+            // $users = $this->grabber->getUsersTrackingItems(array(1,34));
 
+            // print_r($users);
 
-            // echo $html . PHP_EOL;
-
-            // $opPrice = stripos($html, 'priceblock_ourprice');
-
-
-            // echo "opPrice: {$opPrice}\n";
-            echo "Preg: {$preg}\n";
-
-            /*
-            if (empty($user)) throw new Exception("UserID is empty!");
-
-            echo "LIVE: {$this->config->item('live')}" . PHP_EOL;
-
-            // $email = "wgallios@cgisolution.com";
-
-            $email = $this->functions->getUsersEmail($user);
-
-            $subject = "Working Test to {$email}";
-            // $email = "brandonvinall@hotmail.com";
-            // $email = "wgallios@cgisolution.com";
-            // $email = "georgewburroughs@yahoo.com";
-
-            $msg = "<h1>Test</h1> This is a test email. Text will or brandon if you got this";
-
-
-            // echo "Sending Email to {$email}" . PHP_EOL;
-            // $this->functions->sendEmail($subject, $msg, $email);
-            */
             echo "Test is now complete" . PHP_EOL;
 
 
@@ -133,7 +109,6 @@ class Grabber extends CI_Controller
     {
         try
         {
-
             echo PHP_EOL . 'Getting list of items' . PHP_EOL . PHP_EOL;
 
             $trackingItems = $this->grabber->getAllItemsToCheck();
@@ -142,16 +117,11 @@ class Grabber extends CI_Controller
 
             $failCount = 0;
 
+            // array that holds ID's of all items that were updated in this run
+            $adjustedItems = array();
+
             foreach ($trackingItems as $r)
             {
-                /*
-                if ($failCount >= 3)
-                {
-                    echo "3 Failed scapes have happend! Please resolve!";
-                    break;
-                }
-                 */
-
                 echo "Checking Item: {$r->id}...";
                 
                 $reqDL = $this->scraper->checkRequireDownload($r->id);
@@ -191,10 +161,14 @@ class Grabber extends CI_Controller
                         {
                             echo "price has changed...";
 
-                            // there has been a price change
-                            $sentCnt = $this->_alertOfPriceChange($r->id);
+                            $adjustedItems[] = $r->id;
 
-                            echo "{$sentCnt} users notified...";
+                            echo "Added item ({$r->id}) to adjustedItems array...";
+
+                            // there has been a price change
+                            // $sentCnt = $this->_alertOfPriceChange($r->id);
+
+                            // echo "{$sentCnt} users notified...";
                         }
                         else
                         {
@@ -218,6 +192,10 @@ class Grabber extends CI_Controller
                 }
             }
 
+            echo "\n\n***Item Updates complete. Will now send emails out to users***\n\n";
+
+            $this->_cronSendCompiledEmails($adjustedItems);
+
         }
         catch (Exception $e)
         {
@@ -230,12 +208,87 @@ class Grabber extends CI_Controller
     }
 
     /**
+     * sends a compiled email to all users who are tracking the items
+     *
+     * @param mixed $items 
+     *
+     * @return TODO
+     */
+    private function _cronSendCompiledEmails($items)
+    {
+        $users = $this->grabber->getUsersTrackingItems($items);
+
+        if (!empty($users))
+        {
+            $subject = "Price Changes";
+
+            // will now go through each user and compile the email to send to them
+            foreach ($users as $k => $user)
+            {
+                $email = null;
+
+                $totalItems = 0; // total items each user has updated in their email - wont send email if 0
+
+                if (empty($user)) continue;
+
+                $assigned = false;
+
+                $msg = "<h1>Price Changes</h1>";
+
+                if (!empty($items))
+                {
+                    foreach ($items as $item)
+                    {
+                        $msg = "<h1>Price Changes</h1> <p>Prices have changed for the following items:</p>" . PHP_EOL;
+
+                        // will go through each item and check if they are assigned 
+                        // to the item and will add it to their email;
+                        $assigned = $this->tracker->checkTrackingItemAssigned($item, $user);
+
+                        // user is assigned to this item - will add it to their e-mail
+                        if ($assigned == true)
+                        {
+                            $itemInfo = $this->tracker->getTrackingItemInfo($item);
+
+                            $msg .= "<p><a href='http://productpricetracker.com/tracker/details/{$item}'>{$itemInfo->itemName}</a></p>" . PHP_EOL;
+
+                            $totalItems++;
+                        }
+                    }
+                }
+
+                // items were added to the email, so it is good to be sent
+                if (!empty($totalItems))
+                {
+                    // attempts to send email
+                    // if fails, continues with script
+                    try
+                    {
+                        // get users e-mail address
+                        $email = $this->users->getEmail($user);
+
+                        echo "Sending Email to: {$email}" . PHP_EOL;
+
+                        $this->functions->sendEmail($subject, $msg, $email);
+                    }
+                    catch (Exception $e)
+                    {
+                        $this->functions->sendStackTrace($e);
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * TODO: short description.
      *
      * @param mixed $trackingItemID 
      *
      * @return TODO
      */
+    /*
     private function _alertOfPriceChange ($trackingItemID)
     {
         // gets everyone assigned to item
@@ -266,4 +319,5 @@ class Grabber extends CI_Controller
 
         return $sentCnt;
     }
+     */
 }

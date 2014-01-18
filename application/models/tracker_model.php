@@ -236,6 +236,8 @@ class tracker_model extends CI_Model
             $this->db->from('trackingItemPrices');
             $this->db->where('trackingItemID', $trackingItemID);
             $this->db->where('priceDay', $day);
+            $this->db->order_by('datestamp', 'desc');
+            $this->db->limit('1');
 
             $query = $this->db->get();
 
