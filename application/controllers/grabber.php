@@ -105,6 +105,14 @@ class Grabber extends CI_Controller
      */
     public function cron ()
     {
+        header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+
+        set_time_limit(0);
+
+        // array that holds ID's of all items that were updated in this run
+        $adjustedItems = array();
+
         try
         {
             echo PHP_EOL . 'Getting list of items' . PHP_EOL . PHP_EOL;
@@ -114,10 +122,6 @@ class Grabber extends CI_Controller
             if (empty($trackingItems)) die("No items to check. Program will exit now");
 
             $failCount = 0;
-
-            // array that holds ID's of all items that were updated in this run
-            $adjustedItems = array();
-
             foreach ($trackingItems as $r)
             {
                 echo "Checking Item: {$r->id}...";
@@ -161,7 +165,7 @@ class Grabber extends CI_Controller
                         {
                             echo "price has changed...";
 
-                            $adjustedItems[] = (int) $r->id;
+                            $adjustedItems[] = $r->id;
 
                             echo "Added item ({$r->id}) to adjustedItems array...";
 
@@ -244,14 +248,14 @@ class Grabber extends CI_Controller
 
                 $assigned = false;
 
-                $msg = "<h1>Price Changes</h1>";
+                // $msg = "<h1>Price Changes</h1>";
+
+                $msg = "<h1>Price Changes</h1> <p>Prices have changed for the following items:</p>" . PHP_EOL;
 
                 if (!empty($items))
                 {
                     foreach ($items as $item)
                     {
-                        $msg = "<h1>Price Changes</h1> <p>Prices have changed for the following items:</p>" . PHP_EOL;
-
                         // will go through each item and check if they are assigned 
                         // to the item and will add it to their email;
                         $assigned = $this->tracker->checkTrackingItemAssigned($item, $user);
