@@ -21,6 +21,8 @@ class Welcome extends CI_Controller
         $header['headscript'] .= $this->functions->jsScript('tracker.js');
         $header['singleCol'] = true;
 
+        $body['utm_campaign'] = $header['utm_campaign'] = urldecode($_GET['utm_campaign']);
+
         try
         {
             $body['topTrackedItems'] = $this->tracker->getTopTrackedItems(4);
@@ -182,8 +184,8 @@ class Welcome extends CI_Controller
                 " .
                 nl2br($_POST['message']);
 
-                // $emailTo = array ('bvinall@cgisolution.com', 'williamgallios@gmail.com');
-                $emailTo = array ('brandonvinall@gmail.com', 'williamgallios@gmail.com');
+                $emailTo = array ('bvinall@cgisolution.com', 'wgallios@cgisolution.com');
+                // $emailTo = array ('brandonvinall@gmail.com', 'williamgallios@gmail.com');
 
                 // will now send out email
                 $this->functions->sendEmail($subject, $message, $emailTo);

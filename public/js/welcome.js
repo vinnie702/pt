@@ -24,7 +24,14 @@ welcome.checkLoginForm = function ()
 
 welcome.register = function (company)
 {
-    window.location = 'https://bms.cgisolution.com/register/index/' + company;
+    var campaignTxt = '';
+
+    if ($('#utm_campaign').exists())
+    {
+        campaignTxt = "?utm_campaign=" + $('#utm_campaign').val();
+    }
+
+    window.location = 'https://bms.cgisolution.com/register/index/' + company + campaignTxt;
 }
 
 

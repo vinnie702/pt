@@ -270,3 +270,10 @@ i.success
 {
     cursor:pointer;
 }
+
+.ftBanner
+{
+    width:100%;
+    float:none;
+    text-align:center;
+}

@@ -61,7 +61,7 @@ else
 {
 ?>
     <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
-    <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?>'><i class='fa fa-pencil'></i> Register</a></li>
+    <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?><?php if (!empty($utm_campaign)) echo "?utm_campaign={$utm_campaign}"; ?>'><i class='fa fa-pencil'></i> Register</a></li>
 
 <?php } ?>
 
