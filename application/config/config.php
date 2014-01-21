@@ -393,6 +393,8 @@ if (!isset($config['companyName'])) $config['companyName'] = "Product Price Trac
 
 if (!isset($config['CGIBMSURL'])) $config['CGIBMSURL'] = "https://bms.cgisolution.com/";
 
+if (!isset($config['BMSpath'])) $config['BMSpath'] = "/var/www/intranet/html/"; // ensure it ends with a slash
+
 $config['uploads'] = $_SERVER['DOCUMENT_ROOT'] . 'public' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 
 if (!isset($config['amazonAssID'])) $config['amazonAssID'] = "cgisolution-20";

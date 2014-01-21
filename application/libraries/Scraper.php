@@ -117,6 +117,56 @@ class Scraper
     /**
      * TODO: short description.
      *
+     * @return TODO
+     */
+    private function _getBrand($html)
+    {
+        $brandPos = stripos($html, 'field-brandtext');
+
+        $firstGT = stripos($html, '>', $brandPos);
+
+        if (!empty($brandPos))
+        {
+            $brand = $this->_getTagVal($html, $firstGT, '</a>');
+            
+            $brand = str_replace('>', null, $brand);
+
+            $brand = trim($brand);
+        }
+
+        return $brand;
+
+    }
+
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $html 
+     *
+     * @return TODO
+     */
+    protected function __getModel ($html)
+    {
+        $modelPos = stripos($html, 'Item model number:');
+
+        $firstGT = stripos($html, '>', $modelPos);
+
+        if (!empty($modelPos))
+        {
+            $model = $this->_getTagVal($html, $firstGT, '</li>');
+            
+            $model = str_replace('>', null, $model);
+
+            $model = trim($model);
+        }
+
+        return $model;
+    }
+
+    /**
+     * TODO: short description.
+     *
      * @param mixed $item 
      *
      * @return TODO
@@ -259,45 +309,50 @@ class Scraper
      *
      * @param mixed $id 
      *
-     * @return TODO
+     * @return array
      */
     public function scrapeLatestData ($trackingItemID)
     {
-        $fileName = $this->_getLatestHtml($trackingItemID);
+        $return = array();
+
+        $return['fileName'] = $this->_getLatestHtml($trackingItemID);
         
         // error_log('FileName: ' . $fileName);
 
         $path = $_SERVER['DOCUMENT_ROOT'] . 'public/uploads/html/' . $trackingItemID . '/';
 
-        if (!file_exists($path . $fileName)) throw new Exception("File to scrape does not exists! ({$path}{$fileName})");
+        if (!file_exists($path . $return['fileName'])) throw new Exception("File to scrape does not exists! ({$path}{$return['fileName']})");
 
-        $contents = file_get_contents($path  . $fileName);
+        $contents = file_get_contents($path  . $return['fileName']);
 
-        $title = $this->_getTitle($contents);
-        // echo "Title: {$title}\n";
+        $return['title'] = $this->_getTitle($contents);
 
-        $this->updateTrackItemTitle($trackingItemID, $title);
+        $this->updateTrackItemTitle($trackingItemID, $return['title']);
 
-        $img =  $this->_getImage($contents);
-        // echo "src: {$img}<br><img src='{$img}'>";
+        $return['img'] =  $this->_getImage($contents);
         
-        $this->updateImgUrl($trackingItemID, $img);
+        $this->updateImgUrl($trackingItemID, $return['img']);
 
-// echo "<hr>" . PHP_EOL;
-        $details =  $this->_getDetails($contents);
-        // echo $details;
-        $this->updateTrackItemDesc($trackingItemID, $details);
+        $return['details'] = $this->_getDetails($contents);
+        $this->updateTrackItemDesc($trackingItemID, $return['details']);
 
-        
-        $price = $this->_getPrice($contents);
+        $return['price'] = $this->_getPrice($contents);
 
         // check if there is a price already saved for today
         // $saved = $this->checkPriceSaved($trackingItemID);
 
         // always updates price
-        $this->savePrice($trackingItemID, $price);
+        $this->savePrice($trackingItemID, $return['price']);
 
-        // echo 'Price: ' . $price . PHP_EOL;
+        // gets products brand
+        $return['brand'] = $this->_getBrand($contents);
+        // error_log('BRAND: ' . $return['brand']);
+
+        // gets model
+        $return['model'] = $this->__getModel($contents);
+        // error_log('MODEL: ' . $return['model']);
+
+        return $return;
     }
 
     /**
@@ -692,6 +747,75 @@ class Scraper
         }
 
         if ($domainFound == true) return true;
+
+        return false;
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $search 
+     *
+     * @return TODO
+     */
+    public function findMasterItem ($search)
+    {
+
+        $config = array
+            (
+                'server' => $this->ci->config->item('server'),
+                'connect_timeout' => $this->ci->config->item('connect_timeout'),
+                'array_result' => $this->ci->config->item('array_result')
+            );
+
+        $this->ci->load->library('sphinxsearch', $config);
+
+
+        try
+        {
+            // searchs for matches
+            $itemResults = $this->ci->sphinxsearch->Query($search, 'items');
+
+            if (empty($itemResults['matches']))
+            {
+                // unable to find master item
+                // error_log("No Master Item found with search: {$search}\n\nCreating one...");
+                return false;
+            }
+            else
+            {
+                // founds were found
+            
+                // will go through matches and find the first one that is
+                // not deleted, and is assigned to this company
+
+                // will now go through items and check if any of them are the compaies items
+                // $id = $itemResults['matches'][0]['id'];
+
+                $id = 0;
+
+                foreach ($itemResults['matches'] as $k => $v)
+                {
+                    $info = $this->functions->getItemCompAndStatus($v['id']);
+
+                    if ( (int) $info->company == (int) $this->ci->config->item('company') && $info->deleted == 0)
+                    {
+                        // use this item its the first most relevatn match found for the company items that is not deleted
+                        $id = $v['id'];
+                        break;
+                    }
+                }
+
+
+                error_log("Item ITEM that seems to match: {$id}");
+
+            }
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+            return false;
+        }
 
         return false;
     }
