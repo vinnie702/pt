@@ -185,16 +185,18 @@ class Functions
      *
      * @return boolean
      */
-    public function createDir($path)
+    public function createDir($path, $absolute = false)
     {
+        if ($absolute == false) $path = $_SERVER['DOCUMENT_ROOT'] . $path;
 
-        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . $path))
+        if (!is_dir($path))
         {
-            $create = mkdir($_SERVER['DOCUMENT_ROOT'] . $path, 0777, true);
+            $create = mkdir($path, 0777, true);
 
-            if ($create === false) throw new exception("Unable to create directory:" . $_SERVER['DOCUMENT_ROOT'] . $path);
+            if ($create === false) throw new exception("Unable to create directory:" . $path);
+
             // attempts to set permissions for folder to allow copy
-            @chmod($_SERVER['DOCUMENT_ROOT'] . $path, 0777);
+            @chmod($path, 0777);
         }
         else
         {
@@ -522,6 +524,56 @@ class Functions
 
             $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
         }
+
+        return $data;
+    }
+
+    /**
+     * gets the extension of a given file, Example: some_image.test.JPG
+     *
+     * @param string $file - filename
+     *
+     * @return string. E.g.: jpg
+     */
+    public function getFileExt($file)
+    {
+        $ld = strrpos($file, '.');
+
+        // gets file extension
+        $ext = strtolower(substr($file, $ld + 1, (strlen($file) - $ld)));
+
+    return $ext;
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $item 
+     *
+     * @return TODO
+     */
+    public function getItemCompAndStatus ($item)
+    {
+        $mtag = "itemCompAndStatus-{$item}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->select('id, company, status, deleted');
+            $this->ci->db->from('items');
+            $this->ci->db->where('id', $item);
+
+            $query = $this->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0];
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        if (empty($data)) return $false;
 
         return $data;
     }

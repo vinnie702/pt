@@ -60,7 +60,23 @@ class Grabber extends CI_Controller
                 {
                     $this->scraper->downloadHTML($_POST['id']);
 
-                    $this->scraper->scrapeLatestData($_POST['id']);
+                    $data = $this->scraper->scrapeLatestData($_POST['id']);
+
+                    $searchTxt = "{$data['title']} {$data['brand']} {$data['model']} {$data['sku']}";
+
+                    $searchTxt = trim($searchTxt);
+
+                    $masterItemID = $this->scraper->findMasterItem($searchTxt);
+
+                    if ($masterItemID === false)
+                    {
+                        // create new master item
+                        $masterItemID = $this->grabber->createMasterItem($data);
+                        $this->grabber->downloadMasterItemImage($masterItemID, $data);
+                    }
+
+                    // save master bms ID
+                    $this->grabber->saveBMSItemID($_POST['id'], $masterItemID);
                 }
 
                 // $this->grabber->updateProductData($_POST['id']);

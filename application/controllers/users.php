@@ -9,6 +9,8 @@ class Users extends CI_Controller
         parent::__construct();
 
         $this->load->driver('cache');
+        
+        $this->functions->checkLoggedIn();
 
         $this->load->model('users_model', 'users', true);
         // $this->load->model('welcome_model', 'welcome', true);

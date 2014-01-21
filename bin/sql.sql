@@ -12,6 +12,25 @@ order by cnt desc
 limit 4
 
 
+explain items;
+
+
+-- UPDATE items SET deleted = 1 WHERE company = 35;
+
+
+SELECT * FROM items WHERE company = 35
+AND deleted = 0
+;
+
+
+explain itemFolderAssign;
+
+explain itemImages;
+
+SELECT * FROM itemImages;
+
+
+
 
 SELECT DISTINCT userid FROM trackingItemUserAssign WHERE trackingItemID = 1;
 
@@ -25,8 +44,9 @@ WHERE id = 1
 
 select * from trackingItemUserAssign
 
-select * FROM trackingItems WHERE id = 34;
+select id, itemName, bmsItemID FROM trackingItems WHERE id = 381;
 
+explain trackingItems;
 
 explain users;
 
