@@ -201,6 +201,8 @@ class Tracker extends CI_Controller
 
         $body['id'] = $id;
 
+        $body['utm_campaign'] = $header['utm_campaign'] = urldecode($_GET['utm_campaign']);
+
         try
         {
 

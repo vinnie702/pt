@@ -101,6 +101,8 @@ class Welcome extends CI_Controller
         $header['headscript'] = $this->functions->jsScript('welcome.js');
         $header['onload'] = "welcome.loginInit();";
         $header['title'] = "Login";
+        
+        $body['utm_campaign'] = $header['utm_campaign'] = urldecode($_GET['utm_campaign']);
 
         $header['singleCol'] = true;
         $header['bcText'] = "<i class='fa fa-sign-in'></i> Login";
@@ -151,6 +153,7 @@ class Welcome extends CI_Controller
     public function contactus ()
     {
 
+        $body['utm_campaign'] = $header['utm_campaign'] = urldecode($_GET['utm_campaign']);
         $header['headscript'] = $this->functions->jsScript('welcome.js');
         $header['onload'] = "welcome.contactusInit();";
         $header['singleCol'] = true;

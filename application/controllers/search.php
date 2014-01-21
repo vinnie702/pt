@@ -37,6 +37,7 @@ class Search extends CI_Controller
 
         $header['singleCol'] = true;
 
+        $body['utm_campaign'] = $header['utm_campaign'] = urldecode($_GET['utm_campaign']);
         // $body['folder'] = 0;
 
         $body['q'] = urldecode($_GET['q']);

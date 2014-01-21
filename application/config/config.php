@@ -377,7 +377,7 @@ if (in_array(strtolower($_SERVER['HTTP_HOST']), $config['liveUrls'])) $config['l
 if (PHP_SAPI == 'cli') $config['live'] = true;
 
 
-if (!isset($config['min_version'])) $config['min_version'] = 16; // <!---- this one - this is the min version
+if (!isset($config['min_version'])) $config['min_version'] = 17; // <!---- this one - this is the min version
 
 if (!isset($config['min_debug'])) $config['min_debug'] = null;
 

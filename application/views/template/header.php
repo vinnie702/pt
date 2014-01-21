@@ -25,7 +25,7 @@
                 <i class='fa fa-user'></i> <?=$this->session->userdata('name')?>
             </a>
         <?php else: ?>
-            <a href='/welcome/login' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-in'></i> Login</a>
+            <a href='/welcome/login<?php if (!empty($utm_campaign)) echo "?utm_campaign=" . urlencode($utm_campaign); ?>' class='btn btn-warning pull-right mainLoginLink'><i class='fa fa-sign-in'></i> Login</a>
         <?php endif; ?>
     </div>
 
@@ -60,12 +60,12 @@ EOS;
 else
 {
 ?>
-    <li><a href='/' title='Home'><i class='fa fa-home'></i></a></li>
+    <li><a href='/<?php if (!empty($utm_campaign)) echo "?utm_campaign=" . urlencode($utm_campaign); ?>' title='Home'><i class='fa fa-home'></i></a></li>
     <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?><?php if (!empty($utm_campaign)) echo "?utm_campaign={$utm_campaign}"; ?>'><i class='fa fa-pencil'></i> Register</a></li>
 
 <?php } ?>
 
-    <li><a href='/welcome/contactus'><i class='fa fa-phone'></i> Contact Us</a></li>
+    <li><a href='/welcome/contactus<?php if (!empty($utm_campaign)) echo "?utm_campaign=" . urlencode($utm_campaign); ?>'><i class='fa fa-phone'></i> Contact Us</a></li>
 
     <?php if ($this->session->userdata('logged_in') == true AND $this->functions->isCompanyAdmin()) : ?>
         <li><a href='/users'><i class='fa fa-user'></i> Users</a></li>
@@ -82,7 +82,10 @@ else
                         );
 
                     echo form_open('/search', $attr);
-                ?>
+
+                    if (!empty($utm_campaign)) echo "<input type='hidden' name='utm_campaign' value=\"{$utm_campaign}\">";
+?>
+
                     <div class='form-group'>
                         <input type='text' class='form-control' name='q' id='q' value="<?=urldecode($_GET['q'])?>" placeholder='Search Tracked Items'>
                     </div> <!-- .form-group -->
