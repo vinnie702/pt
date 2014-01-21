@@ -129,6 +129,8 @@ tracker.grabInfo = function (b, id)
     $(b).attr('disabled', 'disabled');
     $(b).find('i').addClass('fa-spin');
 
+    console.log(JSON.stringify(tracker.domains));
+
     $.post("/grabber/grabinfo", { id: id, pt_token: global.CSRF_hash }, function(data){
         
         var alertDisplay = ($('#trackItemAlert_' + id).exists()) ? 'trackItemAlert_' + id : undefined;

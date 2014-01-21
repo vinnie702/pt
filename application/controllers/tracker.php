@@ -57,6 +57,10 @@ class Tracker extends CI_Controller
             {
                 $this->load->library('scraper');
 
+                $check = $this->scraper->checkUrlDomain($_POST['url']);
+
+                if ($check === false) throw new Exception("Url (<a href='{$_POST['url']}' target='_blank'>{$_POST['url']}</a>) does not come from a domain we currently track. Domains we currently track are: " . implode(', ', $this->config->item('trackableDomains')) . '.');
+
                 // first get the items Item ID
                 $_POST['itemID'] = $this->scraper->getIDFromURL($_POST['url']);
 
