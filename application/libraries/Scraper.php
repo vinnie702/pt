@@ -660,4 +660,39 @@ class Scraper
 
         return false;
     }
+
+    /**
+     * checks if a link being added is part
+     * of the allow domains that we scrape and track
+     *
+     * @param mixed $url 
+     *
+     * @return boolean 
+     */
+    public function checkUrlDomain ($url)
+    {
+        if (empty($url)) throw new Exception("URL is empty!");
+
+        // gets array of domains that we track
+        $trackableDomains = $this->ci->config->item('trackableDomains');
+
+        if (!empty($trackableDomains))
+        {
+            $domainFound = false;
+
+            foreach ($trackableDomains as $domain)
+            {
+                if (stripos($url, $domain) > 0)
+                {
+                    // domain was found
+                    $domainFound = true;
+                    break;
+                }
+            }
+        }
+
+        if ($domainFound == true) return true;
+
+        return false;
+    }
 }
