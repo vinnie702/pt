@@ -166,7 +166,14 @@ tracker.grabInfo = function (b, id)
 
 tracker.viewDetails = function (id)
 {
-    window.location = '/tracker/details/' + id;
+    var campaignUrl = '';
+
+    if ($('#utm_campaign').exists())
+    {
+        campaignUrl = "?utm_campaign=" + $('#utm_campaign').val();
+    }
+
+    window.location = '/tracker/details/' + id + campaignUrl;
 }
 
 tracker.unassignItem = function (b, id)

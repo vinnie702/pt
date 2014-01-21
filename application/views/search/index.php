@@ -5,8 +5,9 @@
     <p class='lead'>Below are the search results for <strong>&ldquo;<?=$q?>&rdquo;</strong></p>
 
 <input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
+<?php 
 
-<?php
+if (!empty($utm_campaign)) echo "\n\n<input type='hidden' name='utm_campaign' id='utm_campaign' value=\"{$utm_campaign}\">\n";
 // print_r($itemResults);
 
 $totalItemCnt = 0;

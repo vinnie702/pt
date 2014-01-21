@@ -3,6 +3,10 @@
 <h2><?=$info->itemName?></h2>
 <input type='hidden' id='token' value='<?=$this->security->get_csrf_hash()?>'>
 
+<?php
+if (!empty($utm_campaign)) echo "<input type='hidden' name='utm_campaign' id='utm_campaign' value=\"{$utm_campaign}\">" . PHP_EOL;
+?>
+
 <div class='row'>
     <div class='col-lg-3 col-md-3 col-sm-3 col-xs-12'>
         <img src='<?=$info->imgUrl?>' class='img-responsive'>
