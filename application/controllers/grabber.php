@@ -97,6 +97,40 @@ class Grabber extends CI_Controller
     {
         try
         {
+            $diff = -0.43;
+
+                    $msg = "<h1>Table Test</h1>";
+
+            $msg .= "
+<style type='text/css'>
+.priceTbl 
+        {
+    border-collapse:collapse;
+}
+.priceTbl ,th, td
+{
+    border: 1px dotted #777;
+}
+                </style>
+<table cellpadding='10' cellspacing='0' class='priceTbl'>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Change %</th>
+                            </tr>
+                        </thead>
+                        <tbody>";
+                            $msg .= "<tr>" . PHP_EOL;
+                            $msg .= "\t<td><a href='http://productpricetracker.com/tracker/details/1'>Test</a></td>" . PHP_EOL;
+                            $msg .= "\t<td>{$diff}%</td>" . PHP_EOL;
+                            $msg .= "</tr>" . PHP_EOL;
+                            
+
+                            $msg .= "</tbody>" . PHP_EOL;
+                    $msg .= "</table>" . PHP_EOL;
+
+
+            echo "{$msg}<hr>";
 
             $assigned = $this->tracker->checkTrackingItemAssigned(34, 1);
 
@@ -270,6 +304,27 @@ class Grabber extends CI_Controller
 
                 if (!empty($items))
                 {
+
+                    $msg .= "
+<style type='text/css'>
+.priceTbl 
+        {
+    border-collapse:collapse;
+}
+.priceTbl ,th, td
+{
+    border: 1px dotted #777;
+}
+</style>
+                    <table class='priceTbl' cellspacing='0' cellpadding='10'>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Change %</th>
+                            </tr>
+                        </thead>
+                        <tbody>";
+
                     foreach ($items as $item)
                     {
                         // will go through each item and check if they are assigned 
@@ -280,12 +335,23 @@ class Grabber extends CI_Controller
                         if ($assigned == true)
                         {
                             $itemInfo = $this->tracker->getTrackingItemInfo($item);
+                            
+                            $diff = $this->tracker->calcPriceDiffPrevDay($item);
 
-                            $msg .= "<p><a href='http://productpricetracker.com/tracker/details/{$item}'>{$itemInfo->itemName}</a></p>" . PHP_EOL;
+                            $msg .= "<tr>" . PHP_EOL;
+                            $msg .= "\t<td><a href='http://productpricetracker.com/tracker/details/{$item}'>{$itemInfo->itemName}</a></td>" . PHP_EOL;
+                            $msg .= "\t<td>{$diff}%</td>" . PHP_EOL;
+                            $msg .= "</tr>" . PHP_EOL;
+                            
+
+                            // $msg .= "<p><a href='http://productpricetracker.com/tracker/details/{$item}'>{$itemInfo->itemName}</a></p>" . PHP_EOL;
 
                             $totalItems++;
                         }
                     }
+
+                    $msg .= "</tbody>" . PHP_EOL;
+                    $msg .= "</table>" . PHP_EOL;
                 }
 
                 // items were added to the email, so it is good to be sent
