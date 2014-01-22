@@ -58,10 +58,8 @@ function testAPI() {
 }
 
 
-fb.login = function (b, connect)
+fb.login = function (b)
 {
-    if (connect == undefined) connect = false;
-
     $(b).attr('disabled', 'disabled');
 
     FB.login(function(response){
@@ -71,7 +69,7 @@ fb.login = function (b, connect)
             // get their FB info, and attempt to log them in
             FB.api('/me', function(response){
 
-                    $.post("/welcome/fblogin", { facebookID: response.id, cgi_token:global.CSRF_hash }, function(data){
+                    $.post("/welcome/fblogin", { facebookID: response.id, pt_token:global.CSRF_hash }, function(data){
                         if (data.status == 'SUCCESS')
                         {
                             window.location = '/tracker/landing';

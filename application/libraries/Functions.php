@@ -595,7 +595,7 @@ class Functions
 
         if (!$data)
         {
-            $this->ci->db->select('id, firstName, lastName, status, admin');
+            $this->ci->db->select('id, firstName, lastName, status, email, admin');
             $this->ci->db->from('users');
             $this->ci->db->where('facebookID', $facebookID);
             $this->ci->db->where('deleted', 0);
