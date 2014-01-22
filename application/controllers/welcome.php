@@ -404,4 +404,48 @@ error_log("USER:  {$user} from: {$_POST['fpEmail']}");
         // echo "hey";
         show_404();
     }
+
+    public function fblogin ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                // check if there is an account that has that facebookID
+                // $user = $this->users->getUserIDFromFacebookID($_POST['facebookID']);
+
+                if ($user === false) $this->functions->jsonReturn('ALERT', 'Unable to find an account linked to that account.');
+                
+                // get users info
+                $info = $this->users->getRow($user->id);
+// print_r($info);
+                // gets thier default inital company
+                $company = $this->companies->getHomeLocation($info->id);
+
+                // gets the employees position for that company
+                $position = $this->users->getPosition($info->id, $company);
+
+                // gets the users department for that company
+                $department = $this->users->getDepartment($info->id, $company);
+
+                $this->functions->setLoginSession($user->id, $info->email, $company, $position, $department, true, $user->admin);
+
+                // user tried accessing a page while not logged in - takes them back to that page instead of landing
+                /*
+                if (!empty($_POST['ref']))
+                {
+                    header("Location: /" . $_POST['ref']);
+                    exit;
+                }
+                */
+
+                $this->functions->jsonReturn('SUCCESS', 'You are now logged in!');
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
 }

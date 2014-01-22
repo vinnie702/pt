@@ -577,4 +577,43 @@ class Functions
 
         return $data;
     }
+
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $facebookID 
+     *
+     * @return TODO
+     */
+    public function getUserIDFromFacebookID ($facebookID)
+    {
+        if (empty($facebookID)) throw new Exception("Facebook ID is empty!");
+
+        $mtag = "PPTuserIDFromFacebookID-{$facebookID}";
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->select('id, firstName, lastName, status, admin');
+            $this->ci->db->from('users');
+            $this->ci->db->where('facebookID', $facebookID);
+            $this->ci->db->where('deleted', 0);
+            $this->ci->db->where_in('status', array(1,3));
+
+            $query = $this->ci->db->get();
+
+            $results = $query->result();
+
+            $data = $results[0];
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        if (empty($data)) return false;
+
+        return $data;
+    }
+
+
 }
