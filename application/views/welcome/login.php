@@ -94,6 +94,11 @@ echo form_open('/welcome/login', $attr);
 </div> <!-- row -->
 
 
+<div class='fbLoginBtnContainer'>
+     <a href='javascript:void(0);' class='fbLoginBtn' onclick="fb.login(this);"><img src='/public/images/fbLogin.png'></a>
+</div>
+
+
 
 
 <!-- forgot password modal //-->

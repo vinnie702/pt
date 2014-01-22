@@ -64,6 +64,7 @@ ga('send', 'pageview');
 <?php endif; ?>
 
 
+    <?=$this->functions->jsScript('facebook.js')?>
     <?=$this->functions->jsScript('global.js')?>
 <?php
 if($this->session->userdata('logged_in') === true)

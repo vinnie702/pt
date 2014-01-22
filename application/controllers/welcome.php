@@ -404,4 +404,36 @@ error_log("USER:  {$user} from: {$_POST['fpEmail']}");
         // echo "hey";
         show_404();
     }
+
+    public function fblogin ()
+    {
+        if ($_POST)
+        {
+            try
+            {
+                // check if there is an account that has that facebookID
+                $user = $this->functions->getUserIDFromFacebookID($_POST['facebookID']);
+
+                if ($user === false) $this->functions->jsonReturn('ALERT', 'Unable to find an account linked to that account.');
+
+                $this->functions->setLoginSession($user->id, $user->email, ($user->firstName . ' ' . $user->lastName), true);
+
+                // user tried accessing a page while not logged in - takes them back to that page instead of landing
+                /*
+                if (!empty($_POST['ref']))
+                {
+                    header("Location: /" . $_POST['ref']);
+                    exit;
+                }
+                */
+
+                $this->functions->jsonReturn('SUCCESS', 'You are now logged in!');
+            }
+            catch (Exception $e)
+            {
+                $this->functions->sendStackTrace($e);
+                $this->functions->jsonReturn('ERROR', $e->getMessage());
+            }
+        }
+    }
 }
