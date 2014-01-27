@@ -32,6 +32,21 @@
             <td></td>
         </tr>
 
+        <tr>
+            <td>Unlimited Item Tracking</td>
+            <td><i class='fa fa-check'></i></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Track up to 10 items</td>
+            <td></td>
+            <td><i class='fa fa-check'></i></td>
+        </tr>
+
+
+
+
 
         <tr>
             <td></td>
