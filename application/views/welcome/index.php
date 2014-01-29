@@ -3,7 +3,7 @@
     if ($utm_campaign == 'facebookft')
     {
         echo "<div class='ftBanner'>
-            <a href='{$this->config->item('CGIBMSURL')}register/index/{$this->config->item('company')}?utm_campaign={$utm_campaign}'><img src='/public/images/trialbanner.png'></a>
+            <a href='{$this->config->item('CGIBMSURL')}register/index/{$this->config->item('company')}?utm_campaign={$utm_campaign}&type=2'><img src='/public/images/trialbanner.png'></a>
         </div>";
     
         echo "\n\n<input type='hidden' name='utm_campaign' id='utm_campaign' value=\"{$utm_campaign}\">\n";

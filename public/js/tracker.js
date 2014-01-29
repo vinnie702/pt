@@ -40,7 +40,7 @@ tracker.detailsInit = function ()
 
 tracker.getTrackedItems = function (q)
 {
-    // global.ajaxLoader('#trackingItemDisplay');
+    global.ajaxLoader('#trackingItemDisplay');
     tracker.toggleLeftSearch(true);
 
     var search = (q == undefined || q == '') ? '' : '?q=' + escape(q);
@@ -58,6 +58,7 @@ tracker.getTrackedItemsTbl = function ()
 {
     $('#tblViewBtn').attr('disabled', 'disabled');
 
+    global.ajaxLoader('#trackingItemDisplay');
     tracker.toggleLeftSearch(false);
 
     $.get("/tracker/gettrackeditemstbl", function(data){

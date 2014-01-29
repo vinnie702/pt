@@ -61,7 +61,7 @@ else
 {
 ?>
     <li><a href='/<?php if (!empty($utm_campaign)) echo "?utm_campaign=" . urlencode($utm_campaign); ?>' title='Home'><i class='fa fa-home'></i></a></li>
-    <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?><?php if (!empty($utm_campaign)) echo "?utm_campaign={$utm_campaign}"; ?>'><i class='fa fa-pencil'></i> Register</a></li>
+    <li><a href='<?=$this->config->item('CGIBMSURL')?>register/index/<?=$this->config->item('company')?>?type=1<?php if (!empty($utm_campaign)) echo "&utm_campaign={$utm_campaign}"; ?>'><i class='fa fa-pencil'></i> Register</a></li>
 
 <?php } ?>
 
