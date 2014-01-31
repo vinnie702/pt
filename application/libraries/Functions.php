@@ -615,5 +615,40 @@ class Functions
         return $data;
     }
 
+    /**
+     * Gets the users accountType (free or premium)
+     *
+     * @para int $user - (1 = free, 2 = premium/paid)
+     *
+     * @return int
+     */
+    public function getUserAccountType ($user)
+    {
+        $user = intval($user);
+
+        if (empty($user)) throw new Exception("User ID is empty!");
+
+        $mtag = "userAccountType-{$user}-" . $this->ci->config->item('company');
+
+        $data = $this->ci->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->ci->db->select('accountType');
+            $this->ci->db->from('userAccountType'); 
+            $this->ci->db->where('userid', $user);
+            $this->ci->db->where('company', $this->ci->config->item('company'));
+
+            $query = $this->ci->db->get();
+
+            $results = $query->result();
+
+            $data = (int) $results[0]->accountType;
+
+            $this->ci->cache->memcached->save($mtag, $data, $this->ci->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
 
 }

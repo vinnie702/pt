@@ -381,6 +381,9 @@ if (!isset($config['min_version'])) $config['min_version'] = 18; // <!---- this 
 
 if (!isset($config['min_debug'])) $config['min_debug'] = null;
 
+// this is the amount of items the free accounts will be allowedto track
+if (!isset($config['trackLimit'])) $config['trackLimit'] = 10;
+
 if (!isset($config['trackableDomains'])) $config['trackableDomains'] = array('amazon.com');
 
 

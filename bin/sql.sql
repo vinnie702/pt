@@ -12,6 +12,9 @@ order by cnt desc
 limit 4
 
 
+SELECT COUNT(*) FROM trackingItemUserAssign WHERE userid = 1;
+
+
 explain items;
 
 
@@ -185,3 +188,6 @@ AND priceDay = '2014-01-05'
 SELECT * FROM trackingItemPrices WHERE trackingItemID = 34;
 
 -- DELETE FROM trackingItemPrices WHERE id = 1119;
+
+
+SELECT * FROM userAccountTypes

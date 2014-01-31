@@ -14,8 +14,11 @@
     <script type="text/javascript" src="/public/js/jquery-1.10.2.min.js"></script>
 
     <!-- Bootstrap -->
-    <script type='text/javascript' src='/public/bootstrap3.0.3/js/bootstrap.min.js'></script>
-    <!-- <link type="text/css" href="/public/bootstrap3.0.3/css/bootstrap.min.css" rel="Stylesheet" /> -->
+    <script type='text/javascript' src='/public/bootstrap3.1/js/bootstrap.min.js'></script>
+    <link type="text/css" href="/public/bootstrap3.1/css/bootstrap.min.css" rel="Stylesheet" />
+
+    <!-- Optional themes -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
     <link type="text/css" href="/public/css/bootstrap/bootstrap.spacelab.min.css" rel="Stylesheet" />
 
 

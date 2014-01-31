@@ -296,6 +296,9 @@ class Grabber extends CI_Controller
 
                 if (empty($user)) continue;
 
+                // gets user account type;
+                $accountType = $this->functions->getUserAccountType($this->session->userdata('userid'));
+
                 $assigned = false;
 
                 // $msg = "<h1>Price Changes</h1>";
@@ -338,6 +341,10 @@ class Grabber extends CI_Controller
                             
                             $diff = $this->tracker->calcPriceDiffPrevDay($item);
 
+                            // if they are a free account, and the price difference is an increase,
+                            // do not add email
+                            if ($accountType == 1 && (double) $diff > 0) continue;
+
                             $msg .= "<tr>" . PHP_EOL;
                             $msg .= "\t<td><a href='http://productpricetracker.com/tracker/details/{$item}'>{$itemInfo->itemName}</a></td>" . PHP_EOL;
                             $msg .= "\t<td>{$diff}%</td>" . PHP_EOL;
@@ -363,8 +370,6 @@ class Grabber extends CI_Controller
                     {
                         // get users e-mail address
                         $email = $this->users->getEmail($user);
-
-                        echo "Sending Email to: {$email}" . PHP_EOL;
 
                         $this->functions->sendEmail($subject, $msg, $email);
                     }
