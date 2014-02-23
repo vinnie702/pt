@@ -637,7 +637,7 @@ class Functions
         if (!$data)
         {
             $this->ci->db->select('accountType');
-            $this->ci->db->from('userAccountType'); 
+            $this->ci->db->from('userAccountTypes'); 
             $this->ci->db->where('userid', $user);
             $this->ci->db->where('company', $this->ci->config->item('company'));
 
