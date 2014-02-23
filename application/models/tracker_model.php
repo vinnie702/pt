@@ -558,4 +558,37 @@ class tracker_model extends CI_Model
 
         return $data;
     }
+    
+    /**
+     * TODO: short description.
+     *
+     * @param mixed $user 
+     *
+     * @return TODO
+     */
+    public function getTotalTrackedItems ($user = 0)
+    {
+        if (empty($user)) $user = $this->session->userdata('userid');
+
+        $user = intval($user);
+
+        if (empty($user)) throw new Exception("User ID is empty");
+
+        $mtag = "totalTrackedItems-{$user}";
+
+        $data = $this->cache->memcached->get($mtag);
+
+        if (!$data)
+        {
+            $this->db->from('trackingItemUserAssign');
+            $this->db->where('userid', $user);
+
+            $data = (int) $this->db->count_all_results();
+
+            $this->cache->memcached->save($mtag, $data, $this->config->item('cache_timeout'));
+        }
+
+        return $data;
+    }
+
 }

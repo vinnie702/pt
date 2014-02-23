@@ -150,6 +150,9 @@ class Grabber extends CI_Controller
             echo "<hr>" . $e->getMessage();
         }
     }
+
+
+
     /**
      * runs every hour and checks if items need to be downloaded and updated
      */
@@ -256,6 +259,7 @@ class Grabber extends CI_Controller
             if (empty($adjustedItems))
             {
                 echo "No Items have been updated. No email to send!\n";
+                throw new Exception("No items have been updated. No email to send. This probabaly shouldn't happen");
             }
             else
             {
@@ -295,6 +299,9 @@ class Grabber extends CI_Controller
                 $totalItems = 0; // total items each user has updated in their email - wont send email if 0
 
                 if (empty($user)) continue;
+
+                // gets user account type;
+                $accountType = $this->functions->getUserAccountType($this->session->userdata('userid'));
 
                 $assigned = false;
 
@@ -338,6 +345,10 @@ class Grabber extends CI_Controller
                             
                             $diff = $this->tracker->calcPriceDiffPrevDay($item);
 
+                            // if they are a free account, and the price difference is an increase,
+                            // do not add email
+                            if ($accountType == 1 && (double) $diff > 0) continue;
+
                             $msg .= "<tr>" . PHP_EOL;
                             $msg .= "\t<td><a href='http://productpricetracker.com/tracker/details/{$item}'>{$itemInfo->itemName}</a></td>" . PHP_EOL;
                             $msg .= "\t<td>{$diff}%</td>" . PHP_EOL;
@@ -364,8 +375,6 @@ class Grabber extends CI_Controller
                         // get users e-mail address
                         $email = $this->users->getEmail($user);
 
-                        echo "Sending Email to: {$email}" . PHP_EOL;
-
                         $this->functions->sendEmail($subject, $msg, $email);
                     }
                     catch (Exception $e)
@@ -376,6 +385,30 @@ class Grabber extends CI_Controller
                 }
             }
         }
+    }
+
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function emailtest ()
+    {
+        $subject = "Test";
+        $msg = "<h1>Test</h1>";
+        
+        $email = "williamgallios@gmail.com";
+
+        try
+        {
+            $this->functions->sendEmail($subject, $msg, $email);
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
     }
 
     /**

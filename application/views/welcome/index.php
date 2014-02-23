@@ -3,7 +3,7 @@
     if ($utm_campaign == 'facebookft')
     {
         echo "<div class='ftBanner'>
-            <a href='{$this->config->item('CGIBMSURL')}register/index/{$this->config->item('company')}?utm_campaign={$utm_campaign}'><img src='/public/images/trialbanner.png'></a>
+            <a href='{$this->config->item('CGIBMSURL')}register/index/{$this->config->item('company')}?utm_campaign={$utm_campaign}&type=2'><img src='/public/images/trialbanner.png'></a>
         </div>";
     
         echo "\n\n<input type='hidden' name='utm_campaign' id='utm_campaign' value=\"{$utm_campaign}\">\n";
@@ -21,6 +21,19 @@ elseif ($utm_campaign == 'facebookft') echo ", including a 14 day free trial!";
 
 <button type='button' id='registerBtn' name='registerBtn' class='btn btn-success btn-lg' onclick="welcome.register(<?=$this->config->item('company')?>)"><i class='fa fa-pencil'></i> Register Now</button>
 </div>
+
+<div class='well'>
+        <h3>Sign up now for a free ProductPriceTracker account.</h3>
+
+        <div class='clearfix'>
+        <p class='pull-right'>Our free version is perfect for those who are simply looking for the best deals online.</p>
+        </div>
+        
+        <button class='btn btn-info' id='compareBtn'><i class='fa fa-random'></i> Compare Plans</button>
+        <button class='btn btn-primary'>Register Free Account Now</button>
+
+</div>
+
 
 <div class='row'>
     <div class='col-lg-4 col-md-4 col-sm-4 col-xs-12'>

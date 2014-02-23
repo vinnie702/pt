@@ -19,6 +19,8 @@ class Welcome extends CI_Controller
 
         $header['headscript'] = $this->functions->jsScript('welcome.js');
         $header['headscript'] .= $this->functions->jsScript('tracker.js');
+
+        $header['onload'] = "welcome.indexInit();";
         $header['singleCol'] = true;
 
         $body['utm_campaign'] = $header['utm_campaign'] = urldecode($_GET['utm_campaign']);
@@ -286,7 +288,9 @@ class Welcome extends CI_Controller
 
                 // get user ID from email address
                 $user = $this->users->getIDFromEmail($_POST['fpEmail']);
-error_log("USER:  {$user} from: {$_POST['fpEmail']}");
+                
+                // error_log("USER:  {$user} from: {$_POST['fpEmail']}");
+
                 if (empty($user))
                 {
                     $this->functions->jsonReturn('ALERT', "Unable to find any accounts linked to that e-mail address!");
@@ -295,13 +299,15 @@ error_log("USER:  {$user} from: {$_POST['fpEmail']}");
                 {
                     // gets home company
                     $company = $this->config->item('company');
-                error_log("company $company");
+    
+                    // error_log("company $company");
+
                     $requestID = $this->welcome->insertPasswordResetRequest($user, $company);
 
                     // get user email Address
                     $emailTo = $this->users->getEmail($user);
 
-                    error_log("Email To: {$emailTo}");
+                    // error_log("Email To: {$emailTo}");
 
                     // $companyName = $this->config->item('companyName');
 
@@ -435,5 +441,31 @@ error_log("USER:  {$user} from: {$_POST['fpEmail']}");
                 $this->functions->jsonReturn('ERROR', $e->getMessage());
             }
         }
+    }
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function compare ()
+    {
+        $header['headscript'] =  $this->functions->jsScript('welcome.js');
+        $header['onload'] = "welcome.compareInit();";
+
+        $header['singleCol'] = true;
+
+        try
+        {
+        
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
+        $this->load->view('template/header', $header);
+        $this->load->view('welcome/compare', $body);
+        $this->load->view('template/footer');
     }
 }

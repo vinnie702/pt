@@ -55,6 +55,22 @@ class Tracker extends CI_Controller
         {
             try
             {
+                // gets user account type;
+                $accountType = $this->functions->getUserAccountType($this->session->userdata('userid'));
+
+                // if they have a free account (Type 1) 
+                // check item limit
+                if ($accountType == 1)
+                {
+                    // Gets the qty of items currently being tracked by this user
+                    $trackedItemCnt = $this->tracker->getTotalTrackedItems($this->session->userdata('userid'));
+
+                    if ($trackedItemCnt >= $this->config->item('trackLimit'))
+                    {
+                        $this->functions->jsonReturn('ALERT', "Free members can only track up to 10 items at a time. Upgrading to premium membership will allow you to have unlimited item tracking!");
+                    }
+                }
+
                 $this->load->library('scraper');
 
                 $check = $this->scraper->checkUrlDomain($_POST['url']);

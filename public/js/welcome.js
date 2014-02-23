@@ -1,5 +1,58 @@
 var welcome = {}
 
+welcome.indexInit = function ()
+{
+
+    $('#compareBtn').click(function(e){
+
+        window.location = '/welcome/compare';
+
+        $(this).attr('disabled', 'disabled');
+        $(this).find('i').removeClass('fa-random');
+        $(this).find('i').addClass('fa-spinner');
+        $(this).find('i').addClass('fa-spin');
+    });
+}
+
+welcome.compareInit = function ()
+{
+    $('#signupFree').removeAttr('disabled');
+    $('#signupPremium').removeAttr('disabled');
+
+    $('#signupFree').click(function(e){
+
+        var campaignTxt = '?type=2';
+
+        if ($('#utm_campaign').exists())
+        {
+            campaignTxt += "&utm_campaign=" + $('#utm_campaign').val();
+        }
+
+        window.location = 'https://bms.cgisolution.com/register/index/' + global.company + campaignTxt;
+
+        $(this).attr('disabled', 'disabled');
+        $(this).find('i').removeClass('fa-pencil');
+        $(this).find('i').addClass('fa-spinner');
+        $(this).find('i').addClass('fa-spin');
+    });
+
+    $('#signupPremium').click(function(e){
+        var campaignTxt = '?type=1';
+
+        if ($('#utm_campaign').exists())
+        {
+            campaignTxt += "&utm_campaign=" + $('#utm_campaign').val();
+        }
+
+        window.location = 'https://bms.cgisolution.com/register/index/' + global.company + campaignTxt;
+
+        $(this).attr('disabled', 'disabled');
+        $(this).find('i').removeClass('fa-pencil');
+        $(this).find('i').addClass('fa-spinner');
+        $(this).find('i').addClass('fa-spin');
+    });
+}
+
 welcome.loginInit = function ()
 {
     $('#submitFPBtn').click(function(e){
