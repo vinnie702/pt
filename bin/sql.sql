@@ -33,7 +33,15 @@ explain itemImages;
 SELECT * FROM itemImages;
 
 
+SELECT * FROM companies;
 
+SELECT id, firstName, lastName, accountType FROM users where id IN(
+SELECT userid FROM userCompanies WHERE company = 35
+)
+
+SELECT * FROM userAccountTypes
+
+EXPLAIN users;
 
 SELECT DISTINCT userid FROM trackingItemUserAssign WHERE trackingItemID = 1;
 
