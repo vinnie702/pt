@@ -265,7 +265,7 @@ class grabber_model extends CI_Model
 
         $put = file_put_contents(($path.$filename), $getContents);
 
-        if ($put === false) throw new Exception("Unable to save contents of ({$url}) to: {$path}{$filename}");
+        // if ($put === false) throw new Exception("Unable to save contents of ({$url}) to: {$path}{$filename}");
 
         $data = array
             (
