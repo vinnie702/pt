@@ -294,6 +294,9 @@ class Grabber extends CI_Controller
             // will now go through each user and compile the email to send to them
             foreach ($users as $k => $user)
             {
+
+                echo "Getting Account Type for user: {$user}...";
+
                 $email = null;
 
                 $totalItems = 0; // total items each user has updated in their email - wont send email if 0
@@ -301,7 +304,9 @@ class Grabber extends CI_Controller
                 if (empty($user)) continue;
 
                 // gets user account type;
-                $accountType = $this->functions->getUserAccountType($this->session->userdata('userid'));
+                $accountType = $this->functions->getUserAccountType($user);
+
+                echo "Account Type: {$accountType}" . PHP_EOL;
 
                 $assigned = false;
 

@@ -626,7 +626,9 @@ class Functions
     {
         $user = intval($user);
 
-        if (empty($user)) throw new Exception("User ID is empty!");
+        // if (empty($user)) throw new Exception("User ID is empty!");
+
+        if (empty($user)) return 1; // if unable to find user, returns as a free account
 
         $mtag = "userAccountType-{$user}-" . $this->ci->config->item('company');
 

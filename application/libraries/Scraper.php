@@ -639,7 +639,7 @@ class Scraper
 
         if (empty($trackingItemID)) throw new Exception("Tracking Item ID is empty!");
 
-        if (empty($price)) throw new Exception("Price is empty. Pretty sure they are not giving it away");
+        if (empty($price)) throw new Exception("Price is empty. Pretty sure they are not giving it away\n");
 
         $data = array
             (
