@@ -150,6 +150,9 @@ class Grabber extends CI_Controller
             echo "<hr>" . $e->getMessage();
         }
     }
+
+
+
     /**
      * runs every hour and checks if items need to be downloaded and updated
      */
@@ -256,6 +259,7 @@ class Grabber extends CI_Controller
             if (empty($adjustedItems))
             {
                 echo "No Items have been updated. No email to send!\n";
+                throw new Exception("No items have been updated. No email to send. This probabaly shouldn't happen");
             }
             else
             {
@@ -381,6 +385,30 @@ class Grabber extends CI_Controller
                 }
             }
         }
+    }
+
+
+    /**
+     * TODO: short description.
+     *
+     * @return TODO
+     */
+    public function emailtest ()
+    {
+        $subject = "Test";
+        $msg = "<h1>Test</h1>";
+        
+        $email = "williamgallios@gmail.com";
+
+        try
+        {
+            $this->functions->sendEmail($subject, $msg, $email);
+        }
+        catch (Exception $e)
+        {
+            $this->functions->sendStackTrace($e);
+        }
+
     }
 
     /**
