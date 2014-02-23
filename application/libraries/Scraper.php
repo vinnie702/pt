@@ -72,7 +72,7 @@ class Scraper
         // gets html
         $html = file_get_contents($url);
 
-        if ($html === false) throw new Exception("Unable to get HTML content for the following url: {$url}");
+        // if ($html === false) throw new Exception("Unable to get HTML content for the following url: {$url}");
 
         $write = fwrite($fp, $html);
 
