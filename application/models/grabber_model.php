@@ -261,7 +261,7 @@ class grabber_model extends CI_Model
 
         $getContents = file_get_contents($url);
 
-        if ($getContents === false) throw new Exception("Unable to get file content from: {$url}");
+        // if ($getContents === false) throw new Exception("Unable to get file content from: {$url}");
 
         $put = file_put_contents(($path.$filename), $getContents);
 
